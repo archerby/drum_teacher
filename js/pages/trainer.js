@@ -230,8 +230,6 @@ Pages.trainer = (() => {
   }
 
   // ───────── Отрисовка колеса ─────────
-  function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
-
   function posAt(t) {
     for (let i = timeline.length - 1; i >= 0; i--) {
       const e = timeline[i];
@@ -242,186 +240,34 @@ Pages.trainer = (() => {
 
   function draw() {
     const m = model();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const box = wheel.parentElement;
-    const cs = getComputedStyle(box);
-    const inner = box.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    const size = Math.max(200, Math.min(inner || 340, 380));
-    if (wheel.width !== Math.round(size * dpr)) {
-      wheel.width = Math.round(size * dpr);
-      wheel.height = Math.round(size * dpr);
-      wheel.style.width = size + 'px';
-    }
-    const g = wheel.getContext('2d');
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    g.clearRect(0, 0, size, size);
-
-    const c = size / 2;
-    const Rout = size * 0.4;
-    const n = m.rings.length;
-    const gap = Math.min(size * 0.085, (Rout - size * 0.14) / Math.max(n, 1));
-    const cLine = cssVar('--line');
-    const cMuted = cssVar('--muted');
-    const cText = cssVar('--text');
-    const cAcc = cssVar('--accent');
-    const cGood = cssVar('--good');
-    const cBad = cssVar('--bad');
-    const cMiss = cssVar('--danger');
-    const ang = (pos) => (pos / m.total) * Math.PI * 2 - Math.PI / 2;
     // не создаём AudioContext раньше первого касания
     const live = transport.playing || marks.length;
     const now = live ? Sound.ctx.currentTime : 0;
-    const audible = live ? now - (Sound.ctx.outputLatency || 0) : 0;
-    const playPos = transport.playing ? posAt(audible) : null;
-    const nowStep = playPos === null ? -1 : Math.floor(playPos) % m.total;
+    const playPos = transport.playing ? posAt(now - (Sound.ctx.outputLatency || 0)) : null;
 
-    // спицы на долях
-    const rIn = Rout - gap * (n - 0.6);
-    g.lineWidth = 1;
-    g.strokeStyle = cLine;
-    m.starts.forEach((s) => {
-      const a = ang(s);
-      g.globalAlpha = s === 0 ? 0.9 : 0.45;
-      g.beginPath();
-      g.moveTo(c + Math.cos(a) * rIn * 0.55, c + Math.sin(a) * rIn * 0.55);
-      g.lineTo(c + Math.cos(a) * (Rout + gap * 0.45), c + Math.sin(a) * (Rout + gap * 0.45));
-      g.stroke();
-    });
-    g.globalAlpha = 1;
-
-    const resColor = { hit: cGood, off: cBad, miss: cMiss, extra: cMiss };
-
-    m.rings.forEach((ring, ri) => {
-      const rad = Rout - gap * ri;
-      const col = cssVar(ring.color) || cAcc;
-      g.beginPath();
-      g.arc(c, c, rad, 0, Math.PI * 2);
-      g.strokeStyle = ring.you ? cAcc : cLine;
-      g.lineWidth = ring.you ? 1.5 : 1;
-      g.globalAlpha = ring.you ? 0.35 : 0.5;
-      g.stroke();
-      g.globalAlpha = 1;
-
-      for (let s = 0; s < m.total; s++) {
-        const a = ang(s);
-        const x = c + Math.cos(a) * rad;
-        const y = c + Math.sin(a) * rad;
-        const ch = ring.p[s];
-        if (!ch || ch === '.') {
-          g.beginPath();
-          g.arc(x, y, 1.6, 0, Math.PI * 2);
-          g.fillStyle = cMuted;
-          g.globalAlpha = 0.4;
-          g.fill();
-          g.globalAlpha = 1;
-          continue;
-        }
-        const accent = ch === ch.toUpperCase();
-        const active = s === nowStep;
-        let rr = (accent ? gap * 0.3 : gap * 0.21) * (active ? 1.35 : 1);
-        rr = Math.max(rr, 3);
-        if (ring.you) {
-          // цель: полый кружок; после попытки — заливка цветом результата
-          const res = st.mode === 'part' ? stepRes[s] : null;
-          g.beginPath();
-          g.arc(x, y, rr, 0, Math.PI * 2);
-          if (res) {
-            g.fillStyle = resColor[res];
-            g.fill();
-          } else {
-            g.fillStyle = cssVar('--card');
-            g.fill();
-            g.strokeStyle = cAcc;
-            g.lineWidth = 2;
-            g.stroke();
-          }
-        } else {
-          g.beginPath();
-          g.arc(x, y, rr, 0, Math.PI * 2);
-          g.fillStyle = col;
-          g.globalAlpha = transport.playing ? 1 : 0.85;
-          g.fill();
-          g.globalAlpha = 1;
-        }
-        if (active) {
-          g.beginPath();
-          g.arc(x, y, rr * 1.9, 0, Math.PI * 2);
-          g.strokeStyle = ring.you ? cAcc : col;
-          g.lineWidth = 1.5;
-          g.globalAlpha = 0.5;
-          g.stroke();
-          g.globalAlpha = 1;
-        }
-      }
-    });
-
-    // следы ваших ударов — черточки поперёк внешнего кольца
-    const cycleDur = (60 / st.bpm) * (m.total / m.spb);
-    const life = Math.max(2.5, cycleDur * 2);
+    // следы ударов живут два цикла
+    const life = Math.max(2.5, (60 / st.bpm) * (m.total / m.spb) * 2);
     marks = marks.filter((k) => now - k.t < life);
-    marks.forEach((k) => {
-      const a = ang(k.pos);
-      const age = (now - k.t) / life;
-      const r1 = Rout - gap * 0.42;
-      const r2 = Rout + gap * 0.42;
-      g.strokeStyle = resColor[k.res] || cGood;
-      g.globalAlpha = Math.max(0, 1 - age);
-      g.lineWidth = 3;
-      g.lineCap = 'round';
-      g.beginPath();
-      g.moveTo(c + Math.cos(a) * r1, c + Math.sin(a) * r1);
-      g.lineTo(c + Math.cos(a) * r2, c + Math.sin(a) * r2);
-      g.stroke();
-    });
-    g.globalAlpha = 1;
-    g.lineCap = 'butt';
 
-    // стрелка
-    if (playPos !== null) {
-      const a = ang(playPos % m.total);
-      g.beginPath();
-      g.moveTo(c, c);
-      g.lineTo(c + Math.cos(a) * (Rout + gap * 0.5), c + Math.sin(a) * (Rout + gap * 0.5));
-      g.strokeStyle = cAcc;
-      g.lineWidth = 2;
-      g.globalAlpha = 0.8;
-      g.stroke();
-      g.globalAlpha = 1;
-    }
-
-    // ступица
-    const hubR = size * 0.12;
-    g.beginPath();
-    g.arc(c, c, hubR, 0, Math.PI * 2);
-    g.fillStyle = cssVar('--bg2');
-    g.fill();
-    g.strokeStyle = cLine;
-    g.lineWidth = 1;
-    g.stroke();
-    let big = '·';
-    let small = '';
-    let bigCol = cText;
+    let hub = { big: '·' };
+    const nowStep = playPos === null ? -1 : Math.floor(playPos) % m.total;
     if (st.mode === 'pulse' && lastDev !== null) {
-      big = `${lastDev > 0 ? '+' : ''}${Math.round(lastDev)}`;
-      small = 'мс';
-      bigCol = Math.abs(lastDev) <= st.win ? cGood : cBad;
+      hub = { big: `${lastDev > 0 ? '+' : ''}${Math.round(lastDev)}`, small: 'мс', color: Math.abs(lastDev) <= st.win ? '--good' : '--bad' };
     } else if (st.mode === 'part' && score.hit + score.off + score.miss > 0) {
-      big = `${accuracy()}%`;
-      small = 'точность';
+      hub = { big: `${accuracy()}%`, small: 'точность' };
     } else if (nowStep >= 0) {
-      big = String([...m.starts].filter((s) => s <= nowStep).length);
-      small = 'доля';
+      hub = { big: [...m.starts].filter((s) => s <= nowStep).length, small: 'доля' };
     }
-    g.textAlign = 'center';
-    g.textBaseline = 'middle';
-    g.fillStyle = bigCol;
-    g.font = `700 ${Math.round(size * (big.length > 3 ? 0.058 : 0.07))}px ui-monospace, "SF Mono", Menlo, monospace`;
-    g.fillText(big, c, small ? c - size * 0.018 : c + 1);
-    if (small) {
-      g.fillStyle = cMuted;
-      g.font = `600 ${Math.round(size * 0.03)}px system-ui, sans-serif`;
-      g.fillText(small, c, c + size * 0.045);
-    }
+
+    Wheel.draw(wheel, {
+      total: m.total,
+      starts: m.starts,
+      rings: m.rings,
+      playPos,
+      results: st.mode === 'part' ? stepRes : null,
+      marks: marks.map((k) => ({ pos: k.pos, res: k.res, alpha: 1 - (now - k.t) / life })),
+      hub,
+    });
 
     // точки долей в панели
     const dots = $('#tr-dots').children;

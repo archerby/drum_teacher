@@ -114,8 +114,17 @@ Pages.rhythms = (() => {
           ${best ? `<span class="chip ok">Рекорд: ${best} BPM</span>` : ''}
         </div>
       </div>
-      ${r.desc ? `<p class="desc">${UI.esc(r.desc)}</p>` : ''}
-      ${r.tips && r.tips.length ? `<ul class="tips">${r.tips.map((t) => `<li>${UI.esc(t)}</li>`).join('')}</ul>` : ''}
+      <div class="r-stage">
+        <div class="r-wheelbox">
+          <canvas id="r-wheel" aria-label="Колесо ритма: партии по кольцам"></canvas>
+          <div class="r-cycle" id="r-cycle"></div>
+        </div>
+        <div class="r-text">
+          ${r.desc ? `<p class="desc">${UI.esc(r.desc)}</p>` : ''}
+          ${r.tips && r.tips.length ? `<ul class="tips">${r.tips.map((t) => `<li>${UI.esc(t)}</li>`).join('')}</ul>` : ''}
+          <p class="r-wheelhint">Колесо — это один цикл ритма. Каждая партия — своё кольцо (снаружи внутрь — как строки сетки), спицы — доли, стрелка показывает, где вы сейчас.</p>
+        </div>
+      </div>
 
       <div class="controls">
         <button class="btn play" id="r-play">▶ Играть</button>
@@ -241,6 +250,38 @@ Pages.rhythms = (() => {
     grid.querySelectorAll('.gc').forEach((c) => colCells[+c.dataset.s].push(c));
     lastCol = -1;
     renderLegend();
+    if (!transport.playing) drawWheel(null);
+  }
+
+  // ───────── Колесо ─────────
+  let wheelPos = null; // {step, time, dur}
+  let countHub = null;
+
+  function drawWheel(playPos) {
+    const canvas = playerEl.querySelector('#r-wheel');
+    if (!canvas) return;
+    const perBar = cur.beats * cur.spb;
+    const starts = new Set();
+    const gs = UI.groupStarts(cur);
+    for (let b = 0; b < cur.bars; b++) gs.forEach((x) => starts.add(b * perBar + x));
+    let hub;
+    if (countHub) hub = { big: countHub, small: 'отсчёт', color: '--accent' };
+    else if (playPos !== null) {
+      const stepNow = Math.floor(playPos) % total();
+      hub = { big: [...gs].filter((x) => x <= stepNow % perBar).length, small: cur.bars > 1 ? `такт ${Math.floor(stepNow / perBar) + 1}` : 'доля' };
+    } else hub = { big: cur.sig, small: 'размер' };
+    Wheel.draw(canvas, {
+      total: total(),
+      starts,
+      rings: cur.tracks.map((t, i) => ({ p: t.p, inst: t.i, muted: muted.has(i) })),
+      playPos,
+      hub,
+      maxSize: 320,
+    });
+    const cyc = playerEl.querySelector('#r-cycle');
+    if (cyc) {
+      cyc.textContent = `цикл: ${total()} клеток · ${cur.beats * cur.bars} долей${cur.groups ? ' · ' + cur.groups.join('+') : ''}`;
+    }
   }
 
   function renderLegend() {
@@ -508,17 +549,22 @@ Pages.rhythms = (() => {
         if (clicks.has(s)) Sound.click(time, s === 0 ? 2 : 1, 'beep', 0.6);
       }
     };
-    transport.onDraw = (step) => {
+    countHub = null;
+    wheelPos = null;
+    transport.onDraw = (step, time, dur) => {
+      wheelPos = { step, time, dur };
       if (lastCol >= 0 && colCells[lastCol]) colCells[lastCol].forEach((c) => c.classList.remove('now'));
       if (step < 0) {
         const s = step + perBar;
         if (clicks.has(s)) {
           const n = [...clicks].sort((a, b) => a - b).indexOf(s) + 1;
           badge.textContent = `Отсчёт: ${n}`;
+          countHub = n;
         }
         lastCol = -1;
         return;
       }
+      countHub = null;
       badge.textContent = '';
       const col = colCells[step];
       if (!col) return;
@@ -538,11 +584,18 @@ Pages.rhythms = (() => {
         bpmCtl.set(Math.min(opts.speedMax, bpmCtl.value + opts.speedStep));
       }
     };
+    transport.onFrame = (now) => {
+      let pos = null;
+      if (wheelPos && wheelPos.step >= 0) pos = wheelPos.step + Math.min(1, (now - wheelPos.time) / wheelPos.dur);
+      drawWheel(pos);
+    };
     transport.onStop = () => {
       if (lastCol >= 0 && colCells[lastCol]) colCells[lastCol].forEach((c) => c.classList.remove('now'));
       lastCol = -1;
       badge.textContent = '';
+      countHub = null;
       setPlayBtn(false);
+      drawWheel(null);
     };
     transport.start({ bpm: bpmCtl.value, spb: r.spb, total: total(), countIn: opts.countIn ? perBar : 0 });
     setPlayBtn(true);
@@ -558,6 +611,12 @@ Pages.rhythms = (() => {
   function toggle() { transport.playing ? transport.stop() : play(); }
 
   Store.onChange(() => { if (el.classList.contains('active')) renderList(); });
+  window.addEventListener('resize', () => {
+    if (!el.classList.contains('active') || transport.playing) return;
+    const c = playerEl.querySelector('#r-wheel');
+    if (c) c.width = 0;
+    drawWheel(null);
+  });
 
   return {
     show(params) {
@@ -568,6 +627,11 @@ Pages.rhythms = (() => {
         if (params[0] && window.innerWidth < 900) playerEl.scrollIntoView({ block: 'start' });
       } else {
         renderList();
+      }
+      if (!transport.playing) {
+        const c = playerEl.querySelector('#r-wheel');
+        if (c) c.width = 0;
+        drawWheel(null);
       }
     },
     toggle,
