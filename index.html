@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Бонго-школа</title>
+  <meta name="description" content="Самоучитель ритмов для бонго: уроки, библиотека ритмов, полиритмия, метроном и тренажёр точности.">
+  <meta name="theme-color" content="#1c1510">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/start"><span class="brand-logo" aria-hidden="true"></span>Бонго-школа</a>
+    <nav class="tabs" aria-label="Разделы">
+      <a href="#/start" data-tab="start">Старт</a>
+      <a href="#/lessons" data-tab="lessons">Уроки</a>
+      <a href="#/rhythms" data-tab="rhythms">Ритмы</a>
+      <a href="#/poly" data-tab="poly">Полиритмы</a>
+      <a href="#/metronome" data-tab="metronome">Метроном</a>
+      <a href="#/trainer" data-tab="trainer">Тренажёр</a>
+    </nav>
+    <label class="volume" title="Общая громкость">
+      <span aria-hidden="true">🔊</span>
+      <input type="range" id="master-volume" min="0" max="100" value="80" aria-label="Громкость">
+    </label>
+  </header>
+
+  <main>
+    <section class="page" id="page-start"></section>
+    <section class="page" id="page-lessons"></section>
+    <section class="page" id="page-rhythms"></section>
+    <section class="page" id="page-poly"></section>
+    <section class="page" id="page-metronome"></section>
+    <section class="page" id="page-trainer"></section>
+  </main>
+
+  <nav class="bottom-tabs" aria-label="Разделы">
+    <a href="#/start" data-tab="start"><span>🏠</span>Старт</a>
+    <a href="#/lessons" data-tab="lessons"><span>📖</span>Уроки</a>
+    <a href="#/rhythms" data-tab="rhythms"><span>🥁</span>Ритмы</a>
+    <a href="#/poly" data-tab="poly"><span>◎</span>Поли</a>
+    <a href="#/metronome" data-tab="metronome"><span>⏱</span>Метроном</a>
+    <a href="#/trainer" data-tab="trainer"><span>🎯</span>Тренажёр</a>
+  </nav>
+
+  <script src="js/audio.js"></script>
+  <script src="js/transport.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/data/instruments.js"></script>
+  <script src="js/data/rhythms.js"></script>
+  <script src="js/data/lessons.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/pages/start.js"></script>
+  <script src="js/pages/lessons.js"></script>
+  <script src="js/pages/rhythms.js"></script>
+  <script src="js/pages/poly.js"></script>
+  <script src="js/pages/metronome.js"></script>
+  <script src="js/pages/trainer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
