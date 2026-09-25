@@ -163,6 +163,41 @@ window.Sound = (() => {
   }
   const UIclamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
+  // Блокфлейта: почти чистый тон, немного второй гармоники, дыхание и мягкое вибрато.
+  function flute(midi, t, dur = 0.5, vel = 1) {
+    ensure();
+    if (t === undefined) t = ctx.currentTime + 0.005;
+    const f = 440 * Math.pow(2, (midi - 69) / 12);
+    const len = Math.max(0.12, dur);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(0.3 * vel, t + 0.035);
+    g.gain.setValueAtTime(0.26 * vel, t + Math.max(0.05, len - 0.06));
+    g.gain.linearRampToValueAtTime(0.0001, t + len + 0.05);
+    g.connect(master);
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.frequency.value = 5.2;
+    lfoGain.gain.setValueAtTime(0, t);
+    lfoGain.gain.linearRampToValueAtTime(f * 0.004, t + 0.35);
+    lfo.connect(lfoGain);
+    [[1, 1], [2, 0.12], [3, 0.04]].forEach(([k, a]) => {
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.value = f * k;
+      lfoGain.connect(o.frequency);
+      const og = ctx.createGain();
+      og.gain.value = a;
+      o.connect(og);
+      og.connect(g);
+      o.start(t);
+      o.stop(t + len + 0.1);
+    });
+    lfo.start(t);
+    lfo.stop(t + len + 0.1);
+    noise(t, 0.08, 0.05 * vel, 'bandpass', f * 2, 2, 0.02); // «чуф» в начале ноты
+  }
+
   function click(t, level = 1, kind = 'beep', vel = 1) {
     ensure();
     const v = vel * (level >= 2 ? 1 : level >= 1 ? 0.7 : 0.38);
@@ -233,7 +268,7 @@ window.Sound = (() => {
   window.addEventListener('keydown', unlock, { once: true });
 
   return {
-    ensure, now, play, click, bar, setVolume, eventTime,
+    ensure, now, play, click, bar, flute, setVolume, eventTime,
     get ctx() { return ensure(); },
   };
 })();

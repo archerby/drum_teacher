@@ -89,6 +89,7 @@ Pages.mallet = (() => {
           <div class="eyebrow">металлофон · две октавы</div>
           <h1 class="tr-title">Металлофон</h1>
         </div>
+        <div class="seg inst-switch"><a class="sel" href="#/mallet">Металлофон</a><a href="#/flute">Флейта</a></div>
         <div class="seg" id="ml-views">
           <button data-view="lessons">Уроки</button>
           <button data-view="melody">Мелодии</button>
@@ -841,5 +842,6 @@ Pages.mallet = (() => {
     },
     toggle,
     hide() { transport.stop(); },
+    api: { parse, allMelodies, findMelody },
   };
 })();

@@ -725,6 +725,7 @@ label.full { display: grid; }
   touch-action: manipulation;
 }
 .tbtn:hover { border-color: var(--accent); color: var(--text); }
+a.tbtn { text-decoration: none; }
 .tbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
 .tbtn .sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
 .tbtn .sw.st-O { background: var(--st-O); }
@@ -974,6 +975,47 @@ label.full { display: grid; }
 #me-notes { font: 0.9rem ui-monospace, "SF Mono", Menlo, monospace; }
 .ml-keys kbd { margin: 0 1px; }
 
+/* ───────── Флейта ───────── */
+.inst-switch a { display: inline-flex; align-items: center; padding: 7px 12px; font-weight: 600; font-size: 0.9rem; color: var(--text); text-decoration: none; }
+.inst-switch a.sel { background: var(--accent); color: var(--accent-text); }
+.fing { display: block; }
+.fing .fb { fill: color-mix(in srgb, var(--st-O) 22%, var(--card)); stroke: var(--line); stroke-width: 1.5; }
+.fing .fl { stroke: var(--line); stroke-width: 1.2; }
+.fing .fl.sep { stroke-dasharray: 3 3; }
+.fing .fh-c { fill: var(--text); }
+.fing .fh-o { fill: var(--card); stroke: var(--text); stroke-width: 1.6; }
+.fing .ft { font: 600 7px system-ui, sans-serif; fill: var(--muted); text-anchor: middle; }
+.fing.big { width: 92px; }
+.fing.small { width: 52px; opacity: 0.8; }
+.fing.mini { width: 40px; margin: 4px auto 0; }
+.fing.mid { width: 80px; }
+.fing-none { font-size: 0.8rem; color: var(--muted); }
+.fl-mic { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.fl-heard { font: 0.9rem ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); }
+.fl-heard b { color: var(--text); }
+.fl-level { flex: 1 1 80px; max-width: 160px; height: 8px; border-radius: 4px; background: var(--bg2); overflow: hidden; }
+.fl-level i { display: block; height: 100%; width: 0; background: var(--good); transition: width 0.08s; }
+.fl-stage { display: flex; align-items: flex-end; justify-content: center; gap: 28px; padding: 6px 0; }
+.fl-now, .fl-next { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.fl-now #fl-now-f { cursor: pointer; }
+.fl-note { font: 800 1.6rem system-ui, sans-serif; line-height: 1.1; }
+.fl-note.small { font-size: 1.05rem; color: var(--muted); }
+.fl-note.big { font-size: 3rem; }
+.fl-manual { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.fing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; margin-top: 12px; }
+.fing-card { border: 1px solid var(--line); border-radius: 10px; background: var(--bg2); padding: 6px 2px 8px; cursor: pointer; color: var(--text); font: inherit; }
+.fing-card:hover { border-color: var(--accent); }
+.fing-card b { display: inline-block; padding: 1px 6px; border-radius: 6px; background: var(--nc); color: #fff; font-size: 0.8rem; }
+.fing-card b.nc-e { color: #3a2c05; }
+.fl-tuner-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; }
+.fl-tuner-row > div:first-child { flex: 1 1 260px; display: grid; gap: 8px; }
+.tn-meter { position: relative; height: 26px; border-radius: 13px; background: linear-gradient(90deg, var(--bad), var(--good-bg) 40%, var(--good-bg) 60%, var(--bad)); }
+.tn-zero { position: absolute; left: 50%; top: 3px; bottom: 3px; width: 2px; background: var(--text); opacity: 0.35; }
+.tn-needle { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 4px; margin-left: -2px; border-radius: 2px; background: var(--danger); transition: left 0.1s; }
+.tn-needle.good { background: var(--good); }
+.tn-labels { display: flex; justify-content: space-between; font: 0.8rem ui-monospace, monospace; color: var(--muted); }
+.fl-tuner { margin-top: 14px; }
+
 /* ───────── Касания ───────── */
 button, a, input, select, label, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .pad, .gc, .beat-dot { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
@@ -1049,7 +1091,9 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
     border-top: 1px solid var(--line);
     box-shadow: 0 -6px 16px rgba(40, 30, 20, 0.1);
   }
-  #page-rhythms, #page-poly, #page-mallet { padding-bottom: 72px; }
+  #page-rhythms, #page-poly, #page-mallet, #page-flute { padding-bottom: 72px; }
+  .fing.big { width: 76px; }
+  .fl-stage { gap: 18px; }
   /* в мелодиях инструмент прилипает к низу экрана — лента нот и пластины видны вместе */
   .ml.view-melody .ml-inst-card, .ml.view-free .ml-inst-card {
     position: sticky;
@@ -1058,8 +1102,8 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
     box-shadow: 0 -6px 18px rgba(40, 30, 20, 0.12);
   }
   .ml.view-free .ml-inst-card, .ml.view-melody.mode-wait .ml-inst-card { bottom: calc(var(--tabs-h) + 6px + env(safe-area-inset-bottom)); }
-  #ml-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
-  #ml-desc.open { display: block; }
+  #ml-desc, #fl-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  #ml-desc.open, #fl-desc.open { display: block; }
   .ml-inst-head { margin-bottom: 8px; }
   .ml-inst-head .seg button { padding: 5px 9px; font-size: 0.78rem; }
   .dock .btn.play { min-width: 0; flex: none; padding: 11px 18px; }

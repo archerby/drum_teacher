@@ -15,7 +15,7 @@
     }
     document.querySelectorAll('.page').forEach((p) => p.classList.toggle('active', p.id === `page-${name}`));
     document.querySelectorAll('[data-tab]').forEach((a) => {
-      const on = a.dataset.tab === name;
+      const on = a.dataset.tab.split(' ').includes(name);
       a.classList.toggle('active', on);
       if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
