@@ -117,5 +117,28 @@ window.UI = (() => {
     return { el: wrap, set, get value() { return cur; } };
   }
 
-  return { esc, gcd, lcm, clamp, countLabel, groupStarts, cellInfo, findRhythm, tempoName, toast, tapTempo, bpmControl };
+  // Ссылка-«посылка»: объект → base64url (UTF-8) и обратно
+  function encodeShare(obj) {
+    const bytes = new TextEncoder().encode(JSON.stringify(obj));
+    let bin = '';
+    bytes.forEach((b) => { bin += String.fromCharCode(b); });
+    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function decodeShare(str) {
+    const b64 = String(str).replace(/-/g, '+').replace(/_/g, '/');
+    const bin = atob(b64 + '==='.slice((b64.length + 3) % 4));
+    return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))));
+  }
+  function shareLink(route, obj, what) {
+    const url = `${location.origin}${location.pathname}#/${route}/import/${encodeShare(obj)}`;
+    const done = () => toast(`Ссылка на ${what} скопирована — отправьте её или откройте на телефоне`);
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+      navigator.share({ title: obj.name, url }).catch(() => {});
+    } else if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(done, () => prompt('Скопируйте ссылку:', url));
+    } else prompt('Скопируйте ссылку:', url);
+    return url;
+  }
+
+  return { esc, gcd, lcm, encodeShare, decodeShare, shareLink, clamp, countLabel, groupStarts, cellInfo, findRhythm, tempoName, toast, tapTempo, bpmControl };
 })();

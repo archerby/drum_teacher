@@ -168,7 +168,7 @@ Pages.rhythms = (() => {
           <button class="btn" id="r-editbtn">✎ Редактировать</button>
         `}
         <span class="spacer"></span>
-        <button class="btn small" id="r-export" title="Скопировать ритм как текст, чтобы поделиться">⇧ Экспорт</button>
+        <button class="btn small" id="r-export" title="Получить ссылку на этот ритм">🔗 Поделиться</button>
         ${isCustom && r.id !== 'c_new' ? '<button class="btn small danger" id="r-delete">🗑 Удалить</button>' : ''}
       </div>`;
 
@@ -494,29 +494,38 @@ Pages.rhythms = (() => {
 
   function exportRhythm() {
     const r = clone(cur);
-    const text = JSON.stringify(r);
-    const done = () => UI.toast('Ритм скопирован как текст — отправьте его другу');
-    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => prompt('Скопируйте текст ритма:', text));
-    else prompt('Скопируйте текст ритма:', text);
+    delete r.id;
+    delete r.cat;
+    UI.shareLink('rhythms', r, 'ритм');
+  }
+
+  // Проверить и сохранить присланный ритм; вернуть его id
+  function addRhythm(r) {
+    const ok = r && r.name && r.beats > 0 && r.beats <= 16 && [1, 2, 3, 4, 6].includes(r.spb) && Array.isArray(r.tracks) &&
+      r.tracks.length && r.tracks.every((t) => INSTRUMENTS[t.i] && typeof t.p === 'string');
+    if (!ok) throw new Error('bad');
+    r.bars = UI.clamp(r.bars || 1, 1, 8);
+    const n = r.beats * r.spb * r.bars;
+    r.tracks = r.tracks.map((t) => ({ i: t.i, p: t.p.replace(/[^OSMTPHosmtphxXLUlu.]/g, '.').padEnd(n, '.').slice(0, n) }));
+    if (r.hands) r.hands = String(r.hands).replace(/[^RLB.]/g, '.').padEnd(n, '.').slice(0, n);
+    if (r.groups && (!Array.isArray(r.groups) || r.groups.reduce((a, b) => a + b, 0) !== r.beats * r.spb)) delete r.groups;
+    const same = Store.customs().find((c) => c.name === r.name && JSON.stringify(c.tracks) === JSON.stringify(r.tracks));
+    if (same) return same.id;
+    r.id = 'c_' + Date.now().toString(36);
+    r.cat = 'mine';
+    r.origin = String(r.origin || 'Мой ритм').slice(0, 80);
+    Store.saveCustom(r);
+    return r.id;
   }
 
   function importRhythm() {
-    const text = prompt('Вставьте текст ритма (из «Экспорт»):');
+    const text = prompt('Вставьте ссылку на ритм или его текст:');
     if (!text) return;
     try {
-      const r = JSON.parse(text);
-      const ok = r && r.name && r.beats > 0 && r.spb > 0 && Array.isArray(r.tracks) &&
-        r.tracks.every((t) => INSTRUMENTS[t.i] && typeof t.p === 'string');
-      if (!ok) throw new Error('bad');
-      r.bars = r.bars || 1;
-      const n = r.beats * r.spb * r.bars;
-      r.tracks.forEach((t) => { t.p = t.p.replace(/[^OSMTPHosmtphxXLUlu.]/g, '.').padEnd(n, '.').slice(0, n); });
-      if (r.hands) r.hands = String(r.hands).replace(/[^RLB.]/g, '.').padEnd(n, '.').slice(0, n);
-      r.id = 'c_' + Date.now().toString(36);
-      r.cat = 'mine';
-      Store.saveCustom(r);
-      location.hash = '#/rhythms/' + r.id;
-      UI.toast('Ритм импортирован');
+      const m = text.match(/#\/rhythms\/import\/([\w-]+)/);
+      const id = addRhythm(m ? UI.decodeShare(m[1]) : JSON.parse(text));
+      location.hash = '#/rhythms/' + id;
+      UI.toast('Ритм добавлен в «Мои ритмы»');
     } catch (e) {
       UI.toast('Не получилось прочитать ритм');
     }
@@ -631,6 +640,18 @@ Pages.rhythms = (() => {
 
   return {
     show(params) {
+      if (params[0] === 'import') {
+        try {
+          const nid = addRhythm(UI.decodeShare(params[1]));
+          history.replaceState(null, '', '#/rhythms/' + nid);
+          params = [nid];
+          UI.toast('Ритм добавлен в «Мои ритмы» — он хранится только на этом устройстве');
+        } catch (e) {
+          UI.toast('Ссылка на ритм повреждена');
+          history.replaceState(null, '', '#/rhythms');
+          params = [];
+        }
+      }
       const id = params[0] || (cur ? cur.id : 'martillo');
       if (!cur || cur.id !== id || !UI.findRhythm(id)) {
         if (id === 'c_new' && cur && cur.id === 'c_new') return;

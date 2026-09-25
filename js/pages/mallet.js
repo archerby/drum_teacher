@@ -105,6 +105,7 @@ Pages.mallet = (() => {
             <div class="tr-tgroup">
               <button class="tbtn" id="ml-new">＋ Новая</button>
               <button class="tbtn" id="ml-edit">✎ Изменить</button>
+              <button class="tbtn" id="ml-share" title="Получить ссылку на мелодию">🔗 Поделиться</button>
             </div>
           </div>
           <p class="tr-note" id="ml-desc"></p>
@@ -307,6 +308,7 @@ Pages.mallet = (() => {
     $('#ml-desc').textContent = melody.desc || (melody.custom ? 'Ваша мелодия. Хранится только на этом устройстве.' : '');
     renderWarn();
     $('#ml-edit').textContent = melody.custom ? '✎ Изменить' : '✎ Копия для правки';
+    $('#ml-share').hidden = !melody.custom;
     el.querySelectorAll('[data-mode]').forEach((b) => {
       b.classList.toggle('sel', b.dataset.mode === st.mode);
       b.setAttribute('aria-checked', b.dataset.mode === st.mode);
@@ -555,6 +557,31 @@ Pages.mallet = (() => {
   $('#ml-click').addEventListener('change', (e) => { st.click = e.target.checked; });
   $('#ml-count').addEventListener('change', (e) => { st.countIn = e.target.checked; });
   $('#ml-guide').addEventListener('change', (e) => { st.guide = e.target.checked; });
+  $('#ml-share').addEventListener('click', () => {
+    const { name, beats, bpm, pickup, notes, desc } = melody;
+    UI.shareLink('mallet', { name, beats, bpm: bpmCtl.value || bpm, pickup, notes, desc: desc || '' }, 'мелодию');
+  });
+
+  // Проверить и сохранить присланную мелодию; вернуть её id
+  function addMelody(m) {
+    if (!m || typeof m.notes !== 'string' || !m.name) throw new Error('bad');
+    const p = parse(m.notes);
+    if (p.errors.length || !p.events.length) throw new Error('bad');
+    const rec = {
+      name: String(m.name).slice(0, 80),
+      beats: [2, 3, 4, 6].includes(+m.beats) ? +m.beats : 4,
+      pickup: UI.clamp(+m.pickup || 0, 0, 5),
+      bpm: UI.clamp(+m.bpm || 80, 30, 200),
+      notes: m.notes.trim(),
+      desc: String(m.desc || '').slice(0, 600),
+    };
+    const same = customs().find((c) => c.name === rec.name && c.notes === rec.notes);
+    if (same) return same.id;
+    rec.id = 'm_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    Store.set('ml.custom', [...customs(), rec]);
+    return rec.id;
+  }
+
   $('#ml-new').addEventListener('click', () => {
     if (location.hash === '#/mallet/new') newMelody();
     else location.hash = '#/mallet/new';
@@ -701,7 +728,7 @@ Pages.mallet = (() => {
     const p = parse(melody.notes);
     if (p.errors.length) { UI.toast('Исправьте непонятные ноты'); return; }
     if (!p.events.length) { UI.toast('В мелодии пока нет нот'); return; }
-    const rec = { id: melody.id, name: melody.name.trim() || 'Моя мелодия', beats: melody.beats || 4, pickup: melody.pickup || 0, bpm: bpmCtl.value, notes: melody.notes.trim() };
+    const rec = { id: melody.id, name: melody.name.trim() || 'Моя мелодия', beats: melody.beats || 4, pickup: melody.pickup || 0, bpm: bpmCtl.value, notes: melody.notes.trim(), desc: melody.desc || '' };
     const list = customs().filter((c) => c.id !== rec.id);
     list.push(rec);
     Store.set('ml.custom', list);
@@ -780,7 +807,20 @@ Pages.mallet = (() => {
 
   return {
     show(params) {
-      const [what, id] = params;
+      let [what, id] = params;
+      if (what === 'import') {
+        try {
+          id = addMelody(UI.decodeShare(id));
+          what = 'melody';
+          history.replaceState(null, '', `#/mallet/melody/${id}`);
+          UI.toast('Мелодия добавлена в «Мои мелодии» — она хранится только на этом устройстве');
+        } catch (e) {
+          UI.toast('Ссылка на мелодию повреждена');
+          history.replaceState(null, '', `#/mallet/melody/${st.mid}`);
+          what = 'melody';
+          id = st.mid;
+        }
+      }
       if (what === 'melody') {
         setView('melody');
         if (!melody || melody.id !== id || editing) {
