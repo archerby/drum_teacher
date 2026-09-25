@@ -108,6 +108,7 @@ Pages.mallet = (() => {
             </div>
           </div>
           <p class="tr-note" id="ml-desc"></p>
+          <p class="ml-warn" id="ml-warn" hidden></p>
           <div class="seg ml-modes" id="ml-modes" role="radiogroup" aria-label="Режим">
             <button data-mode="listen">👂 Слушать</button>
             <button data-mode="wait">⏸ Ждать меня</button>
@@ -232,6 +233,7 @@ Pages.mallet = (() => {
     st.layout = b.dataset.layout;
     Store.set('ml.layout', st.layout);
     renderInstrument();
+    if (melody) renderWarn();
     if (st.view === 'melody' && st.mode === 'wait') showWaitTarget();
   });
   el.querySelector('#ml-names').addEventListener('click', (e) => {
@@ -281,8 +283,29 @@ Pages.mallet = (() => {
     renderMelody();
   }
 
+  function hasSharps() {
+    return melody && melody.events.some((e) => e.midi !== null && LETTERS[(e.midi - LO) % 12].length > 1);
+  }
+
+  function renderWarn() {
+    const w = $('#ml-warn');
+    const need = st.layout === 'diatonic' && hasSharps();
+    w.hidden = !need;
+    if (need) w.innerHTML = 'В мелодии есть диезы — «чёрные» пластины верхнего ряда. <button class="tbtn" id="ml-warn-on">Включить диезы</button> или транспонируйте мелодию в редакторе.';
+  }
+
+  $('#ml-warn').addEventListener('click', (e) => {
+    if (!e.target.closest('#ml-warn-on')) return;
+    st.layout = 'chromatic';
+    Store.set('ml.layout', st.layout);
+    renderInstrument();
+    renderWarn();
+    if (st.mode === 'wait') showWaitTarget();
+  });
+
   function renderMelody() {
     $('#ml-desc').textContent = melody.desc || (melody.custom ? 'Ваша мелодия. Хранится только на этом устройстве.' : '');
+    renderWarn();
     $('#ml-edit').textContent = melody.custom ? '✎ Изменить' : '✎ Копия для правки';
     el.querySelectorAll('[data-mode]').forEach((b) => {
       b.classList.toggle('sel', b.dataset.mode === st.mode);
@@ -651,6 +674,7 @@ Pages.mallet = (() => {
     const err = $('#me-err');
     if (err) err.textContent = p.errors.length ? 'Не понял: ' + p.errors.join(', ') : '';
     renderRibbon();
+    renderWarn();
     if (chipEls.length) scrollToChip(chipEls.length - 1);
   }
 

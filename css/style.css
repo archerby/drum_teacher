@@ -930,7 +930,7 @@ label.full { display: grid; }
 .ml-ribbon { display: flex; align-items: flex-end; gap: 4px; min-width: max-content; }
 .ml-chip {
   width: calc(var(--d) * 46px);
-  min-width: 32px;
+  min-width: 40px;
   height: 50px;
   flex: none;
   border: 0;
@@ -968,6 +968,8 @@ label.full { display: grid; }
 .ml-rec { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
 .btn.on-rec { background: var(--danger); border-color: var(--danger); color: var(--card); animation: recpulse 1.2s ease-in-out infinite; }
 @keyframes recpulse { 50% { opacity: 0.75; } }
+.ml-warn { margin: 0; padding: 8px 12px; border-radius: 8px; background: color-mix(in srgb, var(--bad) 16%, var(--card)); border-left: 3px solid var(--bad); font-size: 0.9rem; }
+.ml-warn .tbtn { margin: 0 4px; }
 .ml-err { color: var(--danger); font-size: 0.85rem; min-height: 1.2em; margin: 4px 0; }
 #me-notes { font: 0.9rem ui-monospace, "SF Mono", Menlo, monospace; }
 .ml-keys kbd { margin: 0 1px; }
@@ -1094,7 +1096,7 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
   .ml-bar::before { top: 5%; }
   .ml-bar::after { bottom: 5%; }
   .ml-inst-card { padding: 12px 8px 10px; }
-  .ml-chip { width: calc(var(--d) * 40px); min-width: 30px; height: 46px; }
+  .ml-chip { width: calc(var(--d) * 40px); min-width: 36px; height: 46px; }
   main { padding: 12px; }
   .topbar { padding: 8px 14px; }
   .bottom-tabs a { font-size: 0.62rem; letter-spacing: -0.01em; }
