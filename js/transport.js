@@ -8,6 +8,24 @@ window.Transport = (() => {
   const LOOKAHEAD = 0.12; // сек — насколько вперёд планируем
   let active = null;
 
+  // Пока идёт занятие, экран телефона не гаснет
+  let wakeLock = null;
+  async function keepAwake(on) {
+    try {
+      if (on && !wakeLock && 'wakeLock' in navigator && document.visibilityState === 'visible') {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => { wakeLock = null; });
+      } else if (!on && wakeLock) {
+        const w = wakeLock;
+        wakeLock = null;
+        await w.release();
+      }
+    } catch (e) { /* не поддерживается или запрещено — не страшно */ }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && active) keepAwake(true);
+  });
+
   function makeTicker(fn) {
     const fallback = () => {
       let id = null;
@@ -61,6 +79,7 @@ window.Transport = (() => {
       this.nextTime = ctx.currentTime + 0.08;
       this.queue = [];
       this.playing = true;
+      keepAwake(true);
       this.ticker.start();
       this._tick();
       const frame = () => {
@@ -102,6 +121,7 @@ window.Transport = (() => {
       cancelAnimationFrame(this._raf);
       this.queue = [];
       if (active === this) active = null;
+      if (!active) keepAwake(false);
       if (this.onStop) this.onStop();
     }
 

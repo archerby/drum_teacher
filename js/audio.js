@@ -11,6 +11,8 @@ window.Sound = (() => {
 
   function ensure() {
     if (!ctx) {
+      // iOS: играть звук даже при включённом беззвучном режиме (Safari 17+)
+      try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { /* нет API */ }
       const AC = window.AudioContext || window.webkitAudioContext;
       ctx = new AC({ latencyHint: 'interactive' });
       const comp = ctx.createDynamicsCompressor();

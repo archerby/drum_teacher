@@ -40,6 +40,7 @@
   --voice-b: var(--v-high);
 
   --radius: 10px;
+  --tabs-h: 57px;
   --cell: 30px;
   --lw: 96px;
   color-scheme: light;
@@ -192,6 +193,7 @@ kbd {
   z-index: 20;
   background: var(--card);
   border-top: 1px solid var(--line);
+  height: calc(var(--tabs-h) + env(safe-area-inset-bottom));
   padding: 4px 4px calc(4px + env(safe-area-inset-bottom));
 }
 .bottom-tabs a {
@@ -199,10 +201,11 @@ kbd {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   font-size: 0.68rem;
   color: var(--muted);
   text-decoration: none;
-  padding: 4px 0;
+  padding: 2px 0;
   border-radius: 10px;
   min-width: 0;
 }
@@ -214,7 +217,7 @@ main { max-width: 1280px; margin: 0 auto; padding: 20px; }
 .player, .lesson, .card { scroll-margin-top: 76px; }
 .rgrid.editing { --lw: 132px; }
 .page.active { display: block; animation: fade 0.18s ease; }
-@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
 .card {
   background: var(--card);
@@ -320,7 +323,7 @@ textarea { width: 100%; resize: vertical; }
 .toast {
   position: fixed;
   left: 50%;
-  bottom: calc(90px + env(safe-area-inset-bottom));
+  bottom: calc(140px + env(safe-area-inset-bottom));
   transform: translate(-50%, 20px);
   background: var(--text);
   color: var(--bg);
@@ -586,19 +589,32 @@ text.svg-sub[y="162"] { fill: var(--muted); }
 .gc.cell.now[class*="st-"] { box-shadow: 0 0 0 3px var(--text) inset; transform: scale(1.08); }
 .gc.cell.now:not([class*="st-"]) { background: var(--now); box-shadow: none; }
 .gc.hand.now { box-shadow: none; background: var(--now); }
-.mute {
-  flex: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background: var(--bg2);
-  color: var(--muted);
-  font: 700 0.72rem system-ui, sans-serif;
+.lname {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+  padding: 4px 2px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
-  padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.mute.on { background: var(--danger); border-color: var(--danger); color: var(--card); }
+.lname .spk {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.lname.off { opacity: 0.45; text-decoration: line-through; }
+.lname.off .spk { background: var(--faint); }
 .del { border: 0; background: none; color: var(--danger); cursor: pointer; font-size: 0.8rem; padding: 0 2px; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.88rem; color: var(--muted); }
@@ -843,6 +859,11 @@ label.full { display: grid; }
 .pad.hit { animation: padhit 0.15s ease-out; }
 @keyframes padhit { from { transform: scale(0.94); filter: brightness(1.15); } to { transform: none; filter: none; } }
 
+/* ───────── Касания ───────── */
+button, a, input, select, label, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.pad, .gc, .beat-dot { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.lib-toggle { display: none; }
+
 /* ───────── Адаптивность ───────── */
 @media (max-width: 1100px) {
   .tabs a { padding: 6px 9px; font-size: 0.9rem; }
@@ -872,12 +893,75 @@ label.full { display: grid; }
   .tr-side { order: 3; }
   .tr-transport { top: 58px; }
   .tr-dots { display: none; }
-  .list-col { position: static; max-height: 42vh; }
-  .lesson-list small { display: none; }
+  /* списки ритмов и уроков сворачиваются в одну кнопку */
+  .list-col { position: static; max-height: none; overflow: visible; padding: 0; }
+  .lib-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 16px;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: 700 1rem system-ui, sans-serif;
+    text-align: left;
+    cursor: pointer;
+  }
+  .lib-toggle small { color: var(--muted); font-weight: 500; }
+  .lib-toggle b { transition: transform 0.2s; color: var(--muted); }
+  .list-col.open .lib-toggle b { transform: rotate(180deg); }
+  .list-col:not(.open) > :not(.lib-toggle) { display: none; }
+  .list-col.open > :not(.lib-toggle) { padding-left: 14px; padding-right: 14px; }
+  .list-col.open { padding-bottom: 12px; }
+  .list-col .list-title { display: none; }
+  .rlist-top { position: static; }
+
+  /* панель «Играть / темп» прилипает над нижним меню */
+  .dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--tabs-h) + env(safe-area-inset-bottom));
+    z-index: 19;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 16px;
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 16px rgba(40, 30, 20, 0.1);
+  }
+  #page-rhythms, #page-poly { padding-bottom: 72px; }
+  .dock .btn.play { min-width: 0; flex: none; padding: 11px 18px; }
+  .dock .bpm-control { flex: 1; width: auto; flex-wrap: nowrap; justify-content: flex-end; }
+  .dock .bpm-label, .dock .bpm-range, .dock .bpm-unit,
+  .dock [data-d="-1"], .dock [data-d="1"] { display: none; }
+  .dock .bpm-num { width: 64px !important; }
+  .dock .bpm-control .btn.small { padding: 9px 12px; }
+
+  /* поля: 16px, чтобы iPhone не увеличивал страницу при нажатии */
+  input, select, textarea { font-size: 16px; }
+  .speed-opts.dim { display: none; }
+  .r-wheelhint { display: none; }
+  .tbtn { min-height: 36px; }
+  .mg-row { grid-template-columns: 62px repeat(8, minmax(0, 1fr)); gap: 3px; }
+  .mini-grid.six .mg-row { grid-template-columns: 78px repeat(6, minmax(0, 1fr)); }
+  .mg-row > span { font-size: 0.78rem; }
+  .lesson-foot .btn { flex: 1 1 100%; }
+  .lesson-foot .spacer { display: none; }
   .hero { flex-direction: column-reverse; align-items: flex-start; }
 }
 @media (max-width: 560px) {
-  :root { --cell: 26px; --lw: 78px; }
+  :root { --cell: 26px; --lw: 74px; }
+  main { padding: 12px; }
+  .topbar { padding: 8px 14px; }
+  .bottom-tabs a { font-size: 0.62rem; letter-spacing: -0.01em; }
+  .bottom-tabs a { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .tr-transport { padding: 8px 10px; gap: 8px 10px; }
+  .tr-play { width: 44px; height: 44px; }
+  .controls { gap: 8px 12px; }
   h1 { font-size: 1.35rem; }
   .hero h1 { font-size: 1.5rem; }
   .card { padding: 14px; border-radius: 12px; }

@@ -3,6 +3,7 @@ window.Pages = window.Pages || {};
 Pages.lessons = (() => {
   const el = document.getElementById('page-lessons');
   let current = LESSONS[0].id;
+  let listOpen = false;
 
   function render() {
     const idx = LESSONS.findIndex((l) => l.id === current);
@@ -12,8 +13,11 @@ Pages.lessons = (() => {
     const done = Store.lessonDone(l.id);
     el.innerHTML = `
       <div class="two-col">
-        <aside class="card list-col">
-          <h2>Уроки</h2>
+        <aside class="card list-col ${listOpen ? 'open' : ''}">
+          <button class="lib-toggle" id="lesson-toggle" aria-expanded="${listOpen}">
+            <span>📖 Все уроки <small>· ${LESSONS.filter((x) => Store.lessonDone(x.id)).length} из ${LESSONS.length} пройдено</small></span><b aria-hidden="true">▾</b>
+          </button>
+          <h2 class="list-title">Уроки</h2>
           <ol class="lesson-list">
             ${LESSONS.map((x, i) => `
               <li><a href="#/lessons/${x.id}" class="${x.id === current ? 'active' : ''} ${Store.lessonDone(x.id) ? 'done' : ''}">
@@ -34,6 +38,7 @@ Pages.lessons = (() => {
           </div>
         </article>
       </div>`;
+    el.querySelector('#lesson-toggle').addEventListener('click', () => { listOpen = !listOpen; render(); });
     el.querySelector('#lesson-done').addEventListener('click', () => {
       Store.setLesson(l.id, !done);
       if (!done && next) UI.toast('Отлично! Следующий урок: ' + next.title);
@@ -45,8 +50,9 @@ Pages.lessons = (() => {
   return {
     show(params) {
       if (params[0] && LESSONS.some((l) => l.id === params[0])) current = params[0];
+      listOpen = false;
       render();
-      el.querySelector('.lesson').scrollIntoView({ block: 'nearest' });
+      window.scrollTo(0, 0);
     },
   };
 })();

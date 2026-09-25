@@ -50,7 +50,7 @@ Pages.poly = (() => {
             <button data-mode="meter" role="radio">Полиметр</button>
           </div>
         </div>
-        <div class="controls">
+        <div class="controls dock">
           <button class="btn play" id="p-play">▶ Играть</button>
           <span id="p-bpm"></span>
         </div>

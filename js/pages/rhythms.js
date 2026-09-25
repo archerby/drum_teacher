@@ -29,7 +29,10 @@ Pages.rhythms = (() => {
   // ───────── Каркас ─────────
   el.innerHTML = `
     <div class="two-col rhythms">
-      <aside class="card list-col rlist">
+      <aside class="card list-col rlist" id="r-lib">
+        <button class="lib-toggle" id="r-libtoggle" aria-expanded="false" aria-controls="r-items">
+          <span>📚 Библиотека ритмов <small id="r-libcount"></small></span><b aria-hidden="true">▾</b>
+        </button>
         <div class="rlist-top">
           <input type="search" id="r-search" placeholder="Поиск: мартильо, 6/8, клаве…" aria-label="Поиск ритма">
           <div class="rlist-btns">
@@ -45,6 +48,12 @@ Pages.rhythms = (() => {
   const itemsEl = el.querySelector('#r-items');
   const playerEl = el.querySelector('#r-player');
 
+  const libEl = el.querySelector('#r-lib');
+  const setLib = (open) => {
+    libEl.classList.toggle('open', open);
+    el.querySelector('#r-libtoggle').setAttribute('aria-expanded', open);
+  };
+  el.querySelector('#r-libtoggle').addEventListener('click', () => setLib(!libEl.classList.contains('open')));
   el.querySelector('#r-search').addEventListener('input', (e) => { listQuery = e.target.value.trim().toLowerCase(); renderList(); });
   el.querySelector('#r-new').addEventListener('click', newRhythm);
   el.querySelector('#r-import').addEventListener('click', importRhythm);
@@ -53,6 +62,7 @@ Pages.rhythms = (() => {
   function renderList() {
     const all = [...RHYTHMS, ...Store.customs()];
     const match = (r) => !listQuery || `${r.name} ${r.sig} ${r.origin || ''} ${r.desc || ''}`.toLowerCase().includes(listQuery);
+    el.querySelector('#r-libcount').textContent = `· ${all.length}`;
     itemsEl.innerHTML = RHYTHM_CATEGORIES.map((cat) => {
       const items = all.filter((r) => (r.cat || 'mine') === cat.id && match(r));
       if (!items.length) return '';
@@ -74,6 +84,7 @@ Pages.rhythms = (() => {
     transport.stop();
     cur = clone(r);
     cur.bars = cur.bars || 1;
+    setLib(false);
     editing = false;
     dirty = false;
     muted = new Set();
@@ -126,7 +137,7 @@ Pages.rhythms = (() => {
         </div>
       </div>
 
-      <div class="controls">
+      <div class="controls dock">
         <button class="btn play" id="r-play">▶ Играть</button>
         <span id="r-bpm"></span>
       </div>
@@ -231,7 +242,7 @@ Pages.rhythms = (() => {
     }
     r.tracks.forEach((t, ti) => {
       const inst = INSTRUMENTS[t.i] || { name: t.i };
-      html += `<div class="gl"><button class="mute ${muted.has(ti) ? 'on' : ''}" data-mute="${ti}" title="Заглушить / включить партию" aria-pressed="${muted.has(ti)}">M</button><span title="${UI.esc(inst.full || inst.name)}">${UI.esc(inst.name)}</span>${editing ? `<button class="del" data-del="${ti}" title="Удалить строку">✕</button>` : ''}</div>`;
+      html += `<div class="gl"><button class="lname ${muted.has(ti) ? 'off' : ''}" data-mute="${ti}" title="${UI.esc(inst.full || inst.name)} — нажмите, чтобы заглушить / включить" aria-pressed="${!muted.has(ti)}"><i class="spk" aria-hidden="true"></i>${UI.esc(inst.name)}</button>${editing ? `<button class="del" data-del="${ti}" title="Удалить строку">✕</button>` : ''}</div>`;
       for (let s = 0; s < n; s++) {
         const info = UI.cellInfo(t.i, t.p[s]);
         html += `<div class="gc cell ${info.cls}${colCls(s)}${muted.has(ti) ? ' muted' : ''}" data-t="${ti}" data-s="${s}"${info.name ? ` title="${UI.esc(info.name)}"` : ''}>${info.label}</div>`;
@@ -276,7 +287,7 @@ Pages.rhythms = (() => {
       rings: cur.tracks.map((t, i) => ({ p: t.p, inst: t.i, muted: muted.has(i) })),
       playPos,
       hub,
-      maxSize: 320,
+      maxSize: window.innerWidth < 560 ? 250 : 320,
     });
     const cyc = playerEl.querySelector('#r-cycle');
     if (cyc) {
@@ -624,7 +635,6 @@ Pages.rhythms = (() => {
       if (!cur || cur.id !== id || !UI.findRhythm(id)) {
         if (id === 'c_new' && cur && cur.id === 'c_new') return;
         load(id);
-        if (params[0] && window.innerWidth < 900) playerEl.scrollIntoView({ block: 'start' });
       } else {
         renderList();
       }
