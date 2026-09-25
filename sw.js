@@ -1,5 +1,5 @@
 /* Офлайн-кэш: после первого открытия приложение работает без интернета. */
-const CACHE = 'bongo-school-v4';
+const CACHE = 'bongo-school-v5';
 const FILES = [
   './',
   'index.html',
@@ -17,12 +17,14 @@ const FILES = [
   'js/data/instruments.js',
   'js/data/rhythms.js',
   'js/data/lessons.js',
+  'js/data/melodies.js',
   'js/pages/start.js',
   'js/pages/lessons.js',
   'js/pages/rhythms.js',
   'js/pages/poly.js',
   'js/pages/metronome.js',
   'js/pages/trainer.js',
+  'js/pages/mallet.js',
 ];
 
 self.addEventListener('install', (e) => {

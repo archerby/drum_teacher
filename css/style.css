@@ -859,12 +859,126 @@ label.full { display: grid; }
 .pad.hit { animation: padhit 0.15s ease-out; }
 @keyframes padhit { from { transform: scale(0.94); filter: brightness(1.15); } to { transform: none; filter: none; } }
 
+/* ───────── Металлофон ───────── */
+:root {
+  --n-c: #c8453b; --n-d: #d9812e; --n-e: #d4ae2d; --n-f: #5e9a4b;
+  --n-g: #3a9c9c; --n-a: #3f6eae; --n-b: #7a5aa3; --n-sharp: #3b3531;
+}
+.nc-c { --nc: var(--n-c); } .nc-d { --nc: var(--n-d); } .nc-e { --nc: var(--n-e); } .nc-f { --nc: var(--n-f); }
+.nc-g { --nc: var(--n-g); } .nc-a { --nc: var(--n-a); } .nc-b { --nc: var(--n-b); } .nc-sharp { --nc: var(--n-sharp); }
+
+.ml { display: grid; gap: 14px; }
+.ml-inst-card { padding: 14px 16px 12px; }
+.ml-inst-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.ml-inst { position: relative; height: 200px; }
+.ml-inst.chromatic { height: 270px; }
+.ml-naturals { display: flex; align-items: center; gap: 4px; height: 100%; }
+.ml-inst.chromatic .ml-naturals { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; }
+.ml-sharps { position: absolute; left: 0; right: 0; top: 0; height: 40%; }
+.ml-sharps .ml-bar { position: absolute; top: 50%; transform: translateY(-50%); }
+.ml-bar {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 0 8px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--nc) 78%, #fff) 0%, var(--nc) 45%, color-mix(in srgb, var(--nc) 80%, #000) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  font: 700 0.8rem system-ui, sans-serif;
+  line-height: 1.1;
+  cursor: pointer;
+  touch-action: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: filter 0.08s, transform 0.08s;
+}
+.ml-bar.nc-e { color: #3a2c05; }
+.ml-bar small { font-size: 0.62rem; opacity: 0.8; }
+/* заклёпки, на которых висит пластина */
+.ml-bar::before, .ml-bar::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.ml-bar::before { top: 9%; }
+.ml-bar::after { bottom: 34%; }
+.ml-bar.hit { filter: brightness(1.25); transform: translateY(1px) scale(0.98); }
+.ml-sharps .ml-bar.hit { transform: translateY(-50%) scale(0.97); }
+.ml-bar.lit { filter: brightness(1.3) saturate(1.2); box-shadow: 0 0 0 3px var(--card), 0 0 0 6px var(--accent), 0 0 18px var(--accent); z-index: 2; }
+.ml-bar.next:not(.lit) { box-shadow: 0 0 0 3px var(--card), 0 0 0 6px var(--accent); animation: nextpulse 1s ease-in-out infinite; z-index: 1; }
+.ml-bar.bad { box-shadow: 0 0 0 3px var(--card), 0 0 0 6px var(--danger); animation: shake 0.3s; }
+@keyframes nextpulse { 50% { box-shadow: 0 0 0 3px var(--card), 0 0 0 6px transparent; } }
+@keyframes shake { 25% { translate: -3px 0; } 75% { translate: 3px 0; } }
+.ml-rotate { display: none; margin: 8px 0 0; }
+
+.ml-player { display: grid; gap: 10px; }
+.ml-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.ml-pick { display: grid; gap: 4px; flex: 1 1 240px; }
+.ml-pick select { width: 100%; font-weight: 600; }
+.ml-modes { justify-self: start; }
+.ml-ribbon-wrap { overflow-x: auto; margin: 0 -4px; padding: 8px 4px 4px; -webkit-overflow-scrolling: touch; }
+.ml-ribbon { display: flex; align-items: flex-end; gap: 4px; min-width: max-content; }
+.ml-chip {
+  width: calc(var(--d) * 46px);
+  min-width: 32px;
+  height: 50px;
+  flex: none;
+  border: 0;
+  border-radius: 8px;
+  background: var(--nc);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font: 700 0.82rem system-ui, sans-serif;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.1s, opacity 0.2s;
+}
+.ml-chip.nc-e { color: #3a2c05; }
+.ml-chip small { font: 600 0.6rem ui-monospace, monospace; opacity: 0.75; }
+.ml-chip sup { font-size: 0.6rem; }
+.ml-chip.rest { background: var(--bg2); color: var(--muted); font-size: 1.1rem; }
+.ml-chip.cur { transform: translateY(-5px); box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--text); }
+.ml-chip.ok { opacity: 0.4; }
+.ml-chip::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: -6px; height: 3px; border-radius: 2px; }
+.ml-chip.hit::after { background: var(--good); }
+.ml-chip.off::after { background: var(--bad); }
+.ml-chip.wrong::after, .ml-chip.miss::after, .ml-chip.bad::after { background: var(--danger); }
+.ml-chip.bad { animation: shake 0.3s; }
+.ml-barline { width: 2px; height: 56px; flex: none; background: var(--line); border-radius: 1px; margin: 0 2px; }
+.ml-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 0.85rem ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); min-height: 1.5em; align-items: baseline; }
+.ml-stats b { color: var(--text); font-size: 1.05rem; }
+.ml-stats .good b { color: var(--good); }
+.ml-stats .warn b { color: var(--bad); }
+.ml-stats .bad b { color: var(--danger); }
+.ml-stats .muted { font-family: system-ui, sans-serif; }
+.ml-rec { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.btn.on-rec { background: var(--danger); border-color: var(--danger); color: var(--card); animation: recpulse 1.2s ease-in-out infinite; }
+@keyframes recpulse { 50% { opacity: 0.75; } }
+.ml-err { color: var(--danger); font-size: 0.85rem; min-height: 1.2em; margin: 4px 0; }
+#me-notes { font: 0.9rem ui-monospace, "SF Mono", Menlo, monospace; }
+.ml-keys kbd { margin: 0 1px; }
+
 /* ───────── Касания ───────── */
 button, a, input, select, label, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .pad, .gc, .beat-dot { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .lib-toggle { display: none; }
 
 /* ───────── Адаптивность ───────── */
+@media (max-width: 560px) and (orientation: portrait) { .ml-rotate { display: block; } }
 @media (max-width: 1100px) {
   .tabs a { padding: 6px 9px; font-size: 0.9rem; }
   .poly-layout, .metro-layout { grid-template-columns: 1fr; }
@@ -933,7 +1047,19 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
     border-top: 1px solid var(--line);
     box-shadow: 0 -6px 16px rgba(40, 30, 20, 0.1);
   }
-  #page-rhythms, #page-poly { padding-bottom: 72px; }
+  #page-rhythms, #page-poly, #page-mallet { padding-bottom: 72px; }
+  /* в мелодиях инструмент прилипает к низу экрана — лента нот и пластины видны вместе */
+  .ml.view-melody .ml-inst-card, .ml.view-free .ml-inst-card {
+    position: sticky;
+    bottom: calc(var(--tabs-h) + 64px + env(safe-area-inset-bottom));
+    z-index: 5;
+    box-shadow: 0 -6px 18px rgba(40, 30, 20, 0.12);
+  }
+  .ml.view-free .ml-inst-card, .ml.view-melody.mode-wait .ml-inst-card { bottom: calc(var(--tabs-h) + 6px + env(safe-area-inset-bottom)); }
+  #ml-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  #ml-desc.open { display: block; }
+  .ml-inst-head { margin-bottom: 8px; }
+  .ml-inst-head .seg button { padding: 5px 9px; font-size: 0.78rem; }
   .dock .btn.play { min-width: 0; flex: none; padding: 11px 18px; }
   .dock .bpm-control { flex: 1; width: auto; flex-wrap: nowrap; justify-content: flex-end; }
   .dock .bpm-label, .dock .bpm-range, .dock .bpm-unit,
@@ -955,6 +1081,20 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
 }
 @media (max-width: 560px) {
   :root { --cell: 26px; --lw: 74px; }
+  table.simple { font-size: 0.86rem; }
+  table.simple th, table.simple td { padding: 5px 6px; }
+  .ml-inst { height: 180px; }
+  .ml-inst.chromatic { height: 240px; }
+  .ml-naturals { gap: 2px; }
+  .ml-bar { border-radius: 4px; padding-bottom: 6px; font-size: 0.66rem; }
+  .ml-bar { justify-content: center; padding: 0; }
+  .ml-bar span { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: -0.14em; font-size: 0.62rem; }
+  .ml-bar small { display: none; }
+  .ml-bar::before, .ml-bar::after { width: 4px; height: 4px; margin-left: -2px; }
+  .ml-bar::before { top: 5%; }
+  .ml-bar::after { bottom: 5%; }
+  .ml-inst-card { padding: 12px 8px 10px; }
+  .ml-chip { width: calc(var(--d) * 40px); min-width: 30px; height: 46px; }
   main { padding: 12px; }
   .topbar { padding: 8px 14px; }
   .bottom-tabs a { font-size: 0.62rem; letter-spacing: -0.01em; }

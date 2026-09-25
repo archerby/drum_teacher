@@ -149,6 +149,20 @@ window.Sound = (() => {
   }
 
   // Щелчок метронома. level: 2 — акцент, 1 — доля, 0.5 — дробление
+  // Металлическая пластина (металлофон / глокеншпиль).
+  // Обертоны свободной балки не кратны основному тону: 1 : 2.76 : 5.40.
+  function bar(midi, t, vel = 1) {
+    ensure();
+    if (t === undefined) t = ctx.currentTime + 0.005;
+    const f = 440 * Math.pow(2, (midi - 69) / 12);
+    const len = UIclamp(2.6 - (midi - 72) * 0.06, 0.9, 2.6); // низкие звенят дольше
+    tone(t, f, f, len, 0.42 * vel, 'sine', 0.01);
+    tone(t, f * 2.76, f * 2.76, len * 0.35, 0.13 * vel, 'sine', 0.01);
+    tone(t, f * 5.4, f * 5.4, len * 0.12, 0.05 * vel, 'sine', 0.01);
+    noise(t, 0.012, 0.12 * vel, 'highpass', 6000, 0.7);
+  }
+  const UIclamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
   function click(t, level = 1, kind = 'beep', vel = 1) {
     ensure();
     const v = vel * (level >= 2 ? 1 : level >= 1 ? 0.7 : 0.38);
@@ -219,7 +233,7 @@ window.Sound = (() => {
   window.addEventListener('keydown', unlock, { once: true });
 
   return {
-    ensure, now, play, click, setVolume, eventTime,
+    ensure, now, play, click, bar, setVolume, eventTime,
     get ctx() { return ensure(); },
   };
 })();
