@@ -1,5 +1,5 @@
 /* Офлайн-кэш: после первого открытия приложение работает без интернета. */
-const CACHE = 'bongo-school-v6';
+const CACHE = 'bongo-school-v7';
 const FILES = [
   './',
   'index.html',
