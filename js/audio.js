@@ -163,6 +163,34 @@ window.Sound = (() => {
   }
   const UIclamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
+  // Клавиши: мягкое «электропиано» — затухающие обертоны и лёгкий удар молоточка.
+  function keys(midi, t, dur = 1, vel = 1) {
+    ensure();
+    if (t === undefined) t = ctx.currentTime + 0.005;
+    const f = 440 * Math.pow(2, (midi - 69) / 12);
+    const len = Math.min(2.5, Math.max(0.35, dur + 0.25));
+    const out = ctx.createGain();
+    out.gain.setValueAtTime(1, t);
+    out.gain.setValueAtTime(1, t + Math.max(0.05, dur));
+    out.gain.linearRampToValueAtTime(0.0001, t + len);
+    out.connect(master);
+    [[1, 0.36, 1.6], [2, 0.12, 0.7], [3, 0.05, 0.35], [4.02, 0.03, 0.2]].forEach(([k, a, d]) => {
+      const o = ctx.createOscillator();
+      o.type = 'sine';
+      o.frequency.value = f * k;
+      o.detune.value = k === 1 ? 3 : 0;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(a * vel, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + d * (midi < 60 ? 1.4 : 1));
+      o.connect(g);
+      g.connect(out);
+      o.start(t);
+      o.stop(t + len + 0.05);
+    });
+    noise(t, 0.015, 0.06 * vel, 'bandpass', 2500, 1.2);
+  }
+
   // Блокфлейта: почти чистый тон, немного второй гармоники, дыхание и мягкое вибрато.
   function flute(midi, t, dur = 0.5, vel = 1) {
     ensure();
@@ -268,7 +296,7 @@ window.Sound = (() => {
   window.addEventListener('keydown', unlock, { once: true });
 
   return {
-    ensure, now, play, click, bar, flute, setVolume, eventTime,
+    ensure, now, play, click, bar, flute, keys, setVolume, eventTime,
     get ctx() { return ensure(); },
   };
 })();

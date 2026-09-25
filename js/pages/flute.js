@@ -89,7 +89,7 @@ Pages.flute = (() => {
           <div class="eyebrow">блокфлейта сопрано · строй «до»</div>
           <h1 class="tr-title">Флейта</h1>
         </div>
-        <div class="seg inst-switch"><a href="#/mallet">Металлофон</a><a class="sel" href="#/flute">Флейта</a></div>
+        <div class="seg inst-switch"><a href="#/mallet">Металлофон</a><a class="sel" href="#/flute">Флейта</a><a href="#/keys">Клавиши</a></div>
         <div class="seg" id="fl-views">
           <button data-view="lessons">Уроки</button>
           <button data-view="melody">Мелодии</button>

@@ -1028,6 +1028,12 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
   .poly-layout, .metro-layout { grid-template-columns: 1fr; }
   .start-grid { grid-template-columns: 1fr; }
 }
+@media (max-width: 1000px) {
+  .topbar { gap: 10px; }
+  .tabs { gap: 2px; min-width: 0; }
+  .tabs a { padding: 6px 7px; font-size: 0.85rem; }
+  .volume input { width: 70px; }
+}
 @media (max-width: 900px) {
   .tabs, .volume { display: none; }
   .bottom-tabs { display: flex; }
@@ -1165,4 +1171,64 @@ button, a, input, select, label, summary { touch-action: manipulation; -webkit-t
   .btn.play.big { min-width: 140px; }
   .progress-ring { width: 100px; height: 100px; }
   .progress-ring span { width: 76px; height: 76px; }
+}
+
+/* ───────── Клавиши ───────── */
+.kb-midi { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 16px; }
+.kb-status { flex: 1 1 220px; color: var(--muted); font-size: 0.9rem; }
+.kb-status.ok { color: var(--good); font-weight: 600; }
+.kb-piano { position: relative; height: 190px; user-select: none; -webkit-user-select: none; touch-action: none; }
+.kb-whites { display: flex; height: 100%; gap: 2px; }
+.kb-key { font: inherit; cursor: pointer; padding: 0; -webkit-tap-highlight-color: transparent; transition: background 0.08s, transform 0.08s; }
+.kb-key.white {
+  flex: 1 1 0; min-width: 0; display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 10px; border: 1px solid var(--line); border-radius: 0 0 8px 8px;
+  background: linear-gradient(#fff, #f4f1ea); color: #5b5348; font-size: 0.72rem; font-weight: 600;
+  box-shadow: inset 0 -5px 0 var(--nc, transparent), 0 2px 3px rgba(40, 30, 20, 0.12);
+}
+.kb-key.white sup { font-size: 0.6em; }
+.kb-key.black {
+  position: absolute; top: 0; height: 60%; z-index: 2; border: 1px solid #111; border-radius: 0 0 6px 6px;
+  background: linear-gradient(#3a3632, #16140f); box-shadow: 0 3px 4px rgba(0, 0, 0, 0.35);
+}
+.kb-key.down { transform: translateY(2px); }
+.kb-key.white.down { background: linear-gradient(#e9e4d8, #ddd6c6); }
+.kb-key.black.down { background: linear-gradient(#57514a, #2c2924); }
+.kb-key.next { outline: 3px solid var(--accent); outline-offset: -3px; animation: kbnext 1.1s ease-in-out infinite; }
+.kb-key.white.next { background: linear-gradient(#fff, color-mix(in srgb, var(--accent) 22%, #fff)); }
+.kb-key.black.next { background: linear-gradient(color-mix(in srgb, var(--accent) 70%, #333), #16140f); }
+.kb-key.lit, .kb-key.white.lit { background: var(--accent); color: var(--accent-text); outline: none; animation: none; }
+.kb-key.bad, .kb-key.white.bad { background: var(--danger); color: #fff; }
+@keyframes kbnext { 50% { outline-color: transparent; } }
+.kb-chordrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 8px; }
+.kb-chip {
+  font: inherit; font-weight: 700; min-width: 48px; padding: 8px 10px; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg2); color: var(--text);
+}
+.kb-chip.cur { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.kb-chip.ok { box-shadow: inset 0 -3px 0 var(--good); }
+.kb-bigchord { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin: 6px 0 10px; }
+.kb-bigchord b { font-size: 2.4rem; line-height: 1.1; color: var(--accent); }
+.kb-bigchord span { color: var(--muted); }
+@media (max-width: 900px) {
+  #page-keys { padding-bottom: 72px; }
+  .ml.view-chords .ml-inst-card {
+    position: sticky; bottom: calc(var(--tabs-h) + 64px + env(safe-area-inset-bottom)); z-index: 5;
+    box-shadow: 0 -6px 18px rgba(40, 30, 20, 0.12);
+  }
+  .ml.view-chords.mode-wait .ml-inst-card { bottom: calc(var(--tabs-h) + 6px + env(safe-area-inset-bottom)); }
+  #kb-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+  #kb-desc.open { display: block; }
+  .kb-midi { padding: 10px 12px; font-size: 0.9rem; }
+  .kb #kb-views, .kb .inst-switch { display: flex; width: 100%; }
+  .kb #kb-views button, .kb .inst-switch a { flex: 1 1 0; justify-content: center; padding: 8px 4px; font-size: 0.84rem; }
+  .kb-status { font-size: 0.82rem; }
+}
+@media (max-width: 560px) {
+  .kb-piano { height: 150px; }
+  .kb-whites { gap: 1px; }
+  .kb-key.white { font-size: 0.56rem; padding-bottom: 7px; border-radius: 0 0 5px 5px; }
+  .kb-key.white span { writing-mode: vertical-rl; text-orientation: upright; letter-spacing: -0.14em; }
+  .kb-key.white sup { display: none; }
+  .kb-bigchord b { font-size: 1.9rem; }
 }
