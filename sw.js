@@ -14,6 +14,7 @@ const FILES = [
   'js/i18n.js',
   'js/i18n/en.js',
   'js/i18n/pl.js',
+  'js/i18n/uk.js',
   'js/ui.js',
   'js/wheel.js',
   'js/app.js',
