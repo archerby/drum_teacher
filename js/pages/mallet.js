@@ -86,14 +86,14 @@ Pages.mallet = (() => {
     <div class="ml">
       <header class="tr-head">
         <div>
-          <div class="eyebrow">металлофон · две октавы</div>
-          <h1 class="tr-title">Металлофон</h1>
+          <div class="eyebrow">${L('металлофон · две октавы')}</div>
+          <h1 class="tr-title">${L('Металлофон')}</h1>
         </div>
-        <div class="seg inst-switch"><a class="sel" href="#/mallet">Металлофон</a><a href="#/flute">Флейта</a><a href="#/keys">Клавиши</a></div>
+        <div class="seg inst-switch"><a class="sel" href="#/mallet">${L('Металлофон')}</a><a href="#/flute">${L('Флейта')}</a><a href="#/keys">${L('Клавиши')}</a></div>
         <div class="seg" id="ml-views">
-          <button data-view="lessons">Уроки</button>
-          <button data-view="melody">Мелодии</button>
-          <button data-view="free">Свободно</button>
+          <button data-view="lessons">${L('Уроки')}</button>
+          <button data-view="melody">${L('Мелодии')}</button>
+          <button data-view="free">${L('Свободно')}</button>
         </div>
       </header>
 
@@ -102,28 +102,28 @@ Pages.mallet = (() => {
       <section id="ml-melody" hidden>
         <div class="card ml-player">
           <div class="ml-top">
-            <label class="ml-pick"><span class="eyebrow">мелодия</span><select id="ml-select"></select></label>
+            <label class="ml-pick"><span class="eyebrow">${L('мелодия')}</span><select id="ml-select"></select></label>
             <div class="tr-tgroup">
-              <button class="tbtn" id="ml-new">＋ Новая</button>
-              <button class="tbtn" id="ml-edit">✎ Изменить</button>
-              <button class="tbtn" id="ml-share" title="Получить ссылку на мелодию">🔗 Поделиться</button>
+              <button class="tbtn" id="ml-new">${L('＋ Новая')}</button>
+              <button class="tbtn" id="ml-edit">${L('✎ Изменить')}</button>
+              <button class="tbtn" id="ml-share" title="${L('Получить ссылку на мелодию')}">${L('🔗 Поделиться')}</button>
             </div>
           </div>
           <p class="tr-note" id="ml-desc"></p>
           <p class="ml-warn" id="ml-warn" hidden></p>
-          <div class="seg ml-modes" id="ml-modes" role="radiogroup" aria-label="Режим">
-            <button data-mode="listen">👂 Слушать</button>
-            <button data-mode="wait">⏸ Ждать меня</button>
-            <button data-mode="along">🎯 В темпе</button>
+          <div class="seg ml-modes" id="ml-modes" role="radiogroup" aria-label="${L('Режим')}">
+            <button data-mode="listen">${L('👂 Слушать')}</button>
+            <button data-mode="wait">${L('⏸ Ждать меня')}</button>
+            <button data-mode="along">${L('🎯 В темпе')}</button>
           </div>
           <div class="controls dock" id="ml-dock">
-            <button class="btn play" id="ml-play">▶ Играть</button>
+            <button class="btn play" id="ml-play">${L('▶ Играть')}</button>
             <span id="ml-bpm"></span>
           </div>
           <div class="controls options" id="ml-opts">
-            <label class="toggle"><input type="checkbox" id="ml-click" checked> Щелчок</label>
-            <label class="toggle"><input type="checkbox" id="ml-count" checked> Отсчёт</label>
-            <label class="toggle" id="ml-guide-l"><input type="checkbox" id="ml-guide" checked> Подсказка звуком</label>
+            <label class="toggle"><input type="checkbox" id="ml-click" checked> ${L('Щелчок')}</label>
+            <label class="toggle"><input type="checkbox" id="ml-count" checked> ${L('Отсчёт')}</label>
+            <label class="toggle" id="ml-guide-l"><input type="checkbox" id="ml-guide" checked> ${L('Подсказка звуком')}</label>
           </div>
           <div class="ml-ribbon-wrap"><div class="ml-ribbon" id="ml-ribbon"></div></div>
           <div class="ml-stats" id="ml-stats" aria-live="polite"></div>
@@ -133,25 +133,25 @@ Pages.mallet = (() => {
 
       <section id="ml-free" hidden>
         <div class="card">
-          <div class="eyebrow">свободная игра</div>
-          <p class="tr-note">Стучите по пластинам — пальцем или клавишами. Подбирайте мелодии по слуху: услышали — нашли пластину — запомнили.</p>
-          <p class="tr-note ml-keys">Клавиатура: нижняя октава <kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd><kbd>V</kbd><kbd>B</kbd><kbd>N</kbd><kbd>M</kbd>, верхняя <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd><kbd>H</kbd><kbd>J</kbd>, верхнее «до» <kbd>K</kbd>. С <kbd>Shift</kbd> — диез.</p>
+          <div class="eyebrow">${L('свободная игра')}</div>
+          <p class="tr-note">${L('Стучите по пластинам — пальцем или клавишами. Подбирайте мелодии по слуху: услышали — нашли пластину — запомнили.')}</p>
+          <p class="tr-note ml-keys">${L('Клавиатура: нижняя октава <kbd>Z</kbd><kbd>X</kbd><kbd>C</kbd><kbd>V</kbd><kbd>B</kbd><kbd>N</kbd><kbd>M</kbd>, верхняя <kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><kbd>F</kbd><kbd>G</kbd><kbd>H</kbd><kbd>J</kbd>, верхнее «до» <kbd>K</kbd>. С <kbd>Shift</kbd> — диез.')}</p>
         </div>
       </section>
 
       <div class="card ml-inst-card">
         <div class="ml-inst-head">
           <div class="seg" id="ml-layout">
-            <button data-layout="diatonic">Один ряд</button>
-            <button data-layout="chromatic">С диезами</button>
+            <button data-layout="diatonic">${L('Один ряд')}</button>
+            <button data-layout="chromatic">${L('С диезами')}</button>
           </div>
           <div class="seg" id="ml-names">
-            <button data-names="ru">до ре ми</button>
+            <button data-names="ru">${L('до')} ${L('ре')} ${L('ми')}</button>
             <button data-names="en">C D E</button>
           </div>
         </div>
         <div class="ml-inst" id="ml-inst"></div>
-        <p class="eyebrow center ml-rotate">на телефоне удобнее горизонтально</p>
+        <p class="eyebrow center ml-rotate">${L('на телефоне удобнее горизонтально')}</p>
       </div>
     </div>`;
 
@@ -175,7 +175,7 @@ Pages.mallet = (() => {
     naturals.forEach((m, i) => {
       const lb = label(m);
       const h = 100 - (i / (n - 1)) * 38; // длинные — низкие
-      html += `<button class="ml-bar ${lb.cls}" data-midi="${m}" style="height:${h}%" aria-label="${lb.text} ${lb.oct} октавы"><span>${lb.text}</span><small>${lb.oct}</small></button>`;
+      html += `<button class="ml-bar ${lb.cls}" data-midi="${m}" style="height:${h}%" aria-label="${L('{note} {oct} октавы', { note: lb.text, oct: lb.oct })}"><span>${lb.text}</span><small>${lb.oct}</small></button>`;
     });
     html += '</div>';
     if (st.layout === 'chromatic') {
@@ -184,7 +184,7 @@ Pages.mallet = (() => {
         const lower = naturals.indexOf(m - 1);
         const lb = label(m);
         const h = 100 - (lower / (n - 1)) * 38;
-        html += `<button class="ml-bar nc-sharp" data-midi="${m}" style="left:calc(${(lower + 1) * w}% - ${w * 0.36}%);width:${w * 0.72}%;height:${h}%" aria-label="${lb.text} ${lb.oct} октавы"><span>${lb.text}</span></button>`;
+        html += `<button class="ml-bar nc-sharp" data-midi="${m}" style="left:calc(${(lower + 1) * w}% - ${w * 0.36}%);width:${w * 0.72}%;height:${h}%" aria-label="${L('{note} {oct} октавы', { note: lb.text, oct: lb.oct })}"><span>${lb.text}</span></button>`;
       });
       html += '</div>';
     }
@@ -259,7 +259,7 @@ Pages.mallet = (() => {
 
   // ───────── Мелодии ─────────
   function customs() { return Store.get('ml.custom', []); }
-  function allMelodies() { return [...MELODIES, ...customs().map((c) => ({ ...c, cat: 'Мои мелодии', custom: true }))]; }
+  function allMelodies() { return [...MELODIES, ...customs().map((c) => ({ ...c, cat: L('Мои мелодии'), custom: true }))]; }
   function findMelody(id) { return allMelodies().find((m) => m.id === id); }
 
   function renderSelect() {
@@ -293,7 +293,7 @@ Pages.mallet = (() => {
     const w = $('#ml-warn');
     const need = st.layout === 'diatonic' && hasSharps();
     w.hidden = !need;
-    if (need) w.innerHTML = 'В мелодии есть диезы — «чёрные» пластины верхнего ряда. <button class="tbtn" id="ml-warn-on">Включить диезы</button> или транспонируйте мелодию в редакторе.';
+    if (need) w.innerHTML = L('В мелодии есть диезы — «чёрные» пластины верхнего ряда. {button} или транспонируйте мелодию в редакторе.', { button: `<button class="tbtn" id="ml-warn-on">${L('Включить диезы')}</button>` });
   }
 
   $('#ml-warn').addEventListener('click', (e) => {
@@ -306,9 +306,9 @@ Pages.mallet = (() => {
   });
 
   function renderMelody() {
-    $('#ml-desc').textContent = melody.desc || (melody.custom ? 'Ваша мелодия. Хранится только на этом устройстве.' : '');
+    $('#ml-desc').textContent = melody.desc || (melody.custom ? L('Ваша мелодия. Хранится только на этом устройстве.') : '');
     renderWarn();
-    $('#ml-edit').textContent = melody.custom ? '✎ Изменить' : '✎ Копия для правки';
+    $('#ml-edit').textContent = melody.custom ? L('✎ Изменить') : L('✎ Копия для правки');
     $('#ml-share').hidden = !melody.custom;
     el.querySelectorAll('[data-mode]').forEach((b) => {
       b.classList.toggle('sel', b.dataset.mode === st.mode);
@@ -331,11 +331,11 @@ Pages.mallet = (() => {
     $('#ml-ribbon').innerHTML = ev.length ? ev.map((e, i) => {
       const w = `style="--d:${e.dur}"`;
       const bar = e.bar ? '<i class="ml-barline" aria-hidden="true"></i>' : '';
-      if (e.midi === null) return `${bar}<button class="ml-chip rest" data-i="${i}" ${w} title="пауза">𝄽</button>`;
+      if (e.midi === null) return `${bar}<button class="ml-chip rest" data-i="${i}" ${w} title="${L('пауза')}">𝄽</button>`;
       const lb = label(e.midi);
       const h = hand++ % 2 ? 'L' : 'R';
       return `${bar}<button class="ml-chip ${lb.cls}" data-i="${i}" ${w}><b>${lb.text}<sup>${SUP[lb.oct]}</sup></b><small>${h}</small></button>`;
-    }).join('') : '<p class="muted">Пока пусто — включите «Запись» и стучите по пластинам.</p>';
+    }).join('') : `<p class="muted">${L('Пока пусто — включите «Запись» и стучите по пластинам.')}</p>`;
     chipEls = [...el.querySelectorAll('#ml-ribbon .ml-chip')];
   }
 
@@ -384,7 +384,7 @@ Pages.mallet = (() => {
     setNext(ev.midi);
     const played = melody.events.slice(0, waitIdx).filter((e) => e.midi !== null).length;
     const totalNotes = melody.events.filter((e) => e.midi !== null).length;
-    $('#ml-stats').innerHTML = `<span>нота <b>${played + 1}</b> из ${totalNotes}</span><span>ошибок <b>${waitErrors}</b></span><span class="muted">подсвечена нужная пластина — ударьте по ней</span>`;
+    $('#ml-stats').innerHTML = `<span>${L('нота {n} из {total}', { n: `<b>${played + 1}</b>`, total: totalNotes })}</span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span><span class="muted">${L('подсвечена нужная пластина — ударьте по ней')}</span>`;
   }
 
   function waitTap(midi) {
@@ -396,7 +396,7 @@ Pages.mallet = (() => {
       waitIdx = nextNoteIdx(waitIdx + 1);
       if (waitIdx >= melody.events.length) {
         setNext(null);
-        $('#ml-stats').innerHTML = `<span>🎉 <b>Сыграно!</b></span><span>ошибок <b>${waitErrors}</b></span><span class="muted">${waitErrors ? 'Ещё раз — и попробуйте без ошибок.' : 'Без ошибок! Попробуйте режим «В темпе».'}</span>`;
+        $('#ml-stats').innerHTML = `<span>🎉 <b>${L('Сыграно!')}</b></span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span><span class="muted">${waitErrors ? L('Ещё раз — и попробуйте без ошибок.') : L('Без ошибок! Попробуйте режим «В темпе».')}</span>`;
         setTimeout(() => { if (st.mode === 'wait' && waitIdx >= melody.events.length) startWait(); }, 2500);
         return;
       }
@@ -419,20 +419,20 @@ Pages.mallet = (() => {
 
   function renderScore() {
     if (st.mode === 'listen') {
-      $('#ml-stats').innerHTML = '<span class="muted">Слушайте и смотрите: пластина загорается, когда звучит её нота. Потом включите «Ждать меня».</span>';
+      $('#ml-stats').innerHTML = `<span class="muted">${L('Слушайте и смотрите: пластина загорается, когда звучит её нота. Потом включите «Ждать меня».')}</span>`;
     } else if (st.mode === 'along') {
       const n = score.hit + score.off + score.wrong + score.miss;
       $('#ml-stats').innerHTML = `
-        <span>точность <b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b></span>
-        <span class="good">в точку <b>${score.hit}</b></span>
-        <span class="warn">не в ритм <b>${score.off}</b></span>
-        <span class="bad">не та нота <b>${score.wrong}</b></span>
-        <span class="bad">пропуск <b>${score.miss}</b></span>`;
+        <span>${L('точность {pct}', { pct: `<b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b>` })}</span>
+        <span class="good">${L('в точку {n}', { n: `<b>${score.hit}</b>` })}</span>
+        <span class="warn">${L('не в ритм {n}', { n: `<b>${score.off}</b>` })}</span>
+        <span class="bad">${L('не та нота {n}', { n: `<b>${score.wrong}</b>` })}</span>
+        <span class="bad">${L('пропуск {n}', { n: `<b>${score.miss}</b>` })}</span>`;
     }
   }
 
   function play() {
-    if (!melody.events.length) { UI.toast('В мелодии пока нет нот'); return; }
+    if (!melody.events.length) { UI.toast(L('В мелодии пока нет нот')); return; }
     const beats = melody.beats || 4;
     const pickup = melody.pickup || 0;
     const totalBeats = pickup + Math.ceil(Math.max(0, melody.total - pickup) / beats) * beats;
@@ -464,7 +464,7 @@ Pages.mallet = (() => {
     };
     transport.onDraw = (step, time, dur) => {
       if (step < 0) {
-        if (step % 4 === 0) $('#ml-stats').innerHTML = `<span>отсчёт <b>${(step + countSteps) / 4 + 1}</b></span>`;
+        if (step % 4 === 0) $('#ml-stats').innerHTML = `<span>${L('отсчёт {n}', { n: `<b>${(step + countSteps) / 4 + 1}</b>` })}</span>`;
         return;
       }
       if (step === 0) {
@@ -508,7 +508,7 @@ Pages.mallet = (() => {
       if (changed) renderScore();
     };
     transport.onStop = () => {
-      $('#ml-play').textContent = '▶ Играть';
+      $('#ml-play').textContent = L('▶ Играть');
       $('#ml-play').classList.remove('on');
       el.querySelectorAll('#ml-inst .lit').forEach((x) => x.classList.remove('lit'));
       setNext(null);
@@ -516,7 +516,7 @@ Pages.mallet = (() => {
       renderScore();
     };
     transport.start({ bpm: bpmCtl.value, spb: 4, total: steps, countIn: countSteps });
-    $('#ml-play').textContent = '■ Стоп';
+    $('#ml-play').textContent = L('■ Стоп');
     $('#ml-play').classList.add('on');
   }
 
@@ -560,7 +560,7 @@ Pages.mallet = (() => {
   $('#ml-guide').addEventListener('change', (e) => { st.guide = e.target.checked; });
   $('#ml-share').addEventListener('click', () => {
     const { name, beats, bpm, pickup, notes, desc } = melody;
-    UI.shareLink('mallet', { name, beats, bpm: bpmCtl.value || bpm, pickup, notes, desc: desc || '' }, 'мелодию');
+    UI.shareLink('mallet', { name, beats, bpm: bpmCtl.value || bpm, pickup, notes, desc: desc || '' }, L('мелодию'));
   });
 
   // Проверить и сохранить присланную мелодию; вернуть её id
@@ -590,7 +590,7 @@ Pages.mallet = (() => {
   $('#ml-edit').addEventListener('click', () => {
     transport.stop();
     if (!melody.custom) {
-      melody = { ...melody, id: 'm_' + Date.now().toString(36), name: melody.name + ' (моя версия)', custom: true, desc: '' };
+      melody = { ...melody, id: 'm_' + Date.now().toString(36), name: L('{name} (моя версия)', { name: melody.name }), custom: true, desc: '' };
     }
     editing = true;
     renderMelody();
@@ -599,7 +599,7 @@ Pages.mallet = (() => {
   // ───────── Редактор ─────────
   function newMelody() {
     transport.stop();
-    melody = { id: 'm_' + Date.now().toString(36), name: 'Моя мелодия', beats: 4, bpm: 72, pickup: 0, notes: '', events: [], total: 0, custom: true, isNew: true };
+    melody = { id: 'm_' + Date.now().toString(36), name: L('Моя мелодия'), beats: 4, bpm: 72, pickup: 0, notes: '', events: [], total: 0, custom: true, isNew: true };
     editing = true;
     recording = true;
     renderSelect();
@@ -610,37 +610,37 @@ Pages.mallet = (() => {
     const box = $('#ml-editor');
     const p = parse(melody.notes);
     box.innerHTML = `
-      <div class="eyebrow">редактор мелодии</div>
+      <div class="eyebrow">${L('редактор мелодии')}</div>
       <div class="edit-form">
-        <label>Название <input type="text" id="me-name" value="${UI.esc(melody.name)}"></label>
-        <label>Долей в такте <select id="me-beats">${[2, 3, 4, 6].map((b) => `<option ${b === (melody.beats || 4) ? 'selected' : ''}>${b}</option>`).join('')}</select></label>
-        <label>Затакт, долей <input type="number" id="me-pickup" min="0" max="5" step="0.5" value="${melody.pickup || 0}"></label>
+        <label>${L('Название')} <input type="text" id="me-name" value="${UI.esc(melody.name)}"></label>
+        <label>${L('Долей в такте')} <select id="me-beats">${[2, 3, 4, 6].map((b) => `<option ${b === (melody.beats || 4) ? 'selected' : ''}>${b}</option>`).join('')}</select></label>
+        <label>${L('Затакт, долей')} <input type="number" id="me-pickup" min="0" max="5" step="0.5" value="${melody.pickup || 0}"></label>
       </div>
       <div class="ml-rec">
-        <button class="btn ${recording ? 'danger on-rec' : ''}" id="me-rec">${recording ? '● Идёт запись — стучите по пластинам' : '● Запись'}</button>
-        <span class="eyebrow">длительность</span>
+        <button class="btn ${recording ? 'danger on-rec' : ''}" id="me-rec">${recording ? L('● Идёт запись — стучите по пластинам') : L('● Запись')}</button>
+        <span class="eyebrow">${L('длительность')}</span>
         <div class="seg" id="me-dur">
           ${[[0.5, '♪ ½'], [1, '♩ 1'], [1.5, '♩. 1½'], [2, '𝅗𝅥 2'], [4, '𝅝 4']].map(([d, t]) => `<button data-dur="${d}" class="${d === recDur ? 'sel' : ''}">${t}</button>`).join('')}
         </div>
-        <button class="tbtn" id="me-rest">пауза</button>
-        <button class="tbtn" id="me-undo">⌫ последнюю</button>
+        <button class="tbtn" id="me-rest">${L('пауза')}</button>
+        <button class="tbtn" id="me-undo">${L('⌫ последнюю')}</button>
       </div>
-      <label class="full">Ноты (можно править текстом: e1 g1:2 c2:0.5, пауза «-», такт «|»)
+      <label class="full">${L('Ноты (можно править текстом: e1 g1:2 c2:0.5, пауза «-», такт «|»)')}
         <textarea id="me-notes" rows="4" spellcheck="false">${UI.esc(melody.notes)}</textarea>
       </label>
-      <p class="ml-err" id="me-err">${p.errors.length ? 'Не понял: ' + p.errors.map(UI.esc).join(', ') : ''}</p>
+      <p class="ml-err" id="me-err">${p.errors.length ? L('Не понял: {list}', { list: p.errors.map(UI.esc).join(', ') }) : ''}</p>
       <div class="ml-rec">
-        <span class="eyebrow">транспонировать</span>
-        <button class="tbtn" data-tr="-12">−октава</button>
-        <button class="tbtn" data-tr="-1">−½ тона</button>
-        <button class="tbtn" data-tr="1">+½ тона</button>
-        <button class="tbtn" data-tr="12">+октава</button>
+        <span class="eyebrow">${L('транспонировать')}</span>
+        <button class="tbtn" data-tr="-12">${L('−октава')}</button>
+        <button class="tbtn" data-tr="-1">${L('−½ тона')}</button>
+        <button class="tbtn" data-tr="1">${L('+½ тона')}</button>
+        <button class="tbtn" data-tr="12">${L('+октава')}</button>
       </div>
       <div class="actions">
-        <button class="btn primary" id="me-save">💾 Сохранить</button>
-        <button class="btn" id="me-cancel">Отмена</button>
+        <button class="btn primary" id="me-save">${L('💾 Сохранить')}</button>
+        <button class="btn" id="me-cancel">${L('Отмена')}</button>
         <span class="spacer"></span>
-        ${!melody.isNew && customs().some((c) => c.id === melody.id) ? '<button class="btn small danger" id="me-del">🗑 Удалить</button>' : ''}
+        ${!melody.isNew && customs().some((c) => c.id === melody.id) ? `<button class="btn small danger" id="me-del">${L('🗑 Удалить')}</button>` : ''}
       </div>`;
 
     const q = (s) => box.querySelector(s);
@@ -671,7 +671,7 @@ Pages.mallet = (() => {
       loadMelody(customs().some((c) => c.id === melody.id) ? melody.id : st.mid);
     });
     if (q('#me-del')) q('#me-del').addEventListener('click', () => {
-      if (!confirm(`Удалить «${melody.name}»?`)) return;
+      if (!confirm(L('Удалить «{name}»?', { name: melody.name }))) return;
       Store.set('ml.custom', customs().filter((c) => c.id !== melody.id));
       location.hash = '#/mallet/melody/koster';
     });
@@ -700,7 +700,7 @@ Pages.mallet = (() => {
       if (ta) ta.value = text;
     }
     const err = $('#me-err');
-    if (err) err.textContent = p.errors.length ? 'Не понял: ' + p.errors.join(', ') : '';
+    if (err) err.textContent = p.errors.length ? L('Не понял: {list}', { list: p.errors.join(', ') }) : '';
     renderRibbon();
     renderWarn();
     if (chipEls.length) scrollToChip(chipEls.length - 1);
@@ -718,29 +718,32 @@ Pages.mallet = (() => {
     const p = parse(melody.notes);
     if (!p.events.length) return;
     const moved = p.events.map((e) => ({ ...e, midi: e.midi === null ? null : e.midi + semi }));
-    if (moved.some((e) => e.midi !== null && (e.midi < LO || e.midi > HI))) { UI.toast('Не помещается в две октавы'); return; }
+    if (moved.some((e) => e.midi !== null && (e.midi < LO || e.midi > HI))) { UI.toast(L('Не помещается в две октавы')); return; }
     if (st.layout === 'diatonic' && moved.some((e) => e.midi !== null && LETTERS[(e.midi - LO) % 12].length > 1)) {
-      UI.toast('Появились диезы — на однорядном металлофоне их нет. Попробуйте другой сдвиг.');
+      UI.toast(L('Появились диезы — на однорядном металлофоне их нет. Попробуйте другой сдвиг.'));
     }
     setNotes(withBars(moved));
   }
 
   function saveMelody() {
     const p = parse(melody.notes);
-    if (p.errors.length) { UI.toast('Исправьте непонятные ноты'); return; }
-    if (!p.events.length) { UI.toast('В мелодии пока нет нот'); return; }
-    const rec = { id: melody.id, name: melody.name.trim() || 'Моя мелодия', beats: melody.beats || 4, pickup: melody.pickup || 0, bpm: bpmCtl.value, notes: melody.notes.trim(), desc: melody.desc || '' };
+    if (p.errors.length) { UI.toast(L('Исправьте непонятные ноты')); return; }
+    if (!p.events.length) { UI.toast(L('В мелодии пока нет нот')); return; }
+    const rec = { id: melody.id, name: melody.name.trim() || L('Моя мелодия'), beats: melody.beats || 4, pickup: melody.pickup || 0, bpm: bpmCtl.value, notes: melody.notes.trim(), desc: melody.desc || '' };
     const list = customs().filter((c) => c.id !== rec.id);
     list.push(rec);
     Store.set('ml.custom', list);
     editing = false;
     recording = false;
-    UI.toast('Мелодия сохранена на этом устройстве');
+    UI.toast(L('Мелодия сохранена на этом устройстве'));
     history.replaceState(null, '', `#/mallet/melody/${rec.id}`);
     loadMelody(rec.id);
   }
 
   // ───────── Уроки ─────────
+  // «Урок 3. Название» → «Название» (заголовки уроков переводятся вместе с номером, поэтому без привязки к слову «Урок»)
+  const shortTitle = (t) => t.replace(/^[^\s\d]+ \d+\. /, '');
+
   function renderLessons() {
     const idx = MALLET_LESSONS.findIndex((l) => l.id === st.lesson);
     const l = MALLET_LESSONS[idx];
@@ -750,25 +753,25 @@ Pages.mallet = (() => {
     $('#ml-lessons').innerHTML = `
       <div class="two-col">
         <aside class="card list-col ${listOpen ? 'open' : ''}">
-          <button class="lib-toggle" id="ml-ltoggle" aria-expanded="${listOpen}"><span>📖 Уроки металлофона <small>· ${MALLET_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
-          <h2 class="list-title">Уроки</h2>
+          <button class="lib-toggle" id="ml-ltoggle" aria-expanded="${listOpen}"><span>${L('📖 Уроки металлофона')} <small>· ${MALLET_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
+          <h2 class="list-title">${L('Уроки')}</h2>
           <ol class="lesson-list">
             ${MALLET_LESSONS.map((x, i) => `
               <li><a href="#/mallet/lesson/${x.id}" class="${x.id === l.id ? 'active' : ''} ${Store.lessonDone('ml-' + x.id) ? 'done' : ''}">
                 <span class="ln">${Store.lessonDone('ml-' + x.id) ? '✓' : i + 1}</span>
-                <span><b>${UI.esc(x.title.replace(/^Урок \d+\. /, ''))}</b><small>${UI.esc(x.short)}</small></span>
+                <span><b>${UI.esc(shortTitle(x.title))}</b><small>${UI.esc(x.short)}</small></span>
               </a></li>`).join('')}
           </ol>
         </aside>
         <article class="card lesson">
-          <div class="lesson-kicker">Металлофон · урок ${idx + 1} из ${MALLET_LESSONS.length}</div>
-          <h1>${UI.esc(l.title.replace(/^Урок \d+\. /, ''))}</h1>
+          <div class="lesson-kicker">${L('Металлофон · урок {n} из {total}', { n: idx + 1, total: MALLET_LESSONS.length })}</div>
+          <h1>${UI.esc(shortTitle(l.title))}</h1>
           <div class="lesson-body">${l.html}</div>
           <div class="lesson-foot">
-            <button class="btn ${done ? '' : 'primary'}" id="ml-ldone">${done ? '✓ Урок пройден' : 'Отметить урок пройденным'}</button>
+            <button class="btn ${done ? '' : 'primary'}" id="ml-ldone">${done ? L('✓ Урок пройден') : L('Отметить урок пройденным')}</button>
             <span class="spacer"></span>
-            ${prev ? `<a class="btn" href="#/mallet/lesson/${prev.id}">← ${UI.esc(prev.title.replace(/^Урок \d+\. /, ''))}</a>` : ''}
-            ${next ? `<a class="btn" href="#/mallet/lesson/${next.id}">${UI.esc(next.title.replace(/^Урок \d+\. /, ''))} →</a>` : ''}
+            ${prev ? `<a class="btn" href="#/mallet/lesson/${prev.id}">← ${UI.esc(shortTitle(prev.title))}</a>` : ''}
+            ${next ? `<a class="btn" href="#/mallet/lesson/${next.id}">${UI.esc(shortTitle(next.title))} →</a>` : ''}
           </div>
         </article>
       </div>`;
@@ -776,7 +779,7 @@ Pages.mallet = (() => {
     $('#ml-ldone').addEventListener('click', () => {
       Store.setLesson('ml-' + l.id, !done);
       renderLessons();
-      if (!done && next) UI.toast('Отлично! Дальше: ' + next.title.replace(/^Урок \d+\. /, ''));
+      if (!done && next) UI.toast(L('Отлично! Дальше: {title}', { title: shortTitle(next.title) }));
     });
   }
 
@@ -814,9 +817,9 @@ Pages.mallet = (() => {
           id = addMelody(UI.decodeShare(id));
           what = 'melody';
           history.replaceState(null, '', `#/mallet/melody/${id}`);
-          UI.toast('Мелодия добавлена в «Мои мелодии» — она хранится только на этом устройстве');
+          UI.toast(L('Мелодия добавлена в «Мои мелодии» — она хранится только на этом устройстве'));
         } catch (e) {
-          UI.toast('Ссылка на мелодию повреждена');
+          UI.toast(L('Ссылка на мелодию повреждена'));
           history.replaceState(null, '', `#/mallet/melody/${st.mid}`);
           what = 'melody';
           id = st.mid;

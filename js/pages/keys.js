@@ -60,24 +60,24 @@ Pages.keys = (() => {
     <div class="ml kb">
       <header class="tr-head">
         <div>
-          <div class="eyebrow">клавишные · 25 клавиш · Akai MPK mini Play</div>
-          <h1 class="tr-title">Клавиши</h1>
+          <div class="eyebrow">${L('клавишные · 25 клавиш · Akai MPK mini Play')}</div>
+          <h1 class="tr-title">${L('Клавиши')}</h1>
         </div>
-        <div class="seg inst-switch"><a href="#/mallet">Металлофон</a><a href="#/flute">Флейта</a><a class="sel" href="#/keys">Клавиши</a></div>
+        <div class="seg inst-switch"><a href="#/mallet">${L('Металлофон')}</a><a href="#/flute">${L('Флейта')}</a><a class="sel" href="#/keys">${L('Клавиши')}</a></div>
         <div class="seg" id="kb-views">
-          <button data-view="lessons">Уроки</button>
-          <button data-view="melody">Мелодии</button>
-          <button data-view="chords">Аккорды</button>
-          <button data-view="free">Свободно</button>
+          <button data-view="lessons">${L('Уроки')}</button>
+          <button data-view="melody">${L('Мелодии')}</button>
+          <button data-view="chords">${L('Аккорды')}</button>
+          <button data-view="free">${L('Свободно')}</button>
         </div>
       </header>
 
       <div class="card kb-midi">
-        <button class="btn" id="kb-connect">🎹 Подключить MIDI</button>
-        <span class="kb-status" id="kb-status">MIDI не подключено — можно играть на экранной клавиатуре</span>
-        <button class="tbtn kb-midionly" id="kb-cal">Настроить октаву</button>
-        <label class="toggle kb-midionly"><input type="checkbox" id="kb-anyoct" ${st.anyOct ? 'checked' : ''}> октава не важна</label>
-        <label class="toggle kb-midionly"><input type="checkbox" id="kb-msound" ${st.midiSound ? 'checked' : ''}> звук приложения при игре с MIDI</label>
+        <button class="btn" id="kb-connect">🎹 ${L('Подключить MIDI')}</button>
+        <span class="kb-status" id="kb-status">${L('MIDI не подключено — можно играть на экранной клавиатуре')}</span>
+        <button class="tbtn kb-midionly" id="kb-cal">${L('Настроить октаву')}</button>
+        <label class="toggle kb-midionly"><input type="checkbox" id="kb-anyoct" ${st.anyOct ? 'checked' : ''}> ${L('октава не важна')}</label>
+        <label class="toggle kb-midionly"><input type="checkbox" id="kb-msound" ${st.midiSound ? 'checked' : ''}> ${L('звук приложения при игре с MIDI')}</label>
       </div>
 
       <section id="kb-lessons"></section>
@@ -85,25 +85,25 @@ Pages.keys = (() => {
       <section id="kb-melody" hidden>
         <div class="card ml-player">
           <div class="ml-top">
-            <label class="ml-pick"><span class="eyebrow">мелодия</span><select id="kb-select"></select></label>
-            <a class="tbtn" id="kb-edit" href="#/mallet">✎ В редакторе</a>
+            <label class="ml-pick"><span class="eyebrow">${L('мелодия')}</span><select id="kb-select"></select></label>
+            <a class="tbtn" id="kb-edit" href="#/mallet">✎ ${L('В редакторе')}</a>
           </div>
           <p class="tr-note" id="kb-desc"></p>
-          <div class="seg ml-modes" id="kb-modes" role="radiogroup" aria-label="Режим">
-            <button data-mode="listen">👂 Слушать</button>
-            <button data-mode="wait">⏸ Ждать меня</button>
-            <button data-mode="along">🎯 В темпе</button>
+          <div class="seg ml-modes" id="kb-modes" role="radiogroup" aria-label="${L('Режим')}">
+            <button data-mode="listen">👂 ${L('Слушать')}</button>
+            <button data-mode="wait">⏸ ${L('Ждать меня')}</button>
+            <button data-mode="along">🎯 ${L('В темпе')}</button>
           </div>
           <div class="controls dock" id="kb-dock">
-            <button class="btn play" id="kb-play">▶ Играть</button>
+            <button class="btn play" id="kb-play">▶ ${L('Играть')}</button>
             <span id="kb-bpm"></span>
           </div>
           <div class="controls options" id="kb-opts">
-            <label class="toggle"><input type="checkbox" id="kb-click" checked> Щелчок</label>
-            <label class="toggle"><input type="checkbox" id="kb-count" checked> Отсчёт</label>
-            <label class="toggle" id="kb-guide-l"><input type="checkbox" id="kb-guide" checked> Подсказка звуком</label>
+            <label class="toggle"><input type="checkbox" id="kb-click" checked> ${L('Щелчок')}</label>
+            <label class="toggle"><input type="checkbox" id="kb-count" checked> ${L('Отсчёт')}</label>
+            <label class="toggle" id="kb-guide-l"><input type="checkbox" id="kb-guide" checked> ${L('Подсказка звуком')}</label>
           </div>
-          <div class="fl-manual" id="kb-manual" hidden><button class="btn primary" id="kb-ok">✓ Сыграл — дальше</button></div>
+          <div class="fl-manual" id="kb-manual" hidden><button class="btn primary" id="kb-ok">✓ ${L('Сыграл — дальше')}</button></div>
           <div class="ml-ribbon-wrap"><div class="ml-ribbon" id="kb-ribbon"></div></div>
           <div class="ml-stats" id="kb-stats" aria-live="polite"></div>
         </div>
@@ -112,16 +112,16 @@ Pages.keys = (() => {
       <section id="kb-chords" hidden>
         <div class="card ml-player">
           <div class="ml-top">
-            <label class="ml-pick"><span class="eyebrow">последовательность</span><select id="kb-prog">${PROGRESSIONS.map((p) => `<option value="${p.id}">${UI.esc(p.name)}</option>`).join('')}</select></label>
+            <label class="ml-pick"><span class="eyebrow">${L('последовательность')}</span><select id="kb-prog">${PROGRESSIONS.map((p) => `<option value="${p.id}">${UI.esc(p.name)}</option>`).join('')}</select></label>
           </div>
           <div class="seg ml-modes" id="kb-cmodes">
-            <button data-cmode="listen">👂 Слушать</button>
-            <button data-cmode="wait">⏸ Ждать меня</button>
+            <button data-cmode="listen">👂 ${L('Слушать')}</button>
+            <button data-cmode="wait">⏸ ${L('Ждать меня')}</button>
           </div>
           <div class="kb-chordrow" id="kb-chordrow"></div>
           <div class="kb-bigchord"><b id="kb-cname">—</b><span id="kb-cdesc"></span></div>
           <div class="controls dock" id="kb-cdock">
-            <button class="btn play" id="kb-cplay">▶ Играть</button>
+            <button class="btn play" id="kb-cplay">▶ ${L('Играть')}</button>
             <span id="kb-cbpm"></span>
           </div>
           <div class="ml-stats" id="kb-cstats"></div>
@@ -130,9 +130,9 @@ Pages.keys = (() => {
 
       <section id="kb-free" hidden>
         <div class="card">
-          <div class="eyebrow">свободная игра</div>
-          <div class="kb-bigchord"><b id="kb-held">—</b><span id="kb-helddesc">зажмите несколько клавиш — приложение назовёт аккорд</span></div>
-          <p class="tr-note ml-keys">Клавиатура компьютера: нижняя октава <kbd>Z</kbd>…<kbd>M</kbd> (чёрные <kbd>S</kbd> <kbd>D</kbd> <kbd>G</kbd> <kbd>H</kbd> <kbd>J</kbd>), верхняя <kbd>Q</kbd>…<kbd>U</kbd> (чёрные <kbd>2</kbd> <kbd>3</kbd> <kbd>5</kbd> <kbd>6</kbd> <kbd>7</kbd>), верхнее «до» <kbd>I</kbd>.</p>
+          <div class="eyebrow">${L('свободная игра')}</div>
+          <div class="kb-bigchord"><b id="kb-held">—</b><span id="kb-helddesc">${L('зажмите несколько клавиш — приложение назовёт аккорд')}</span></div>
+          <p class="tr-note ml-keys">${L('Клавиатура компьютера: нижняя октава <kbd>Z</kbd>…<kbd>M</kbd> (чёрные <kbd>S</kbd> <kbd>D</kbd> <kbd>G</kbd> <kbd>H</kbd> <kbd>J</kbd>), верхняя <kbd>Q</kbd>…<kbd>U</kbd> (чёрные <kbd>2</kbd> <kbd>3</kbd> <kbd>5</kbd> <kbd>6</kbd> <kbd>7</kbd>), верхнее «до» <kbd>I</kbd>.')}</p>
         </div>
       </section>
 
@@ -243,7 +243,7 @@ Pages.keys = (() => {
         st.base = n - (n % 12);
         Store.set('kb.base', st.base);
         calibrating = false;
-        UI.toast(`Готово: левая «до» — MIDI ${st.base}. ${n % 12 ? 'Вы нажали не «до», взял ближайшую «до» ниже.' : ''}`);
+        UI.toast(`${L('Готово: левая «до» — MIDI {n}.', { n: st.base })} ${n % 12 ? L('Вы нажали не «до», взял ближайшую «до» ниже.') : ''}`);
         midiUi();
         return;
       }
@@ -256,13 +256,13 @@ Pages.keys = (() => {
   function midiUi() {
     const s = $('#kb-status');
     const txt = {
-      off: 'MIDI не подключено — можно играть на экранной клавиатуре',
-      unsupported: 'Этот браузер не умеет MIDI (iPhone/Safari) — играйте на экранной клавиатуре или откройте приложение в Chrome/Edge.',
-      denied: 'Доступ к MIDI не разрешён — разрешите его в настройках сайта.',
-      nodevice: 'MIDI включено, но клавиатура не найдена — подключите MPK по USB.',
-      on: `✓ Подключено: ${midi.names.join(', ')}`,
+      off: L('MIDI не подключено — можно играть на экранной клавиатуре'),
+      unsupported: L('Этот браузер не умеет MIDI (iPhone/Safari) — играйте на экранной клавиатуре или откройте приложение в Chrome/Edge.'),
+      denied: L('Доступ к MIDI не разрешён — разрешите его в настройках сайта.'),
+      nodevice: L('MIDI включено, но клавиатура не найдена — подключите MPK по USB.'),
+      on: `✓ ${L('Подключено: {names}', { names: midi.names.join(', ') })}`,
     }[midi.status];
-    s.textContent = calibrating ? '… нажмите самую левую клавишу на MPK' : txt;
+    s.textContent = calibrating ? `… ${L('нажмите самую левую клавишу на MPK')}` : txt;
     s.classList.toggle('ok', midi.status === 'on');
     $('#kb-connect').hidden = midi.status === 'on' || midi.status === 'unsupported';
     el.querySelectorAll('.kb-midionly').forEach((x) => { x.hidden = midi.status !== 'on'; });
@@ -271,7 +271,7 @@ Pages.keys = (() => {
 
   $('#kb-connect').addEventListener('click', midiConnect);
   $('#kb-cal').addEventListener('click', () => {
-    if (midi.status !== 'on') { UI.toast('Сначала подключите MIDI'); return; }
+    if (midi.status !== 'on') { UI.toast(L('Сначала подключите MIDI')); return; }
     calibrating = true;
     midiUi();
   });
@@ -301,9 +301,9 @@ Pages.keys = (() => {
 
   // ───────── Распознавание аккорда ─────────
   const SHAPES = [
-    ['', [0, 4, 7], 'мажор'], ['m', [0, 3, 7], 'минор'], ['7', [0, 4, 7, 10], 'септаккорд'], ['maj7', [0, 4, 7, 11], 'большой мажорный септаккорд'],
-    ['m7', [0, 3, 7, 10], 'минорный септаккорд'], ['dim', [0, 3, 6], 'уменьшённый'], ['aug', [0, 4, 8], 'увеличенный'],
-    ['sus4', [0, 5, 7], 'с квартой'], ['sus2', [0, 2, 7], 'с секундой'], ['5', [0, 7], 'квинта (пауэр-аккорд)'],
+    ['', [0, 4, 7], L('мажор')], ['m', [0, 3, 7], L('минор')], ['7', [0, 4, 7, 10], L('септаккорд')], ['maj7', [0, 4, 7, 11], L('большой мажорный септаккорд')],
+    ['m7', [0, 3, 7, 10], L('минорный септаккорд')], ['dim', [0, 3, 6], L('уменьшённый')], ['aug', [0, 4, 8], L('увеличенный')],
+    ['sus4', [0, 5, 7], L('с квартой')], ['sus2', [0, 2, 7], L('с секундой')], ['5', [0, 7], L('квинта (пауэр-аккорд)')],
   ];
   function chordName(rels) {
     const pcs = [...new Set(rels.map((r) => ((r % 12) + 12) % 12))];
@@ -314,7 +314,11 @@ Pages.keys = (() => {
       const shape = SHAPES.find(([, s]) => s.length === iv.length && s.every((x, i) => x === iv[i]));
       if (shape) {
         const sym = EN[root] + shape[0] + (root !== bass ? `/${EN[bass]}` : '');
-        return { sym, desc: `${M.RU[LETTERS[root][0]]}${LETTERS[root].length > 1 ? '♯' : ''} ${shape[2]}${root !== bass ? `, в басу ${M.RU[LETTERS[bass][0]]}` : ''}` };
+        const rootName = `${M.RU[LETTERS[root][0]]}${LETTERS[root].length > 1 ? '♯' : ''}`;
+        const desc = root !== bass
+          ? L('{root} {quality}, в басу {bass}', { root: rootName, quality: shape[2], bass: M.RU[LETTERS[bass][0]] })
+          : L('{root} {quality}', { root: rootName, quality: shape[2] });
+        return { sym, desc };
       }
     }
     return null;
@@ -322,11 +326,11 @@ Pages.keys = (() => {
 
   function showHeld() {
     const rels = [...pressed.keys()];
-    if (!rels.length) { $('#kb-held').textContent = '—'; $('#kb-helddesc').textContent = 'зажмите несколько клавиш — приложение назовёт аккорд'; return; }
-    if (rels.length === 1) { $('#kb-held').textContent = noteName(rels[0]); $('#kb-helddesc').textContent = 'одна нота'; return; }
+    if (!rels.length) { $('#kb-held').textContent = '—'; $('#kb-helddesc').textContent = L('зажмите несколько клавиш — приложение назовёт аккорд'); return; }
+    if (rels.length === 1) { $('#kb-held').textContent = noteName(rels[0]); $('#kb-helddesc').textContent = L('одна нота'); return; }
     const c = chordName(rels);
     $('#kb-held').textContent = c ? c.sym : rels.map(noteName).join(' + ');
-    $('#kb-helddesc').textContent = c ? c.desc : 'такого аккорда не знаю — но звучит интересно';
+    $('#kb-helddesc').textContent = c ? c.desc : L('такого аккорда не знаю — но звучит интересно');
   }
 
   // ───────── Мелодии ─────────
@@ -349,7 +353,7 @@ Pages.keys = (() => {
   }
 
   function renderMelody() {
-    $('#kb-desc').textContent = melody.desc || 'Ваша мелодия.';
+    $('#kb-desc').textContent = melody.desc || L('Ваша мелодия.');
     el.querySelectorAll('[data-mode]').forEach((b) => b.classList.toggle('sel', b.dataset.mode === st.mode));
     $('#kb-guide-l').hidden = st.mode !== 'along';
     $('#kb-dock').hidden = st.mode === 'wait';
@@ -405,7 +409,7 @@ Pages.keys = (() => {
     setKeyClass('next', [ev.rel]);
     const played = melody.events.slice(0, waitIdx).filter((e) => e.rel !== null).length;
     const total = melody.events.filter((e) => e.rel !== null).length;
-    $('#kb-stats').innerHTML = `<span>нота <b>${played + 1}</b> из ${total}</span><span>ошибок <b>${waitErrors}</b></span><span class="muted">нажмите подсвеченную клавишу — ${noteName(ev.rel)}</span>`;
+    $('#kb-stats').innerHTML = `<span>${L('нота {n} из {total}', { n: `<b>${played + 1}</b>`, total })}</span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span><span class="muted">${L('нажмите подсвеченную клавишу — {note}', { note: noteName(ev.rel) })}</span>`;
   }
 
   function waitNote(rel) {
@@ -427,7 +431,7 @@ Pages.keys = (() => {
     waitIdx = nextNoteIdx(waitIdx + 1);
     if (waitIdx >= melody.events.length) {
       setKeyClass('next', []);
-      $('#kb-stats').innerHTML = `<span>🎉 <b>Сыграно!</b></span><span>ошибок <b>${waitErrors}</b></span><span class="muted">${waitErrors ? 'Ещё раз — и попробуйте без ошибок.' : 'Без ошибок! Попробуйте «В темпе».'}</span>`;
+      $('#kb-stats').innerHTML = `<span>🎉 <b>${L('Сыграно!')}</b></span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span><span class="muted">${waitErrors ? L('Ещё раз — и попробуйте без ошибок.') : L('Без ошибок! Попробуйте «В темпе».')}</span>`;
       setTimeout(() => { if (st.mode === 'wait' && waitIdx >= melody.events.length) startWait(); }, 2500);
       return;
     }
@@ -443,15 +447,15 @@ Pages.keys = (() => {
 
   function renderScore() {
     if (st.mode === 'listen') {
-      $('#kb-stats').innerHTML = '<span class="muted">Слушайте и смотрите: клавиши загораются вместе с нотами.</span>';
+      $('#kb-stats').innerHTML = `<span class="muted">${L('Слушайте и смотрите: клавиши загораются вместе с нотами.')}</span>`;
     } else if (st.mode === 'along') {
       const n = score.hit + score.off + score.wrong + score.miss;
       $('#kb-stats').innerHTML = `
-        <span>точность <b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b></span>
-        <span class="good">в точку <b>${score.hit}</b></span>
-        <span class="warn">не в ритм <b>${score.off}</b></span>
-        <span class="bad">не та нота <b>${score.wrong}</b></span>
-        <span class="bad">пропуск <b>${score.miss}</b></span>`;
+        <span>${L('точность {n}', { n: `<b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b>` })}</span>
+        <span class="good">${L('в точку {n}', { n: `<b>${score.hit}</b>` })}</span>
+        <span class="warn">${L('не в ритм {n}', { n: `<b>${score.off}</b>` })}</span>
+        <span class="bad">${L('не та нота {n}', { n: `<b>${score.wrong}</b>` })}</span>
+        <span class="bad">${L('пропуск {n}', { n: `<b>${score.miss}</b>` })}</span>`;
     }
   }
 
@@ -482,7 +486,7 @@ Pages.keys = (() => {
       }
     };
     transport.onDraw = (step, time, dur) => {
-      if (step < 0) { if (step % 4 === 0) $('#kb-stats').innerHTML = `<span>отсчёт <b>${(step + countSteps) / 4 + 1}</b></span>`; return; }
+      if (step < 0) { if (step % 4 === 0) $('#kb-stats').innerHTML = `<span>${L('отсчёт {n}', { n: `<b>${(step + countSteps) / 4 + 1}</b>` })}</span>`; return; }
       if (step === 0) { chipEls.forEach((c) => c.classList.remove('cur', 'hit', 'off', 'wrong', 'miss')); renderScore(); }
       const i = byStep.get(step);
       if (i === undefined) return;
@@ -511,7 +515,7 @@ Pages.keys = (() => {
       if (changed) renderScore();
     };
     transport.onStop = () => {
-      $('#kb-play').textContent = '▶ Играть';
+      $('#kb-play').textContent = `▶ ${L('Играть')}`;
       $('#kb-play').classList.remove('on');
       setKeyClass('lit', []);
       setKeyClass('next', []);
@@ -519,7 +523,7 @@ Pages.keys = (() => {
       renderScore();
     };
     transport.start({ bpm: bpmCtl.value, spb: 4, total: Math.round(totalBeats * 4), countIn: countSteps });
-    $('#kb-play').textContent = '■ Стоп';
+    $('#kb-play').textContent = `■ ${L('Стоп')}`;
     $('#kb-play').classList.add('on');
   }
 
@@ -576,7 +580,7 @@ Pages.keys = (() => {
     setKeyClass(lit ? 'lit' : 'next', c.notes);
     if (lit) setKeyClass('next', []);
     else setKeyClass('lit', []);
-    if (st.cmode === 'wait') $('#kb-cstats').innerHTML = `<span>аккорд <b>${chordIdx + 1}</b> из ${p.chords.length}</span><span class="muted">зажмите все подсвеченные клавиши одновременно</span>`;
+    if (st.cmode === 'wait') $('#kb-cstats').innerHTML = `<span>${L('аккорд {n} из {total}', { n: `<b>${chordIdx + 1}</b>`, total: p.chords.length })}</span><span class="muted">${L('зажмите все подсвеченные клавиши одновременно')}</span>`;
   }
 
   function checkChord() {
@@ -590,7 +594,7 @@ Pages.keys = (() => {
     el.querySelectorAll('.kb-chip')[chordIdx].classList.add('ok');
     chordIdx = (chordIdx + 1) % p.chords.length;
     if (chordIdx === 0) {
-      UI.toast('🎉 Круг пройден! Ещё раз — или попробуйте «Слушать» и подыграть в темпе');
+      UI.toast(`🎉 ${L('Круг пройден! Ещё раз — или попробуйте «Слушать» и подыграть в темпе')}`);
       el.querySelectorAll('.kb-chip').forEach((b) => b.classList.remove('ok'));
     }
     showChord();
@@ -615,14 +619,14 @@ Pages.keys = (() => {
     transport.onFrame = null;
     transport.onLoop = null;
     transport.onStop = () => {
-      $('#kb-cplay').textContent = '▶ Играть';
+      $('#kb-cplay').textContent = `▶ ${L('Играть')}`;
       $('#kb-cplay').classList.remove('on');
       setKeyClass('lit', []);
       chordIdx = 0;
       showChord();
     };
     transport.start({ bpm: cBpmCtl.value, spb: 1, total: beats * p.chords.length, countIn: 0 });
-    $('#kb-cplay').textContent = '■ Стоп';
+    $('#kb-cplay').textContent = `■ ${L('Стоп')}`;
     $('#kb-cplay').classList.add('on');
   }
 
@@ -653,8 +657,8 @@ Pages.keys = (() => {
     $('#kb-lessons').innerHTML = `
       <div class="two-col">
         <aside class="card list-col ${listOpen ? 'open' : ''}">
-          <button class="lib-toggle" id="kb-ltoggle" aria-expanded="${listOpen}"><span>📖 Уроки клавишных <small>· ${KEYS_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
-          <h2 class="list-title">Уроки</h2>
+          <button class="lib-toggle" id="kb-ltoggle" aria-expanded="${listOpen}"><span>📖 ${L('Уроки клавишных')} <small>· ${KEYS_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
+          <h2 class="list-title">${L('Уроки')}</h2>
           <ol class="lesson-list">
             ${KEYS_LESSONS.map((x, i) => `
               <li><a href="#/keys/lesson/${x.id}" class="${x.id === l.id ? 'active' : ''} ${Store.lessonDone('kb-' + x.id) ? 'done' : ''}">
@@ -664,11 +668,11 @@ Pages.keys = (() => {
           </ol>
         </aside>
         <article class="card lesson">
-          <div class="lesson-kicker">Клавиши · урок ${idx + 1} из ${KEYS_LESSONS.length}</div>
+          <div class="lesson-kicker">${L('Клавиши · урок {n} из {total}', { n: idx + 1, total: KEYS_LESSONS.length })}</div>
           <h1>${UI.esc(l.title)}</h1>
           <div class="lesson-body">${l.html}</div>
           <div class="lesson-foot">
-            <button class="btn ${done ? '' : 'primary'}" id="kb-ldone">${done ? '✓ Урок пройден' : 'Отметить урок пройденным'}</button>
+            <button class="btn ${done ? '' : 'primary'}" id="kb-ldone">${done ? `✓ ${L('Урок пройден')}` : L('Отметить урок пройденным')}</button>
             <span class="spacer"></span>
             ${prev ? `<a class="btn" href="#/keys/lesson/${prev.id}">← ${UI.esc(prev.title)}</a>` : ''}
             ${next ? `<a class="btn" href="#/keys/lesson/${next.id}">${UI.esc(next.title)} →</a>` : ''}
@@ -679,7 +683,7 @@ Pages.keys = (() => {
     $('#kb-ldone').addEventListener('click', () => {
       Store.setLesson('kb-' + l.id, !done);
       renderLessons();
-      if (!done && next) UI.toast('Отлично! Дальше: ' + next.title);
+      if (!done && next) UI.toast(L('Отлично! Дальше: {title}', { title: next.title }));
     });
   }
 

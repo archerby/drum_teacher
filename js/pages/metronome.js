@@ -5,14 +5,14 @@ Pages.metronome = (() => {
   const transport = new Transport();
 
   const SUBS = [
-    { v: 1, name: 'Четверти', hint: '1 2 3 4' },
-    { v: 2, name: 'Восьмые', hint: '1 и 2 и' },
-    { v: 3, name: 'Триоли', hint: '1 ла ли' },
-    { v: 4, name: 'Шестнадцатые', hint: '1 е и а' },
-    { v: 5, name: 'Квинтоли', hint: '5 на долю' },
-    { v: 6, name: 'Секстоли', hint: '6 на долю' },
+    { v: 1, name: L('Четверти'), hint: '1 2 3 4' },
+    { v: 2, name: L('Восьмые'), hint: L('1 и 2 и') },
+    { v: 3, name: L('Триоли'), hint: L('1 ла ли') },
+    { v: 4, name: L('Шестнадцатые'), hint: L('1 е и а') },
+    { v: 5, name: L('Квинтоли'), hint: L('{n} на долю', { n: 5 }) },
+    { v: 6, name: L('Секстоли'), hint: L('{n} на долю', { n: 6 }) },
   ];
-  const SOUNDS = { beep: 'Бип', wood: 'Вуд-блок', bell: 'Колокол', voice: 'Мягкий' };
+  const SOUNDS = { beep: L('Бип'), wood: L('Вуд-блок'), bell: L('Колокол'), voice: L('Мягкий') };
 
   const st = {
     bpm: Store.get('m.bpm', 80),
@@ -39,58 +39,64 @@ Pages.metronome = (() => {
           <div class="metro-bpm"><b id="m-bpm-big">${st.bpm}</b><span>BPM</span></div>
           <div class="metro-tempo" id="m-tempo"></div>
           <div class="beat-dots" id="m-dots"></div>
-          <div class="metro-status" id="m-status">Нажмите на кружок, чтобы сделать долю акцентной или беззвучной</div>
+          <div class="metro-status" id="m-status">${L('Нажмите на кружок, чтобы сделать долю акцентной или беззвучной')}</div>
         </div>
         <div class="controls center">
-          <button class="btn play big" id="m-play">▶ Старт</button>
-          <button class="btn" id="m-tap" title="Постучите несколько раз в нужном темпе">👆 Тап-темп</button>
+          <button class="btn play big" id="m-play">▶ ${L('Старт')}</button>
+          <button class="btn" id="m-tap" title="${L('Постучите несколько раз в нужном темпе')}">👆 ${L('Тап-темп')}</button>
         </div>
         <div id="m-bpm" class="center-row"></div>
       </section>
 
       <section class="card metro-settings">
-        <h2>Настройки</h2>
+        <h2>${L('Настройки')}</h2>
         <div class="field">
-          <span>Долей в такте</span>
+          <span>${L('Долей в такте')}</span>
           <div class="stepper">
-            <button class="btn small" data-beats="-1" aria-label="Меньше долей">−</button>
+            <button class="btn small" data-beats="-1" aria-label="${L('Меньше долей')}">−</button>
             <b id="m-beats">${st.beats}</b>
-            <button class="btn small" data-beats="1" aria-label="Больше долей">+</button>
+            <button class="btn small" data-beats="1" aria-label="${L('Больше долей')}">+</button>
           </div>
         </div>
         <div class="field">
-          <span>Дробление доли</span>
+          <span>${L('Дробление доли')}</span>
           <div class="seg wrap" id="m-subs">
             ${SUBS.map((s) => `<button data-sub="${s.v}" title="${s.hint}">${s.name}</button>`).join('')}
           </div>
         </div>
         <div class="field">
-          <span>Звук</span>
+          <span>${L('Звук')}</span>
           <select id="m-sound">${Object.entries(SOUNDS).map(([k, v]) => `<option value="${k}" ${k === st.sound ? 'selected' : ''}>${v}</option>`).join('')}</select>
         </div>
         <div class="field">
-          <span>Громкость дробления</span>
-          <input type="range" id="m-subvol" min="0" max="100" value="${Math.round(st.subVol * 100)}" aria-label="Громкость дробления">
+          <span>${L('Громкость дробления')}</span>
+          <input type="range" id="m-subvol" min="0" max="100" value="${Math.round(st.subVol * 100)}" aria-label="${L('Громкость дробления')}">
         </div>
-        <label class="toggle"><input type="checkbox" id="m-flash"> Мигать экраном на долю</label>
+        <label class="toggle"><input type="checkbox" id="m-flash"> ${L('Мигать экраном на долю')}</label>
 
-        <h2>Тренировка</h2>
+        <h2>${L('Тренировка')}</h2>
         <div class="trainer-box">
-          <label class="toggle"><input type="checkbox" id="m-speed"> <b>Ускорение</b></label>
-          <div class="sub-opts">+<input type="number" id="m-sstep" min="1" max="20" value="${st.speedStep}" aria-label="Прибавка BPM"> BPM
-            каждые <input type="number" id="m-severy" min="1" max="64" value="${st.speedEvery}" aria-label="Каждые N тактов"> такт.
-            до <input type="number" id="m-smax" min="30" max="300" value="${st.speedMax}" aria-label="Максимальный темп"></div>
-          <p class="muted small">Темп растёт сам — как «лестница» к нужной скорости.</p>
+          <label class="toggle"><input type="checkbox" id="m-speed"> <b>${L('Ускорение')}</b></label>
+          <div class="sub-opts">${L('+{step} BPM каждые {every} такт. до {max}', {
+            step: `<input type="number" id="m-sstep" min="1" max="20" value="${st.speedStep}" aria-label="${L('Прибавка BPM')}">`,
+            every: `<input type="number" id="m-severy" min="1" max="64" value="${st.speedEvery}" aria-label="${L('Каждые N тактов')}">`,
+            max: `<input type="number" id="m-smax" min="30" max="300" value="${st.speedMax}" aria-label="${L('Максимальный темп')}">`,
+          })}</div>
+          <p class="muted small">${L('Темп растёт сам — как «лестница» к нужной скорости.')}</p>
         </div>
         <div class="trainer-box">
-          <label class="toggle"><input type="checkbox" id="m-gap"> <b>Пропуски</b></label>
-          <div class="sub-opts">звук <input type="number" id="m-gplay" min="1" max="16" value="${st.gapPlay}" aria-label="Тактов со звуком"> такт.,
-            тишина <input type="number" id="m-gmute" min="1" max="16" value="${st.gapMute}" aria-label="Тактов тишины"> такт.</div>
-          <p class="muted small">Метроном замолкает, а вы продолжаете. Совпадёте, когда он вернётся?</p>
+          <label class="toggle"><input type="checkbox" id="m-gap"> <b>${L('Пропуски')}</b></label>
+          <div class="sub-opts">${L('звук {play} такт., тишина {mute} такт.', {
+            play: `<input type="number" id="m-gplay" min="1" max="16" value="${st.gapPlay}" aria-label="${L('Тактов со звуком')}">`,
+            mute: `<input type="number" id="m-gmute" min="1" max="16" value="${st.gapMute}" aria-label="${L('Тактов тишины')}">`,
+          })}</div>
+          <p class="muted small">${L('Метроном замолкает, а вы продолжаете. Совпадёте, когда он вернётся?')}</p>
         </div>
         <div class="trainer-box">
-          <label class="toggle"><input type="checkbox" id="m-random"> <b>Случайные пропуски</b></label>
-          <div class="sub-opts">выпадает <input type="number" id="m-rpct" min="5" max="90" value="${st.randomPct}" aria-label="Процент пропусков">% долей</div>
+          <label class="toggle"><input type="checkbox" id="m-random"> <b>${L('Случайные пропуски')}</b></label>
+          <div class="sub-opts">${L('выпадает {pct}% долей', {
+            pct: `<input type="number" id="m-rpct" min="5" max="90" value="${st.randomPct}" aria-label="${L('Процент пропусков')}">`,
+          })}</div>
         </div>
       </section>
     </div>`;
@@ -111,7 +117,7 @@ Pages.metronome = (() => {
   function renderDots() {
     $('#m-beats').textContent = st.beats;
     $('#m-dots').innerHTML = st.accents.map((a, i) => `
-      <button class="beat-dot lvl${a}" data-beat="${i}" aria-label="Доля ${i + 1}: ${['тишина', 'обычная', 'акцент'][a]}">
+      <button class="beat-dot lvl${a}" data-beat="${i}" aria-label="${L('Доля {n}: {state}', { n: i + 1, state: [L('тишина'), L('обычная'), L('акцент')][a] })}">
         <span>${i + 1}</span>
         <i class="subs">${Array.from({ length: st.sub }, (_, k) => `<em data-sub-i="${k}"></em>`).join('')}</i>
       </button>`).join('');
@@ -211,7 +217,7 @@ Pages.metronome = (() => {
         dot.classList.add('now');
         lastDot = dot;
         const silent = barIsSilent(drawBar - 1);
-        const status = silent ? '🤫 Тишина — держите темп сами!' : `Такт ${drawBar}`;
+        const status = silent ? `🤫 ${L('Тишина — держите темп сами!')}` : L('Такт {n}', { n: drawBar });
         $('#m-status').textContent = status;
         $('#m-display').classList.toggle('silent', silent);
         if (st.flash && !silent && st.accents[beat]) {
@@ -225,12 +231,12 @@ Pages.metronome = (() => {
     transport.onStop = () => {
       el.querySelectorAll('.now').forEach((x) => x.classList.remove('now'));
       $('#m-display').classList.remove('silent');
-      $('#m-status').textContent = 'Остановлено';
-      $('#m-play').textContent = '▶ Старт';
+      $('#m-status').textContent = L('Остановлено');
+      $('#m-play').textContent = `▶ ${L('Старт')}`;
       $('#m-play').classList.remove('on');
     };
     transport.start({ bpm: st.bpm, spb: st.sub, total: st.beats * st.sub });
-    $('#m-play').textContent = '■ Стоп';
+    $('#m-play').textContent = `■ ${L('Стоп')}`;
     $('#m-play').classList.add('on');
   }
 

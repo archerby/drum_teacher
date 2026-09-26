@@ -5,20 +5,20 @@ Pages.poly = (() => {
   const transport = new Transport();
 
   const VOICES = {
-    'hembra:O': 'Эмбра — открытый',
-    'macho:O': 'Мачо — открытый',
-    'macho:S': 'Мачо — шлепок',
-    'clave:X': 'Клаве',
-    'bell:L': 'Колокол',
-    'shaker:X': 'Шейкер',
-    'bass:X': 'Бас',
+    'hembra:O': L('Эмбра — открытый'),
+    'macho:O': L('Мачо — открытый'),
+    'macho:S': L('Мачо — шлепок'),
+    'clave:X': L('Клаве'),
+    'bell:L': L('Колокол'),
+    'shaker:X': L('Шейкер'),
+    'bass:X': L('Бас'),
   };
   const PRESETS = ['3:2', '4:3', '5:2', '5:3', '5:4', '7:4', '2:3', '3:4', '6:4', '9:8'];
   const MNEMONIC = {
-    '3:2': '«nice CUP of TEA» / «ОБЕ · П Л П ·»',
-    '2:3': '«nice CUP of TEA» — те же удары, руки поменялись',
+    '3:2': L('«nice CUP of TEA» / «ОБЕ · П Л П ·»'),
+    '2:3': L('«nice CUP of TEA» — те же удары, руки поменялись'),
     '4:3': '«PASS the GOL-den BUT-ter»',
-    '3:4': '«PASS the GOL-den BUT-ter» — руки поменялись',
+    '3:4': L('«PASS the GOL-den BUT-ter» — руки поменялись'),
   };
 
   const st = {
@@ -37,40 +37,40 @@ Pages.poly = (() => {
   el.innerHTML = `
     <div class="poly-layout">
       <section class="card poly-main">
-        <h1>Полиритмы и полиметры</h1>
+        <h1>${L('Полиритмы и полиметры')}</h1>
         <div class="presets" id="p-presets"></div>
         <div class="poly-controls">
           <div class="ab">
-            <label class="voice-a">A <select id="p-a" aria-label="Число ударов голоса A">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option>${n}</option>`).join('')}</select></label>
-            <span class="vs">против</span>
-            <label class="voice-b">B <select id="p-b" aria-label="Число ударов голоса B">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option>${n}</option>`).join('')}</select></label>
+            <label class="voice-a">A <select id="p-a" aria-label="${L('Число ударов голоса A')}">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option>${n}</option>`).join('')}</select></label>
+            <span class="vs">${L('против')}</span>
+            <label class="voice-b">B <select id="p-b" aria-label="${L('Число ударов голоса B')}">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<option>${n}</option>`).join('')}</select></label>
           </div>
-          <div class="seg" role="radiogroup" aria-label="Режим">
-            <button data-mode="rhythm" role="radio">Полиритм</button>
-            <button data-mode="meter" role="radio">Полиметр</button>
+          <div class="seg" role="radiogroup" aria-label="${L('Режим')}">
+            <button data-mode="rhythm" role="radio">${L('Полиритм')}</button>
+            <button data-mode="meter" role="radio">${L('Полиметр')}</button>
           </div>
         </div>
         <div class="controls dock">
-          <button class="btn play" id="p-play">▶ Играть</button>
+          <button class="btn play" id="p-play">${L('▶ Играть')}</button>
           <span id="p-bpm"></span>
         </div>
-        <canvas id="p-canvas" aria-label="Круговая схема полиритма"></canvas>
+        <canvas id="p-canvas" aria-label="${L('Круговая схема полиритма')}"></canvas>
         <div class="grid-wrap"><div class="rgrid" id="p-grid"></div></div>
       </section>
       <aside class="card poly-side">
         <h2 id="p-title"></h2>
         <div id="p-explain" class="explain"></div>
-        <h3>Звуки</h3>
+        <h3>${L('Звуки')}</h3>
         <div class="voice-row voice-a">
-          <label>Голос A <select id="p-va">${Object.entries(VOICES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
-          <label class="toggle"><input type="checkbox" id="p-ma"> заглушить</label>
+          <label>${L('Голос A')} <select id="p-va">${Object.entries(VOICES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
+          <label class="toggle"><input type="checkbox" id="p-ma"> ${L('заглушить')}</label>
         </div>
         <div class="voice-row voice-b">
-          <label>Голос B <select id="p-vb">${Object.entries(VOICES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
-          <label class="toggle"><input type="checkbox" id="p-mb"> заглушить</label>
+          <label>${L('Голос B')} <select id="p-vb">${Object.entries(VOICES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>
+          <label class="toggle"><input type="checkbox" id="p-mb"> ${L('заглушить')}</label>
         </div>
-        <label class="toggle"><input type="checkbox" id="p-cycle"> Бас на начало цикла</label>
-        <p class="muted small">Совет: заглушите один голос и играйте его сами. Потом — оба голоса двумя руками: A правой по эмбре, B левой по мачо.</p>
+        <label class="toggle"><input type="checkbox" id="p-cycle"> ${L('Бас на начало цикла')}</label>
+        <p class="muted small">${L('Совет: заглушите один голос и играйте его сами. Потом — оба голоса двумя руками: A правой по эмбре, B левой по мачо.')}</p>
         <button class="btn" id="p-done"></button>
       </aside>
     </div>`;
@@ -79,7 +79,7 @@ Pages.poly = (() => {
   const canvas = $('#p-canvas');
 
   bpmCtl = UI.bpmControl({
-    value: st.bpm, min: 20, max: 240, label: 'Темп B',
+    value: st.bpm, min: 20, max: 240, label: L('Темп B'),
     onChange: (v) => { st.bpm = v; transport.bpm = v; },
   });
   $('#p-bpm').appendChild(bpmCtl.el);
@@ -106,7 +106,7 @@ Pages.poly = (() => {
     const k = key();
     Store.setPoly(k, !Store.polyDone(k));
     renderDone();
-    if (Store.polyDone(k)) UI.toast(`${k} освоен!`);
+    if (Store.polyDone(k)) UI.toast(L('{k} освоен!', { k }));
   });
 
   function key() { return `${st.a}:${st.b}${st.mode === 'meter' ? '/meter' : ''}`; }
@@ -126,9 +126,9 @@ Pages.poly = (() => {
   }
 
   // ───────── Расчёты ─────────
-  function L() { return UI.lcm(st.a, st.b); }
-  function hitA(step) { return st.mode === 'meter' ? true : step % (L() / st.a) === 0; }
-  function hitB(step) { return st.mode === 'meter' ? true : step % (L() / st.b) === 0; }
+  function cyc() { return UI.lcm(st.a, st.b); }
+  function hitA(step) { return st.mode === 'meter' ? true : step % (cyc() / st.a) === 0; }
+  function hitB(step) { return st.mode === 'meter' ? true : step % (cyc() / st.b) === 0; }
   function accA(step) { return st.mode === 'meter' ? step % st.a === 0 : true; }
   function accB(step) { return st.mode === 'meter' ? step % st.b === 0 : true; }
 
@@ -148,7 +148,7 @@ Pages.poly = (() => {
       b.setAttribute('aria-checked', b.dataset.mode === st.mode);
     });
     el.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('sel', b.dataset.preset === `${st.a}:${st.b}`));
-    bpmCtl.el.querySelector('.bpm-label').textContent = st.mode === 'meter' ? 'Темп шага' : 'Темп B';
+    bpmCtl.el.querySelector('.bpm-label').textContent = st.mode === 'meter' ? L('Темп шага') : L('Темп B');
     renderExplain();
     renderDone();
     buildGrid();
@@ -159,55 +159,59 @@ Pages.poly = (() => {
   function renderDone() {
     const d = Store.polyDone(key());
     const b = $('#p-done');
-    b.textContent = d ? `✓ ${key()} освоен` : `Отметить ${key()} освоенным`;
+    b.textContent = d ? L('✓ {k} освоен', { k: key() }) : L('Отметить {k} освоенным', { k: key() });
     b.className = 'btn ' + (d ? 'ok' : 'primary');
   }
 
   function renderExplain() {
     const { a, b } = st;
-    const n = L();
-    const title = st.mode === 'meter' ? `Полиметр ${a} на ${b}` : `Полиритм ${a}:${b}`;
+    const n = cyc();
+    const title = st.mode === 'meter' ? L('Полиметр {a} на {b}', { a, b }) : L('Полиритм {a}:{b}', { a, b });
     $('#p-title').textContent = title;
     let html;
     if (st.mode === 'rhythm') {
       const listA = [];
       const listB = [];
       const res = [];
+      // подписи результирующего ритма: обе руки / правая / левая (одним ключом — «Л» в данных занято ладонью)
+      const [BOTH, RH, LH] = L('ОБЕ П Л').split(' ');
       for (let s = 0; s < n; s++) {
         const ha = hitA(s);
         const hb = hitB(s);
         if (ha) listA.push(s + 1);
         if (hb) listB.push(s + 1);
-        res.push(ha && hb ? 'ОБЕ' : ha ? 'П' : hb ? 'Л' : '·');
+        res.push(ha && hb ? BOTH : ha ? RH : hb ? LH : '·');
       }
+      const g = UI.gcd(a, b);
       html = `
-        <p>За один цикл голос <b class="ca">A</b> делает <b>${a}</b> ровных ударов, а голос <b class="cb">B</b> за то же время — <b>${b}</b>.</p>
-        ${a === b ? '<p>Числа равны — это не полиритм, а унисон. Выберите разные числа.</p>' : ''}
-        ${UI.gcd(a, b) > 1 && a !== b ? `<p class="muted">У чисел ${a} и ${b} есть общий делитель ${UI.gcd(a, b)}, поэтому это ${a / UI.gcd(a, b)}:${b / UI.gcd(a, b)}, повторённый ${UI.gcd(a, b)} раза.</p>` : ''}
-        <p><b>Как считать:</b> общий счёт до <b>${n}</b>.<br>
-        <b class="ca">A</b> (правая) — на ${listA.join(', ')}.<br>
-        <b class="cb">B</b> (левая) — на ${listB.join(', ')}.</p>
-        ${n <= 24 ? `<p><b>Результирующий ритм</b> (выучите как одну фразу):</p><p class="resultant">${res.join(' ')}</p>` : ''}
-        ${MNEMONIC[`${a}:${b}`] ? `<p class="muted">Подсказка: ${MNEMONIC[`${a}:${b}`]}</p>` : ''}
-        <p class="muted small">Темп задаёт голос B: при ${st.bpm} BPM один цикл длится ${(b * 60 / st.bpm).toFixed(1)} с.</p>`;
+        <p>${L('За один цикл голос {A} делает {hits}, а голос {B} за то же время — {b}.', { A: '<b class="ca">A</b>', B: '<b class="cb">B</b>', hits: L.plural(a, '<b>{n}</b> ровный удар|<b>{n}</b> ровных удара|<b>{n}</b> ровных ударов'), b: `<b>${b}</b>` })}</p>
+        ${a === b ? `<p>${L('Числа равны — это не полиритм, а унисон. Выберите разные числа.')}</p>` : ''}
+        ${g > 1 && a !== b ? `<p class="muted">${L('У чисел {a} и {b} есть общий делитель {g}, поэтому это {ratio}, повторённый {times}.', { a, b, g, ratio: `${a / g}:${b / g}`, times: L.plural(g, '{n} раз|{n} раза|{n} раз') })}</p>` : ''}
+        <p>${L('<b>Как считать:</b> общий счёт до {n}.', { n: `<b>${n}</b>` })}<br>
+        ${L('{A} (правая) — на {list}.', { A: '<b class="ca">A</b>', list: listA.join(', ') })}<br>
+        ${L('{B} (левая) — на {list}.', { B: '<b class="cb">B</b>', list: listB.join(', ') })}</p>
+        ${n <= 24 ? `<p>${L('<b>Результирующий ритм</b> (выучите как одну фразу):')}</p><p class="resultant">${res.join(' ')}</p>` : ''}
+        ${MNEMONIC[`${a}:${b}`] ? `<p class="muted">${L('Подсказка: {text}', { text: MNEMONIC[`${a}:${b}`] })}</p>` : ''}
+        <p class="muted small">${L('Темп задаёт голос B: при {bpm} BPM один цикл длится {sec} с.', { bpm: st.bpm, sec: (b * 60 / st.bpm).toFixed(1) })}</p>`;
     } else {
+      const cycles = (k) => L.plural(k, '{n} цикл|{n} цикла|{n} циклов');
       html = `
-        <p>Шаги у обоих голосов <b>одинаковой длины</b>. Голос <b class="ca">A</b> повторяет цикл из <b>${a}</b> шагов, голос <b class="cb">B</b> — из <b>${b}</b>. Громкий удар — начало цикла.</p>
-        <p>Акценты разъезжаются и снова совпадают через <b>${n}</b> шагов: за это время A пройдёт ${n / a} цикл(ов), а B — ${n / b}.</p>
-        <p class="muted">Так строятся «сдвигающиеся» фразы в афро-кубинской музыке, джазе и прогрессивном роке: фраза из ${a} на фоне счёта на ${b}.</p>`;
+        <p>${L('Шаги у обоих голосов <b>одинаковой длины</b>. Голос {A} повторяет цикл из {sa}, голос {B} — из {sb}. Громкий удар — начало цикла.', { A: '<b class="ca">A</b>', B: '<b class="cb">B</b>', sa: L.plural(a, '<b>{n}</b> шага|<b>{n}</b> шагов|<b>{n}</b> шагов'), sb: L.plural(b, '<b>{n}</b> шага|<b>{n}</b> шагов|<b>{n}</b> шагов') })}</p>
+        <p>${L('Акценты разъезжаются и снова совпадают через {steps}: за это время A пройдёт {ca}, а B — {cb}.', { steps: L.plural(n, '<b>{n}</b> шаг|<b>{n}</b> шага|<b>{n}</b> шагов'), ca: cycles(n / a), cb: cycles(n / b) })}</p>
+        <p class="muted">${L('Так строятся «сдвигающиеся» фразы в афро-кубинской музыке, джазе и прогрессивном роке: фраза из {a} на фоне счёта на {b}.', { a, b })}</p>`;
     }
     $('#p-explain').innerHTML = html;
   }
 
   function buildGrid() {
-    const n = L();
+    const n = cyc();
     const grid = $('#p-grid');
     grid.style.setProperty('--cols', n);
     const [ia, ca] = voiceChar(st.va, true);
     const [ib, cb] = voiceChar(st.vb, true);
     const beatEvery = st.mode === 'meter' ? 1 : n / st.b;
     const gs = (s) => (s % beatEvery === 0 ? ' gs' : '') + (Math.floor(s / beatEvery) % 2 ? ' alt' : '');
-    let html = '<div class="gl gh">Счёт</div>';
+    let html = `<div class="gl gh">${L('Счёт')}</div>`;
     for (let s = 0; s < n; s++) html += `<div class="gc gh${gs(s)}" data-s="${s}">${s + 1}</div>`;
     const row = (label, cls, inst, ch, hit, acc) => {
       let h = `<div class="gl ${cls}"><span>${label}</span></div>`;
@@ -246,7 +250,7 @@ Pages.poly = (() => {
     const faint = cssVar('--line') || '#444';
     const text = cssVar('--text') || '#eee';
 
-    const n = L();
+    const n = cyc();
     const frac = pos.dur ? UI.clamp((now - pos.time) / pos.dur, 0, 1) : 0;
     const stepPos = transport.playing ? pos.step + frac : 0;
 
@@ -323,15 +327,15 @@ Pages.poly = (() => {
       ring(w * 0.27, cyy, R, st.a, colA, flashA, (stepPos % st.a) / st.a, true);
       ring(w * 0.73, cyy, R, st.b, colB, flashB, (stepPos % st.b) / st.b, true);
       g.fillStyle = colA;
-      g.fillText(`A: цикл ${st.a}`, w * 0.27, 18);
+      g.fillText(L('A: цикл {n}', { n: st.a }), w * 0.27, 18);
       g.fillStyle = colB;
-      g.fillText(`B: цикл ${st.b}`, w * 0.73, 18);
+      g.fillText(L('B: цикл {n}', { n: st.b }), w * 0.73, 18);
     }
   }
 
   // ───────── Воспроизведение ─────────
   function play() {
-    const n = L();
+    const n = cyc();
     transport.onStep = (step, time) => {
       if (st.cycle && step === 0) Sound.play('bass', 'X', time);
       if (hitA(step) && !st.muteA) {
@@ -355,14 +359,14 @@ Pages.poly = (() => {
     transport.onStop = () => {
       if (lastCol >= 0 && colCells[lastCol]) colCells[lastCol].forEach((c) => c.classList.remove('now'));
       lastCol = -1;
-      $('#p-play').textContent = '▶ Играть';
+      $('#p-play').textContent = L('▶ Играть');
       $('#p-play').classList.remove('on');
       pos = { step: 0, time: 0, dur: 1 };
       drawCanvas(0);
     };
     const spb = st.mode === 'meter' ? 1 : n / st.b;
     transport.start({ bpm: st.bpm, spb, total: n });
-    $('#p-play').textContent = '■ Стоп';
+    $('#p-play').textContent = L('■ Стоп');
     $('#p-play').classList.add('on');
   }
 

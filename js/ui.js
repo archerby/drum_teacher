@@ -6,7 +6,7 @@ window.UI = (() => {
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
   // Слоги счёта внутри доли
-  const SYLL = { 2: ['и'], 3: ['ла', 'ли'], 4: ['е', 'и', 'а'] };
+  const SYLL = { 2: [L('и')], 3: [L('ла'), L('ли')], 4: [L('е'), L('и'), L('а')] };
   function countLabel(stepInBar, spb, groups) {
     if (spb === 1) return String(stepInBar + 1);
     const sub = stepInBar % spb;
@@ -41,7 +41,7 @@ window.UI = (() => {
       return { label: s.label, cls: `st-bell${up === 'U' ? '-hi' : ''}${ch !== up ? ' ghost' : ''}`, name: s.name };
     }
     const accent = ch === 'X';
-    return { label: accent ? '◆' : '●', cls: `st-perc${accent ? ' accent' : ''}`, name: accent ? 'Акцент' : 'Удар' };
+    return { label: accent ? '◆' : '●', cls: `st-perc${accent ? ' accent' : ''}`, name: accent ? L('Акцент') : L('Удар') };
   }
 
   function findRhythm(id) {
@@ -49,14 +49,14 @@ window.UI = (() => {
   }
 
   function tempoName(bpm) {
-    if (bpm < 40) return 'Grave — очень медленно';
-    if (bpm < 60) return 'Largo — широко';
-    if (bpm < 76) return 'Adagio — спокойно';
-    if (bpm < 108) return 'Andante — шагом';
-    if (bpm < 120) return 'Moderato — умеренно';
-    if (bpm < 168) return 'Allegro — быстро';
-    if (bpm < 200) return 'Presto — очень быстро';
-    return 'Prestissimo — стремительно';
+    if (bpm < 40) return L('Grave — очень медленно');
+    if (bpm < 60) return L('Largo — широко');
+    if (bpm < 76) return L('Adagio — спокойно');
+    if (bpm < 108) return L('Andante — шагом');
+    if (bpm < 120) return L('Moderato — умеренно');
+    if (bpm < 168) return L('Allegro — быстро');
+    if (bpm < 200) return L('Presto — очень быстро');
+    return L('Prestissimo — стремительно');
   }
 
   function toast(msg) {
@@ -89,17 +89,17 @@ window.UI = (() => {
   }
 
   // Поле BPM: ползунок + число + кнопки ±. Возвращает { el, set(v) }.
-  function bpmControl({ value, min = 30, max = 240, onChange, label = 'Темп' }) {
+  function bpmControl({ value, min = 30, max = 240, onChange, label = L('Темп') }) {
     const wrap = document.createElement('div');
     wrap.className = 'bpm-control';
     wrap.innerHTML = `
       <span class="bpm-label">${esc(label)}</span>
-      <button class="btn small" data-d="-5" aria-label="Медленнее на 5">−5</button>
-      <button class="btn small" data-d="-1" aria-label="Медленнее на 1">−1</button>
+      <button class="btn small" data-d="-5" aria-label="${L('Медленнее на {n}', { n: 5 })}">−5</button>
+      <button class="btn small" data-d="-1" aria-label="${L('Медленнее на {n}', { n: 1 })}">−1</button>
       <input type="number" class="bpm-num" min="${min}" max="${max}" value="${value}" aria-label="BPM">
-      <button class="btn small" data-d="1" aria-label="Быстрее на 1">+1</button>
-      <button class="btn small" data-d="5" aria-label="Быстрее на 5">+5</button>
-      <input type="range" class="bpm-range" min="${min}" max="${max}" value="${value}" aria-label="Темп, BPM">
+      <button class="btn small" data-d="1" aria-label="${L('Быстрее на {n}', { n: 1 })}">+1</button>
+      <button class="btn small" data-d="5" aria-label="${L('Быстрее на {n}', { n: 5 })}">+5</button>
+      <input type="range" class="bpm-range" min="${min}" max="${max}" value="${value}" aria-label="${L('Темп, BPM')}">
       <span class="bpm-unit">BPM</span>`;
     const num = wrap.querySelector('.bpm-num');
     const range = wrap.querySelector('.bpm-range');
@@ -131,12 +131,12 @@ window.UI = (() => {
   }
   function shareLink(route, obj, what) {
     const url = `${location.origin}${location.pathname}#/${route}/import/${encodeShare(obj)}`;
-    const done = () => toast(`Ссылка на ${what} скопирована — отправьте её или откройте на телефоне`);
+    const done = () => toast(L('Ссылка на {what} скопирована — отправьте её или откройте на телефоне', { what }));
     if (navigator.share && matchMedia('(pointer: coarse)').matches) {
       navigator.share({ title: obj.name, url }).catch(() => {});
     } else if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(url).then(done, () => prompt('Скопируйте ссылку:', url));
-    } else prompt('Скопируйте ссылку:', url);
+      navigator.clipboard.writeText(url).then(done, () => prompt(L('Скопируйте ссылку:'), url));
+    } else prompt(L('Скопируйте ссылку:'), url);
     return url;
   }
 

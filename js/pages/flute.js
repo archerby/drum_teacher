@@ -61,7 +61,7 @@ Pages.flute = (() => {
   // Картинка аппликатуры: большой палец (сзади) слева, отверстия 1–7 сверху вниз
   function fingSvg(midi, cls = '') {
     const f = midi !== null && FINGERINGS[st.system][keyOf(midi)];
-    if (!f) return `<div class="fing-none ${cls}">нет в диапазоне</div>`;
+    if (!f) return `<div class="fing-none ${cls}">${L('нет в диапазоне')}</div>`;
     const h = f.holes;
     const ys = [44, 68, 92, 124, 148, 176, 202];
     let holes = '';
@@ -69,15 +69,15 @@ Pages.flute = (() => {
       holes += i < 5 ? holeSvg(36, ys[i], 7.5, h[i]) : doubleSvg(36, ys[i], h[i]);
     }
     return `
-      <svg class="fing ${cls}" viewBox="0 0 60 236" role="img" aria-label="Аппликатура">
+      <svg class="fing ${cls}" viewBox="0 0 60 236" role="img" aria-label="${L('Аппликатура')}">
         <rect x="24" y="6" width="24" height="224" rx="12" class="fb"/>
         <path d="M24 18 h24" class="fl"/>
         ${holeSvg(9, 38, 6.5, f.thumb)}
-        <text x="9" y="56" class="ft">зад</text>
+        <text x="9" y="56" class="ft">${L('зад')}</text>
         <path d="M22 108 h28" class="fl sep"/>
         ${holes}
-        <text x="36" y="232" class="ft">правая</text>
-        <text x="36" y="16" class="ft">левая</text>
+        <text x="36" y="232" class="ft">${L('правая')}</text>
+        <text x="36" y="16" class="ft">${L('левая')}</text>
       </svg>`;
   }
 
@@ -86,14 +86,14 @@ Pages.flute = (() => {
     <div class="ml fl">
       <header class="tr-head">
         <div>
-          <div class="eyebrow">блокфлейта сопрано · строй «до»</div>
-          <h1 class="tr-title">Флейта</h1>
+          <div class="eyebrow">${L('блокфлейта сопрано · строй «до»')}</div>
+          <h1 class="tr-title">${L('Флейта')}</h1>
         </div>
-        <div class="seg inst-switch"><a href="#/mallet">Металлофон</a><a class="sel" href="#/flute">Флейта</a><a href="#/keys">Клавиши</a></div>
+        <div class="seg inst-switch"><a href="#/mallet">${L('Металлофон')}</a><a class="sel" href="#/flute">${L('Флейта')}</a><a href="#/keys">${L('Клавиши')}</a></div>
         <div class="seg" id="fl-views">
-          <button data-view="lessons">Уроки</button>
-          <button data-view="melody">Мелодии</button>
-          <button data-view="chart">Аппликатура</button>
+          <button data-view="lessons">${L('Уроки')}</button>
+          <button data-view="melody">${L('Мелодии')}</button>
+          <button data-view="chart">${L('Аппликатура')}</button>
         </div>
       </header>
 
@@ -102,44 +102,44 @@ Pages.flute = (() => {
       <section id="fl-melody" hidden>
         <div class="card ml-player">
           <div class="ml-top">
-            <label class="ml-pick"><span class="eyebrow">мелодия</span><select id="fl-select"></select></label>
-            <a class="tbtn" id="fl-edit" href="#/mallet">✎ В редакторе</a>
+            <label class="ml-pick"><span class="eyebrow">${L('мелодия')}</span><select id="fl-select"></select></label>
+            <a class="tbtn" id="fl-edit" href="#/mallet">✎ ${L('В редакторе')}</a>
           </div>
           <p class="tr-note" id="fl-desc"></p>
-          <div class="seg ml-modes" id="fl-modes" role="radiogroup" aria-label="Режим">
-            <button data-mode="listen">👂 Слушать</button>
-            <button data-mode="wait">⏸ Ждать меня</button>
-            <button data-mode="along">🎯 В темпе</button>
+          <div class="seg ml-modes" id="fl-modes" role="radiogroup" aria-label="${L('Режим')}">
+            <button data-mode="listen">👂 ${L('Слушать')}</button>
+            <button data-mode="wait">⏸ ${L('Ждать меня')}</button>
+            <button data-mode="along">🎯 ${L('В темпе')}</button>
           </div>
           <div class="fl-mic">
-            <button class="btn" id="fl-mic">🎤 Слушать флейту</button>
-            <span class="fl-heard" id="fl-heard" aria-live="polite">микрофон выключен</span>
+            <button class="btn" id="fl-mic">🎤 ${L('Слушать флейту')}</button>
+            <span class="fl-heard" id="fl-heard" aria-live="polite">${L('микрофон выключен')}</span>
             <span class="fl-level"><i id="fl-level"></i></span>
           </div>
           <div class="fl-stage">
             <div class="fl-now">
-              <div class="eyebrow" id="fl-now-l">играйте</div>
+              <div class="eyebrow" id="fl-now-l">${L('играйте')}</div>
               <div class="fl-note" id="fl-now-n">—</div>
               <div id="fl-now-f"></div>
             </div>
             <div class="fl-next">
-              <div class="eyebrow">дальше</div>
+              <div class="eyebrow">${L('дальше')}</div>
               <div class="fl-note small" id="fl-next-n">—</div>
               <div id="fl-next-f"></div>
             </div>
           </div>
           <div class="controls dock" id="fl-dock">
-            <button class="btn play" id="fl-play">▶ Играть</button>
+            <button class="btn play" id="fl-play">▶ ${L('Играть')}</button>
             <span id="fl-bpm"></span>
           </div>
           <div class="controls options" id="fl-opts">
-            <label class="toggle"><input type="checkbox" id="fl-click" checked> Щелчок</label>
-            <label class="toggle"><input type="checkbox" id="fl-count" checked> Отсчёт</label>
-            <label class="toggle" id="fl-guide-l"><input type="checkbox" id="fl-guide"> Подсказка звуком</label>
+            <label class="toggle"><input type="checkbox" id="fl-click" checked> ${L('Щелчок')}</label>
+            <label class="toggle"><input type="checkbox" id="fl-count" checked> ${L('Отсчёт')}</label>
+            <label class="toggle" id="fl-guide-l"><input type="checkbox" id="fl-guide"> ${L('Подсказка звуком')}</label>
           </div>
           <div class="fl-manual" id="fl-manual">
-            <button class="btn" id="fl-hear">🔈 Как звучит</button>
-            <button class="btn primary" id="fl-ok">✓ Сыграл — дальше</button>
+            <button class="btn" id="fl-hear">🔈 ${L('Как звучит')}</button>
+            <button class="btn primary" id="fl-ok">✓ ${L('Сыграл — дальше')}</button>
           </div>
           <div class="ml-ribbon-wrap"><div class="ml-ribbon" id="fl-ribbon"></div></div>
           <div class="ml-stats" id="fl-stats" aria-live="polite"></div>
@@ -150,23 +150,23 @@ Pages.flute = (() => {
         <div class="card">
           <div class="ml-inst-head">
             <div class="seg" id="fl-system">
-              <button data-system="german">Немецкая</button>
-              <button data-system="baroque">Барочная</button>
+              <button data-system="german">${L('Немецкая')}</button>
+              <button data-system="baroque">${L('Барочная')}</button>
             </div>
-            <label class="toggle"><input type="checkbox" id="fl-sharps"> Показать диезы</label>
+            <label class="toggle"><input type="checkbox" id="fl-sharps"> ${L('Показать диезы')}</label>
           </div>
-          <p class="tr-note">Нажмите на ноту — услышите, как она звучит. Не знаете систему своей флейты? Смотрите первый урок.</p>
+          <p class="tr-note">${L('Нажмите на ноту — услышите, как она звучит. Не знаете систему своей флейты? Смотрите первый урок.')}</p>
           <div class="fing-grid" id="fl-grid"></div>
         </div>
         <div class="card fl-tuner">
-          <div class="eyebrow">тюнер</div>
+          <div class="eyebrow">${L('тюнер')}</div>
           <div class="fl-tuner-row">
             <div>
               <div class="fl-note big" id="tn-note">—</div>
               <div class="tn-meter"><i class="tn-zero"></i><i class="tn-needle" id="tn-needle"></i></div>
-              <div class="tn-labels"><span>ниже</span><span id="tn-cents">0</span><span>выше</span></div>
-              <button class="btn" id="tn-mic">🎤 Включить микрофон</button>
-              <p class="tr-note">Сыграйте ноту и держите её: стрелка в центре — нота чистая. Ниже — дуйте чуть быстрее, выше — мягче.</p>
+              <div class="tn-labels"><span>${L('ниже')}</span><span id="tn-cents">0</span><span>${L('выше')}</span></div>
+              <button class="btn" id="tn-mic">🎤 ${L('Включить микрофон')}</button>
+              <p class="tr-note">${L('Сыграйте ноту и держите её: стрелка в центре — нота чистая. Ниже — дуйте чуть быстрее, выше — мягче.')}</p>
             </div>
             <div id="tn-fing"></div>
           </div>
@@ -185,18 +185,18 @@ Pages.flute = (() => {
     try {
       await Pitch.start(onPitch);
     } catch (e) {
-      UI.toast('Нет доступа к микрофону — разрешите его в настройках браузера');
+      UI.toast(L('Нет доступа к микрофону — разрешите его в настройках браузера'));
     }
     micUi();
   }
 
   function micUi() {
     const on = Pitch.active;
-    $('#fl-mic').textContent = on ? '🎤 Микрофон включён' : '🎤 Слушать флейту';
+    $('#fl-mic').textContent = `🎤 ${on ? L('Микрофон включён') : L('Слушать флейту')}`;
     $('#fl-mic').classList.toggle('primary', on);
-    $('#tn-mic').textContent = on ? '🎤 Выключить микрофон' : '🎤 Включить микрофон';
+    $('#tn-mic').textContent = `🎤 ${on ? L('Выключить микрофон') : L('Включить микрофон')}`;
     if (!on) {
-      $('#fl-heard').textContent = 'микрофон выключен';
+      $('#fl-heard').textContent = L('микрофон выключен');
       $('#fl-level').style.width = '0%';
     }
     $('#fl-manual').hidden = !(st.mode === 'wait' && !on);
@@ -209,7 +209,7 @@ Pages.flute = (() => {
     const level = Math.min(100, Math.round(fr.rms * 900));
     if (st.view === 'melody') {
       $('#fl-level').style.width = `${level}%`;
-      $('#fl-heard').innerHTML = fr.midi ? `слышу <b>${noteName(fr.midi)}</b>` : 'тишина';
+      $('#fl-heard').innerHTML = fr.midi ? L('слышу {note}', { note: `<b>${noteName(fr.midi)}</b>` }) : L('тишина');
     } else if (st.view === 'chart') {
       showTuner(fr);
     }
@@ -235,7 +235,7 @@ Pages.flute = (() => {
     const c = UI.clamp(fr.cents, -50, 50);
     $('#tn-needle').style.left = `${50 + c}%`;
     $('#tn-needle').classList.toggle('good', Math.abs(c) <= 10);
-    $('#tn-cents').textContent = `${c > 0 ? '+' : ''}${c} ц`;
+    $('#tn-cents').textContent = L('{c} ц', { c: `${c > 0 ? '+' : ''}${c}` });
     if (fr.midi !== lastShown) {
       lastShown = fr.midi;
       $('#tn-fing').innerHTML = fr.midi >= LO && fr.midi <= HI ? fingSvg(fr.midi, 'mid') : '';
@@ -290,7 +290,7 @@ Pages.flute = (() => {
   }
 
   function renderMelody() {
-    $('#fl-desc').textContent = melody.desc || 'Ваша мелодия.';
+    $('#fl-desc').textContent = melody.desc || L('Ваша мелодия.');
     el.querySelectorAll('[data-mode]').forEach((b) => {
       b.classList.toggle('sel', b.dataset.mode === st.mode);
       b.setAttribute('aria-checked', b.dataset.mode === st.mode);
@@ -322,7 +322,7 @@ Pages.flute = (() => {
   function showNotes(now, next) {
     $('#fl-now-n').innerHTML = now === null || now === undefined ? '—' : noteName(now);
     $('#fl-now-f').innerHTML = now === null || now === undefined ? '' : fingSvg(now, 'big');
-    $('#fl-now-l').textContent = st.mode === 'wait' ? 'сыграйте' : 'сейчас';
+    $('#fl-now-l').textContent = st.mode === 'wait' ? L('сыграйте') : L('сейчас');
     $('#fl-next-n').innerHTML = next === null || next === undefined ? '—' : noteName(next);
     $('#fl-next-f').innerHTML = next === null || next === undefined ? '' : fingSvg(next, 'small');
   }
@@ -369,8 +369,8 @@ Pages.flute = (() => {
     showNotes(ev.midi, nxt ? nxt.midi : null);
     const played = melody.events.slice(0, waitIdx).filter((e) => e.midi !== null).length;
     const total = melody.events.filter((e) => e.midi !== null).length;
-    $('#fl-stats').innerHTML = `<span>нота <b>${played + 1}</b> из ${total}</span><span>ошибок <b>${waitErrors}</b></span>` +
-      (Pitch.active ? '<span class="muted">сыграйте ноту на флейте — приложение услышит</span>' : '<span class="muted">включите микрофон или нажимайте «Сыграл»</span>');
+    $('#fl-stats').innerHTML = `<span>${L('нота {n} из {total}', { n: `<b>${played + 1}</b>`, total })}</span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span>` +
+      `<span class="muted">${Pitch.active ? L('сыграйте ноту на флейте — приложение услышит') : L('включите микрофон или нажимайте «Сыграл»')}</span>`;
   }
 
   function waitNote(midi) {
@@ -381,7 +381,8 @@ Pages.flute = (() => {
       waitErrors++;
       markChip(waitIdx, 'bad');
       setTimeout(() => markChip(waitIdx, 'bad', false), 350);
-      $('#fl-heard').innerHTML = `слышу <b>${noteName(midi)}</b> — нужна <b>${noteName(ev.midi)}</b>${midi === ev.midi + 12 ? ' (октавой выше — дуйте мягче)' : midi === ev.midi - 12 ? ' (октавой ниже)' : ''}`;
+      const hint = midi === ev.midi + 12 ? ` ${L('(октавой выше — дуйте мягче)')}` : midi === ev.midi - 12 ? ` ${L('(октавой ниже)')}` : '';
+      $('#fl-heard').innerHTML = L('слышу {heard} — нужна {need}', { heard: `<b>${noteName(midi)}</b>`, need: `<b>${noteName(ev.midi)}</b>` }) + hint;
       showWaitTarget();
     }
   }
@@ -392,7 +393,7 @@ Pages.flute = (() => {
     waitIdx = nextNoteIdx(waitIdx + 1);
     if (waitIdx >= melody.events.length) {
       showNotes(null, null);
-      $('#fl-stats').innerHTML = `<span>🎉 <b>Сыграно!</b></span><span>ошибок <b>${waitErrors}</b></span><span class="muted">${waitErrors ? 'Ещё раз — и попробуйте без ошибок.' : 'Без ошибок! Попробуйте «В темпе».'}</span>`;
+      $('#fl-stats').innerHTML = `<span>🎉 <b>${L('Сыграно!')}</b></span><span>${L('ошибок {n}', { n: `<b>${waitErrors}</b>` })}</span><span class="muted">${waitErrors ? L('Ещё раз — и попробуйте без ошибок.') : L('Без ошибок! Попробуйте «В темпе».')}</span>`;
       setTimeout(() => { if (st.mode === 'wait' && waitIdx >= melody.events.length) startWait(); }, 2500);
       return;
     }
@@ -418,15 +419,15 @@ Pages.flute = (() => {
 
   function renderScore() {
     if (st.mode === 'listen') {
-      $('#fl-stats').innerHTML = '<span class="muted">Слушайте мелодию и смотрите на аппликатуру — можно беззвучно «играть пальцами» вместе с приложением.</span>';
+      $('#fl-stats').innerHTML = `<span class="muted">${L('Слушайте мелодию и смотрите на аппликатуру — можно беззвучно «играть пальцами» вместе с приложением.')}</span>`;
     } else if (st.mode === 'along') {
       const n = score.hit + score.off + score.wrong + score.miss;
-      $('#fl-stats').innerHTML = (Pitch.active ? '' : '<span class="bad">включите микрофон, чтобы приложение оценивало ноты</span>') + `
-        <span>точность <b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b></span>
-        <span class="good">в точку <b>${score.hit}</b></span>
-        <span class="warn">не в ритм <b>${score.off}</b></span>
-        <span class="bad">не та нота <b>${score.wrong}</b></span>
-        <span class="bad">пропуск <b>${score.miss}</b></span>`;
+      $('#fl-stats').innerHTML = (Pitch.active ? '' : `<span class="bad">${L('включите микрофон, чтобы приложение оценивало ноты')}</span>`) + `
+        <span>${L('точность {n}', { n: `<b>${n ? Math.round((score.hit / n) * 100) + '%' : '—'}</b>` })}</span>
+        <span class="good">${L('в точку {n}', { n: `<b>${score.hit}</b>` })}</span>
+        <span class="warn">${L('не в ритм {n}', { n: `<b>${score.off}</b>` })}</span>
+        <span class="bad">${L('не та нота {n}', { n: `<b>${score.wrong}</b>` })}</span>
+        <span class="bad">${L('пропуск {n}', { n: `<b>${score.miss}</b>` })}</span>`;
     }
   }
 
@@ -465,7 +466,7 @@ Pages.flute = (() => {
     };
     transport.onDraw = (step) => {
       if (step < 0) {
-        if (step % 4 === 0) $('#fl-stats').innerHTML = `<span>отсчёт <b>${(step + countSteps) / 4 + 1}</b></span>`;
+        if (step % 4 === 0) $('#fl-stats').innerHTML = `<span>${L('отсчёт {n}', { n: `<b>${(step + countSteps) / 4 + 1}</b>` })}</span>`;
         return;
       }
       if (step === 0) { chipEls.forEach((c) => c.classList.remove('cur', 'hit', 'off', 'wrong', 'miss')); renderScore(); }
@@ -489,14 +490,14 @@ Pages.flute = (() => {
       if (changed) renderScore();
     };
     transport.onStop = () => {
-      $('#fl-play').textContent = '▶ Играть';
+      $('#fl-play').textContent = `▶ ${L('Играть')}`;
       $('#fl-play').classList.remove('on');
       chipEls.forEach((c) => c.classList.remove('cur'));
       showNotes(null, firstNote());
       renderScore();
     };
     transport.start({ bpm: bpmCtl.value, spb: 4, total: steps, countIn: countSteps });
-    $('#fl-play').textContent = '■ Стоп';
+    $('#fl-play').textContent = `■ ${L('Стоп')}`;
     $('#fl-play').classList.add('on');
   }
 
@@ -546,8 +547,8 @@ Pages.flute = (() => {
     $('#fl-lessons').innerHTML = `
       <div class="two-col">
         <aside class="card list-col ${listOpen ? 'open' : ''}">
-          <button class="lib-toggle" id="fl-ltoggle" aria-expanded="${listOpen}"><span>📖 Уроки флейты <small>· ${FLUTE_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
-          <h2 class="list-title">Уроки</h2>
+          <button class="lib-toggle" id="fl-ltoggle" aria-expanded="${listOpen}"><span>📖 ${L('Уроки флейты')} <small>· ${FLUTE_LESSONS.length}</small></span><b aria-hidden="true">▾</b></button>
+          <h2 class="list-title">${L('Уроки')}</h2>
           <ol class="lesson-list">
             ${FLUTE_LESSONS.map((x, i) => `
               <li><a href="#/flute/lesson/${x.id}" class="${x.id === l.id ? 'active' : ''} ${Store.lessonDone('fl-' + x.id) ? 'done' : ''}">
@@ -557,11 +558,11 @@ Pages.flute = (() => {
           </ol>
         </aside>
         <article class="card lesson">
-          <div class="lesson-kicker">Флейта · урок ${idx + 1} из ${FLUTE_LESSONS.length}</div>
+          <div class="lesson-kicker">${L('Флейта · урок {n} из {total}', { n: idx + 1, total: FLUTE_LESSONS.length })}</div>
           <h1>${UI.esc(l.title)}</h1>
           <div class="lesson-body">${l.html}</div>
           <div class="lesson-foot">
-            <button class="btn ${done ? '' : 'primary'}" id="fl-ldone">${done ? '✓ Урок пройден' : 'Отметить урок пройденным'}</button>
+            <button class="btn ${done ? '' : 'primary'}" id="fl-ldone">${done ? `✓ ${L('Урок пройден')}` : L('Отметить урок пройденным')}</button>
             <span class="spacer"></span>
             ${prev ? `<a class="btn" href="#/flute/lesson/${prev.id}">← ${UI.esc(prev.title)}</a>` : ''}
             ${next ? `<a class="btn" href="#/flute/lesson/${next.id}">${UI.esc(next.title)} →</a>` : ''}
@@ -572,7 +573,7 @@ Pages.flute = (() => {
     $('#fl-ldone').addEventListener('click', () => {
       Store.setLesson('fl-' + l.id, !done);
       renderLessons();
-      if (!done && next) UI.toast('Отлично! Дальше: ' + next.title);
+      if (!done && next) UI.toast(L('Отлично! Дальше: {title}', { title: next.title }));
     });
   }
 

@@ -181,6 +181,8 @@ kbd {
 }
 .tabs a:hover { color: var(--text); background: var(--chip); }
 .tabs a.active { background: var(--accent); color: var(--accent-text); }
+.lang { display: flex; align-items: center; gap: 4px; margin-left: auto; color: var(--muted); }
+.lang select { font: inherit; font-size: 0.85rem; color: var(--text); background: var(--bg2); border: 1px solid var(--line); border-radius: 8px; padding: 4px 6px; cursor: pointer; }
 .volume { display: flex; align-items: center; gap: 6px; }
 .volume input { width: 100px; accent-color: var(--accent); }
 

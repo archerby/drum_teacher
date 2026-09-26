@@ -27,6 +27,7 @@
       <span aria-hidden="true">🔊</span>
       <input type="range" id="master-volume" min="0" max="100" value="80" aria-label="Громкость">
     </label>
+    <label class="lang" title="Язык"><span aria-hidden="true">🌐</span><select id="lang-select" aria-label="Язык"></select></label>
   </header>
 
   <main>
@@ -54,12 +55,14 @@
   <script src="js/audio.js"></script>
   <script src="js/transport.js"></script>
   <script src="js/store.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/data/instruments.js"></script>
   <script src="js/data/rhythms.js"></script>
   <script src="js/data/lessons.js"></script>
   <script src="js/data/melodies.js"></script>
   <script src="js/data/flute.js"></script>
   <script src="js/data/keys.js"></script>
+  <script>I18N.localizeData(); I18N.localizeDom(document.body); I18N.mountSwitcher();</script>
   <script src="js/ui.js"></script>
   <script src="js/wheel.js"></script>
   <script src="js/pitch.js"></script>

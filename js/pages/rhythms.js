@@ -31,13 +31,13 @@ Pages.rhythms = (() => {
     <div class="two-col rhythms">
       <aside class="card list-col rlist" id="r-lib">
         <button class="lib-toggle" id="r-libtoggle" aria-expanded="false" aria-controls="r-items">
-          <span>📚 Библиотека ритмов <small id="r-libcount"></small></span><b aria-hidden="true">▾</b>
+          <span>📚 ${L('Библиотека ритмов')} <small id="r-libcount"></small></span><b aria-hidden="true">▾</b>
         </button>
         <div class="rlist-top">
-          <input type="search" id="r-search" placeholder="Поиск: мартильо, 6/8, клаве…" aria-label="Поиск ритма">
+          <input type="search" id="r-search" placeholder="${L('Поиск: мартильо, 6/8, клаве…')}" aria-label="${L('Поиск ритма')}">
           <div class="rlist-btns">
-            <button class="btn small" id="r-new">＋ Новый ритм</button>
-            <button class="btn small" id="r-import">⇩ Импорт</button>
+            <button class="btn small" id="r-new">＋ ${L('Новый ритм')}</button>
+            <button class="btn small" id="r-import">⇩ ${L('Импорт')}</button>
           </div>
         </div>
         <div class="rlist-items" id="r-items"></div>
@@ -71,12 +71,12 @@ Pages.rhythms = (() => {
           <span class="rname">${Store.rhythmDone(r.id) ? '✓ ' : ''}${UI.esc(r.name)}</span>
           <span class="rmeta">${UI.esc(r.sig)} · ${'★'.repeat(r.level || 1)}</span>
         </a>`).join('')}</div>`;
-    }).join('') || '<p class="muted">Ничего не найдено.</p>';
+    }).join('') || `<p class="muted">${L('Ничего не найдено.')}</p>`;
   }
 
   // ───────── Плеер ─────────
   function load(id) {
-    if (dirty && cur && cur.id !== id && !confirm('Есть несохранённые изменения. Выйти без сохранения?')) {
+    if (dirty && cur && cur.id !== id && !confirm(L('Есть несохранённые изменения. Выйти без сохранения?'))) {
       location.hash = '#/rhythms/' + cur.id;
       return;
     }
@@ -95,8 +95,8 @@ Pages.rhythms = (() => {
   function newRhythm() {
     transport.stop();
     cur = {
-      id: 'c_new', cat: 'mine', name: 'Мой ритм', sig: '4/4', beats: 4, spb: 2, bars: 1, bpm: 90, level: 1,
-      origin: 'Мой ритм', desc: '', tips: [],
+      id: 'c_new', cat: 'mine', name: L('Мой ритм'), sig: '4/4', beats: 4, spb: 2, bars: 1, bpm: 90, level: 1,
+      origin: L('Мой ритм'), desc: '', tips: [],
       tracks: [{ i: 'macho', p: '........' }, { i: 'hembra', p: '........' }],
       hands: '........',
     };
@@ -121,36 +121,38 @@ Pages.rhythms = (() => {
         <div class="chips">
           <span class="chip">${UI.esc(r.sig)}</span>
           ${r.origin ? `<span class="chip">${UI.esc(r.origin)}</span>` : ''}
-          <span class="chip">Сложность ${'★'.repeat(r.level || 1)}${'☆'.repeat(3 - Math.min(3, r.level || 1))}</span>
-          ${best ? `<span class="chip ok">Рекорд: ${best} BPM</span>` : ''}
+          <span class="chip">${L('Сложность {stars}', { stars: '★'.repeat(r.level || 1) + '☆'.repeat(3 - Math.min(3, r.level || 1)) })}</span>
+          ${best ? `<span class="chip ok">${L('Рекорд: {bpm} BPM', { bpm: best })}</span>` : ''}
         </div>
       </div>
       <div class="r-stage">
         <div class="r-wheelbox">
-          <canvas id="r-wheel" aria-label="Колесо ритма: партии по кольцам"></canvas>
+          <canvas id="r-wheel" aria-label="${L('Колесо ритма: партии по кольцам')}"></canvas>
           <div class="r-cycle" id="r-cycle"></div>
         </div>
         <div class="r-text">
           ${r.desc ? `<p class="desc">${UI.esc(r.desc)}</p>` : ''}
           ${r.tips && r.tips.length ? `<ul class="tips">${r.tips.map((t) => `<li>${UI.esc(t)}</li>`).join('')}</ul>` : ''}
-          <p class="r-wheelhint">Колесо — это один цикл ритма. Каждая партия — своё кольцо (снаружи внутрь — как строки сетки), спицы — доли, стрелка показывает, где вы сейчас.</p>
+          <p class="r-wheelhint">${L('Колесо — это один цикл ритма. Каждая партия — своё кольцо (снаружи внутрь — как строки сетки), спицы — доли, стрелка показывает, где вы сейчас.')}</p>
         </div>
       </div>
 
       <div class="controls dock">
-        <button class="btn play" id="r-play">▶ Играть</button>
+        <button class="btn play" id="r-play">${L('▶ Играть')}</button>
         <span id="r-bpm"></span>
       </div>
       <div class="controls options">
-        <label class="toggle"><input type="checkbox" id="r-countin" ${opts.countIn ? 'checked' : ''}> Отсчёт</label>
-        <label class="toggle"><input type="checkbox" id="r-click" ${opts.click ? 'checked' : ''}> Щелчок</label>
-        <label class="toggle"><input type="checkbox" id="r-speed" ${opts.speed ? 'checked' : ''}> Ускорение</label>
+        <label class="toggle"><input type="checkbox" id="r-countin" ${opts.countIn ? 'checked' : ''}> ${L('Отсчёт')}</label>
+        <label class="toggle"><input type="checkbox" id="r-click" ${opts.click ? 'checked' : ''}> ${L('Щелчок')}</label>
+        <label class="toggle"><input type="checkbox" id="r-speed" ${opts.speed ? 'checked' : ''}> ${L('Ускорение')}</label>
         <span class="speed-opts ${opts.speed ? '' : 'dim'}">
-          +<input type="number" id="r-sstep" min="1" max="20" value="${opts.speedStep}" aria-label="Прибавка BPM">
-          BPM каждые <input type="number" id="r-severy" min="1" max="32" value="${opts.speedEvery}" aria-label="Каждые N повторов"> повт.
-          до <input type="number" id="r-smax" min="40" max="300" value="${opts.speedMax}" aria-label="Максимальный темп">
+          ${L('+{step} BPM каждые {every} повт. до {max}', {
+            step: `<input type="number" id="r-sstep" min="1" max="20" value="${opts.speedStep}" aria-label="${L('Прибавка BPM')}">`,
+            every: `<input type="number" id="r-severy" min="1" max="32" value="${opts.speedEvery}" aria-label="${L('Каждые N повторов')}">`,
+            max: `<input type="number" id="r-smax" min="40" max="300" value="${opts.speedMax}" aria-label="${L('Максимальный темп')}">`,
+          })}
         </span>
-        <button class="btn small" id="r-self" title="Заглушить партии бонго, чтобы играть их самому">🙌 Играю сам</button>
+        <button class="btn small" id="r-self" title="${L('Заглушить партии бонго, чтобы играть их самому')}">🙌 ${L('Играю сам')}</button>
         <span class="countin" id="r-countin-badge" aria-live="polite"></span>
       </div>
 
@@ -161,15 +163,15 @@ Pages.rhythms = (() => {
 
       <div class="actions">
         ${editing ? `
-          <button class="btn primary" id="r-save">💾 Сохранить</button>
-          <button class="btn" id="r-cancel">Отмена</button>
+          <button class="btn primary" id="r-save">💾 ${L('Сохранить')}</button>
+          <button class="btn" id="r-cancel">${L('Отмена')}</button>
         ` : `
-          <button class="btn ${done ? 'ok' : 'primary'}" id="r-done" ${r.id === 'c_new' ? 'disabled' : ''}>${done ? '✓ Освоено' : 'Отметить «Освоено»'}</button>
-          <button class="btn" id="r-editbtn">✎ Редактировать</button>
+          <button class="btn ${done ? 'ok' : 'primary'}" id="r-done" ${r.id === 'c_new' ? 'disabled' : ''}>${done ? L('✓ Освоено') : L('Отметить «Освоено»')}</button>
+          <button class="btn" id="r-editbtn">✎ ${L('Редактировать')}</button>
         `}
         <span class="spacer"></span>
-        <button class="btn small" id="r-export" title="Получить ссылку на этот ритм">🔗 Поделиться</button>
-        ${isCustom && r.id !== 'c_new' ? '<button class="btn small danger" id="r-delete">🗑 Удалить</button>' : ''}
+        <button class="btn small" id="r-export" title="${L('Получить ссылку на этот ритм')}">🔗 ${L('Поделиться')}</button>
+        ${isCustom && r.id !== 'c_new' ? `<button class="btn small danger" id="r-delete">🗑 ${L('Удалить')}</button>` : ''}
       </div>`;
 
     bpmCtl = UI.bpmControl({
@@ -201,9 +203,9 @@ Pages.rhythms = (() => {
       $('#r-done').addEventListener('click', (e) => {
         const d = !Store.rhythmDone(cur.id);
         Store.setRhythm(cur.id, d, bpmCtl.value);
-        e.currentTarget.textContent = d ? '✓ Освоено' : 'Отметить «Освоено»';
+        e.currentTarget.textContent = d ? L('✓ Освоено') : L('Отметить «Освоено»');
         e.currentTarget.className = 'btn ' + (d ? 'ok' : 'primary');
-        if (d) UI.toast(`Освоено на ${bpmCtl.value} BPM!`);
+        if (d) UI.toast(L('Освоено на {bpm} BPM!', { bpm: bpmCtl.value }));
       });
       $('#r-editbtn').addEventListener('click', () => { transport.stop(); editing = true; renderPlayer(); });
     }
@@ -234,7 +236,7 @@ Pages.rhythms = (() => {
     const grid = gridEl();
     grid.style.setProperty('--cols', n);
     grid.classList.toggle('editing', editing);
-    let html = '<div class="gl gh">Счёт</div>';
+    let html = `<div class="gl gh">${L('Счёт')}</div>`;
     for (let s = 0; s < n; s++) {
       const lbl = UI.countLabel(s % perBar, r.spb);
       const strong = s % perBar === 0 || starts.has(s % perBar);
@@ -242,7 +244,7 @@ Pages.rhythms = (() => {
     }
     r.tracks.forEach((t, ti) => {
       const inst = INSTRUMENTS[t.i] || { name: t.i };
-      html += `<div class="gl"><button class="lname ${muted.has(ti) ? 'off' : ''}" data-mute="${ti}" title="${UI.esc(inst.full || inst.name)} — нажмите, чтобы заглушить / включить" aria-pressed="${!muted.has(ti)}"><i class="spk" aria-hidden="true"></i>${UI.esc(inst.name)}</button>${editing ? `<button class="del" data-del="${ti}" title="Удалить строку">✕</button>` : ''}</div>`;
+      html += `<div class="gl"><button class="lname ${muted.has(ti) ? 'off' : ''}" data-mute="${ti}" title="${L('{name} — нажмите, чтобы заглушить / включить', { name: UI.esc(inst.full || inst.name) })}" aria-pressed="${!muted.has(ti)}"><i class="spk" aria-hidden="true"></i>${UI.esc(inst.name)}</button>${editing ? `<button class="del" data-del="${ti}" title="${L('Удалить строку')}">✕</button>` : ''}</div>`;
       for (let s = 0; s < n; s++) {
         const info = UI.cellInfo(t.i, t.p[s]);
         html += `<div class="gc cell ${info.cls}${colCls(s)}${muted.has(ti) ? ' muted' : ''}" data-t="${ti}" data-s="${s}"${info.name ? ` title="${UI.esc(info.name)}"` : ''}>${info.label}</div>`;
@@ -250,7 +252,7 @@ Pages.rhythms = (() => {
     });
     const hands = r.hands || '';
     if (hands.replace(/\./g, '') || editing) {
-      html += '<div class="gl hands-l">Руки</div>';
+      html += `<div class="gl hands-l">${L('Руки')}</div>`;
       for (let s = 0; s < n; s++) {
         const h = hands[s] && hands[s] !== '.' ? hands[s] : '';
         html += `<div class="gc hand${colCls(s)} h-${h}" data-t="h" data-s="${s}"${h ? ` title="${HANDS[h]}"` : ''}>${h}</div>`;
@@ -276,11 +278,11 @@ Pages.rhythms = (() => {
     const gs = UI.groupStarts(cur);
     for (let b = 0; b < cur.bars; b++) gs.forEach((x) => starts.add(b * perBar + x));
     let hub;
-    if (countHub) hub = { big: countHub, small: 'отсчёт', color: '--accent' };
+    if (countHub) hub = { big: countHub, small: L('отсчёт'), color: '--accent' };
     else if (playPos !== null) {
       const stepNow = Math.floor(playPos) % total();
-      hub = { big: [...gs].filter((x) => x <= stepNow % perBar).length, small: cur.bars > 1 ? `такт ${Math.floor(stepNow / perBar) + 1}` : 'доля' };
-    } else hub = { big: cur.sig, small: 'размер' };
+      hub = { big: [...gs].filter((x) => x <= stepNow % perBar).length, small: cur.bars > 1 ? L('такт {n}', { n: Math.floor(stepNow / perBar) + 1 }) : L('доля') };
+    } else hub = { big: cur.sig, small: L('размер') };
     Wheel.draw(canvas, {
       total: total(),
       starts,
@@ -291,7 +293,10 @@ Pages.rhythms = (() => {
     });
     const cyc = playerEl.querySelector('#r-cycle');
     if (cyc) {
-      cyc.textContent = `цикл: ${total()} клеток · ${cur.beats * cur.bars} долей${cur.groups ? ' · ' + cur.groups.join('+') : ''}`;
+      cyc.textContent = L('цикл: {cells} · {beats}', {
+        cells: L.plural(total(), '{n} клетка|{n} клетки|{n} клеток'),
+        beats: L.plural(cur.beats * cur.bars, '{n} доля|{n} доли|{n} долей'),
+      }) + (cur.groups ? ' · ' + cur.groups.join('+') : '');
     }
   }
 
@@ -308,9 +313,9 @@ Pages.rhythms = (() => {
     });
     const items = Object.keys(STROKES).filter((k) => used.has(k)).map((k) =>
       `<span class="lg"><span class="cell st-${k}">${STROKES[k].label}</span>${STROKES[k].name}</span>`);
-    if (used.has('ghost')) items.push('<span class="lg"><span class="cell st-O ghost">О</span>бледная — тихо</span>');
-    if (perc) items.push('<span class="lg"><span class="cell st-perc">●</span>удар</span>');
-    if (cur.hands && cur.hands.replace(/\./g, '')) items.push('<span class="lg"><b>R</b> правая, <b>L</b> левая, <b>B</b> обе</span>');
+    if (used.has('ghost')) items.push(`<span class="lg"><span class="cell st-O ghost">${STROKES.O.label}</span>${L('бледная — тихо')}</span>`);
+    if (perc) items.push(`<span class="lg"><span class="cell st-perc">●</span>${L('удар')}</span>`);
+    if (cur.hands && cur.hands.replace(/\./g, '')) items.push(`<span class="lg">${L('<b>R</b> правая, <b>L</b> левая, <b>B</b> обе')}</span>`);
     playerEl.querySelector('#r-legend').innerHTML = items.join('');
   }
 
@@ -374,26 +379,26 @@ Pages.rhythms = (() => {
     const r = cur;
     box.innerHTML = `
       <div class="edit-tools">
-        <span class="muted">Инструмент:</span>
+        <span class="muted">${L('Инструмент:')}</span>
         ${Object.keys(STROKES).map((k) => `<button class="tool cell st-${k} ${tool === k ? 'sel' : ''}" data-tool="${k}" title="${STROKES[k].name}">${STROKES[k].label}</button>`).join('')}
-        <button class="tool eraser ${tool === '.' ? 'sel' : ''}" data-tool="." title="Ластик">⌫</button>
-        <label class="toggle"><input type="checkbox" id="e-ghost" ${ghost ? 'checked' : ''}> тихо</label>
+        <button class="tool eraser ${tool === '.' ? 'sel' : ''}" data-tool="." title="${L('Ластик')}">⌫</button>
+        <label class="toggle"><input type="checkbox" id="e-ghost" ${ghost ? 'checked' : ''}> ${L('тихо')}</label>
       </div>
-      <p class="muted small">Выберите удар и нажимайте на клетки бонго. Клетки клаве/колокола/шейкера/баса переключаются по кругу. В строке «Руки» — R → L → B → пусто.</p>
+      <p class="muted small">${L('Выберите удар и нажимайте на клетки бонго. Клетки клаве/колокола/шейкера/баса переключаются по кругу. В строке «Руки» — R → L → B → пусто.')}</p>
       <div class="edit-form">
-        <label>Название <input type="text" id="e-name" value="${UI.esc(r.name)}"></label>
-        <label>Размер (подпись) <input type="text" id="e-sig" value="${UI.esc(r.sig)}" size="5"></label>
-        <label>Долей в такте <input type="number" id="e-beats" min="1" max="16" value="${r.beats}"></label>
-        <label>Клеток на долю
+        <label>${L('Название')} <input type="text" id="e-name" value="${UI.esc(r.name)}"></label>
+        <label>${L('Размер (подпись)')} <input type="text" id="e-sig" value="${UI.esc(r.sig)}" size="5"></label>
+        <label>${L('Долей в такте')} <input type="number" id="e-beats" min="1" max="16" value="${r.beats}"></label>
+        <label>${L('Клеток на долю')}
           <select id="e-spb">${[1, 2, 3, 4, 6].map((v) => `<option value="${v}" ${v === r.spb ? 'selected' : ''}>${v}</option>`).join('')}</select>
         </label>
-        <label>Тактов <input type="number" id="e-bars" min="1" max="4" value="${r.bars}"></label>
-        <label>Группы <input type="text" id="e-groups" placeholder="напр. 2+2+3" value="${r.groups ? r.groups.join('+') : ''}" size="8"></label>
-        <label>Добавить строку
+        <label>${L('Тактов')} <input type="number" id="e-bars" min="1" max="4" value="${r.bars}"></label>
+        <label>${L('Группы')} <input type="text" id="e-groups" placeholder="${L('напр. 2+2+3')}" value="${r.groups ? r.groups.join('+') : ''}" size="8"></label>
+        <label>${L('Добавить строку')}
           <select id="e-add"><option value="">—</option>${Object.entries(INSTRUMENTS).map(([k, v]) => `<option value="${k}">${v.name}</option>`).join('')}</select>
         </label>
       </div>
-      <label class="full">Описание / заметки <textarea id="e-desc" rows="2">${UI.esc(r.desc || '')}</textarea></label>`;
+      <label class="full">${L('Описание / заметки')} <textarea id="e-desc" rows="2">${UI.esc(r.desc || '')}</textarea></label>`;
 
     box.querySelectorAll('[data-tool]').forEach((b) => b.addEventListener('click', () => {
       tool = b.dataset.tool;
@@ -454,27 +459,27 @@ Pages.rhythms = (() => {
     const sum = parts.reduce((a, b) => a + b, 0);
     if (parts.length && sum === cur.beats * cur.spb) cur.groups = parts;
     else {
-      if (parts.length) UI.toast(`Сумма групп должна быть ${cur.beats * cur.spb}`);
+      if (parts.length) UI.toast(L('Сумма групп должна быть {n}', { n: cur.beats * cur.spb }));
       delete cur.groups;
     }
     dirty = true;
   }
 
   function save() {
-    if (!cur.tracks.length) { UI.toast('Добавьте хотя бы одну строку'); return; }
+    if (!cur.tracks.length) { UI.toast(L('Добавьте хотя бы одну строку')); return; }
     const r = clone(cur);
     if (!r.id.startsWith('c_') || r.id === 'c_new') {
       const orig = RHYTHMS.find((x) => x.id === r.id);
-      if (orig && r.name === orig.name) r.name += ' (моя версия)';
+      if (orig && r.name === orig.name) r.name += L(' (моя версия)');
       r.id = 'c_' + Date.now().toString(36);
     }
     r.cat = 'mine';
-    r.origin = r.origin || 'Мой ритм';
+    r.origin = r.origin || L('Мой ритм');
     if (r.hands && !r.hands.replace(/\./g, '')) delete r.hands;
     Store.saveCustom(r);
     dirty = false;
     editing = false;
-    UI.toast('Сохранено в «Мои ритмы»');
+    UI.toast(L('Сохранено в «Мои ритмы»'));
     if (location.hash === '#/rhythms/' + r.id) load(r.id);
     else location.hash = '#/rhythms/' + r.id;
   }
@@ -486,7 +491,7 @@ Pages.rhythms = (() => {
   }
 
   function deleteRhythm() {
-    if (!confirm(`Удалить «${cur.name}»?`)) return;
+    if (!confirm(L('Удалить «{name}»?', { name: cur.name }))) return;
     Store.deleteCustom(cur.id);
     dirty = false;
     location.hash = '#/rhythms/martillo';
@@ -496,7 +501,7 @@ Pages.rhythms = (() => {
     const r = clone(cur);
     delete r.id;
     delete r.cat;
-    UI.shareLink('rhythms', r, 'ритм');
+    UI.shareLink('rhythms', r, L('ритм'));
   }
 
   // Проверить и сохранить присланный ритм; вернуть его id
@@ -513,21 +518,21 @@ Pages.rhythms = (() => {
     if (same) return same.id;
     r.id = 'c_' + Date.now().toString(36);
     r.cat = 'mine';
-    r.origin = String(r.origin || 'Мой ритм').slice(0, 80);
+    r.origin = String(r.origin || L('Мой ритм')).slice(0, 80);
     Store.saveCustom(r);
     return r.id;
   }
 
   function importRhythm() {
-    const text = prompt('Вставьте ссылку на ритм или его текст:');
+    const text = prompt(L('Вставьте ссылку на ритм или его текст:'));
     if (!text) return;
     try {
       const m = text.match(/#\/rhythms\/import\/([\w-]+)/);
       const id = addRhythm(m ? UI.decodeShare(m[1]) : JSON.parse(text));
       location.hash = '#/rhythms/' + id;
-      UI.toast('Ритм добавлен в «Мои ритмы»');
+      UI.toast(L('Ритм добавлен в «Мои ритмы»'));
     } catch (e) {
-      UI.toast('Не получилось прочитать ритм');
+      UI.toast(L('Не получилось прочитать ритм'));
     }
   }
 
@@ -541,7 +546,7 @@ Pages.rhythms = (() => {
       playerEl.querySelector('#r-click').checked = true;
     }
     buildGrid();
-    UI.toast(allMuted ? 'Партии бонго снова звучат' : 'Партии бонго заглушены — играйте сами!');
+    UI.toast(allMuted ? L('Партии бонго снова звучат') : L('Партии бонго заглушены — играйте сами!'));
   }
 
   // ───────── Воспроизведение ─────────
@@ -578,7 +583,7 @@ Pages.rhythms = (() => {
         const s = step + perBar;
         if (clicks.has(s)) {
           const n = [...clicks].sort((a, b) => a - b).indexOf(s) + 1;
-          badge.textContent = `Отсчёт: ${n}`;
+          badge.textContent = L('Отсчёт: {n}', { n });
           countHub = n;
         }
         lastCol = -1;
@@ -624,7 +629,7 @@ Pages.rhythms = (() => {
   function setPlayBtn(on) {
     const b = playerEl.querySelector('#r-play');
     if (!b) return;
-    b.textContent = on ? '■ Стоп' : '▶ Играть';
+    b.textContent = on ? L('■ Стоп') : L('▶ Играть');
     b.classList.toggle('on', on);
   }
 
@@ -645,9 +650,9 @@ Pages.rhythms = (() => {
           const nid = addRhythm(UI.decodeShare(params[1]));
           history.replaceState(null, '', '#/rhythms/' + nid);
           params = [nid];
-          UI.toast('Ритм добавлен в «Мои ритмы» — он хранится только на этом устройстве');
+          UI.toast(L('Ритм добавлен в «Мои ритмы» — он хранится только на этом устройстве'));
         } catch (e) {
-          UI.toast('Ссылка на ритм повреждена');
+          UI.toast(L('Ссылка на ритм повреждена'));
           history.replaceState(null, '', '#/rhythms');
           params = [];
         }

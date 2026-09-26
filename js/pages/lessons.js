@@ -15,9 +15,9 @@ Pages.lessons = (() => {
       <div class="two-col">
         <aside class="card list-col ${listOpen ? 'open' : ''}">
           <button class="lib-toggle" id="lesson-toggle" aria-expanded="${listOpen}">
-            <span>📖 Все уроки <small>· ${LESSONS.filter((x) => Store.lessonDone(x.id)).length} из ${LESSONS.length} пройдено</small></span><b aria-hidden="true">▾</b>
+            <span>📖 ${L('Все уроки')} <small>· ${L('{done} из {total} пройдено', { done: LESSONS.filter((x) => Store.lessonDone(x.id)).length, total: LESSONS.length })}</small></span><b aria-hidden="true">▾</b>
           </button>
-          <h2 class="list-title">Уроки</h2>
+          <h2 class="list-title">${L('Уроки')}</h2>
           <ol class="lesson-list">
             ${LESSONS.map((x, i) => `
               <li><a href="#/lessons/${x.id}" class="${x.id === current ? 'active' : ''} ${Store.lessonDone(x.id) ? 'done' : ''}">
@@ -27,11 +27,11 @@ Pages.lessons = (() => {
           </ol>
         </aside>
         <article class="card lesson">
-          <div class="lesson-kicker">Урок ${idx + 1} из ${LESSONS.length}</div>
+          <div class="lesson-kicker">${L('Урок {n} из {total}', { n: idx + 1, total: LESSONS.length })}</div>
           <h1>${UI.esc(l.title)}</h1>
           <div class="lesson-body">${l.html}</div>
           <div class="lesson-foot">
-            <button class="btn ${done ? '' : 'primary'}" id="lesson-done">${done ? '✓ Урок пройден' : 'Отметить урок пройденным'}</button>
+            <button class="btn ${done ? '' : 'primary'}" id="lesson-done">${done ? L('✓ Урок пройден') : L('Отметить урок пройденным')}</button>
             <span class="spacer"></span>
             ${prev ? `<a class="btn" href="#/lessons/${prev.id}">← ${UI.esc(prev.title)}</a>` : ''}
             ${next ? `<a class="btn" href="#/lessons/${next.id}">${UI.esc(next.title)} →</a>` : ''}
@@ -41,7 +41,7 @@ Pages.lessons = (() => {
     el.querySelector('#lesson-toggle').addEventListener('click', () => { listOpen = !listOpen; render(); });
     el.querySelector('#lesson-done').addEventListener('click', () => {
       Store.setLesson(l.id, !done);
-      if (!done && next) UI.toast('Отлично! Следующий урок: ' + next.title);
+      if (!done && next) UI.toast(L('Отлично! Следующий урок: {title}', { title: next.title }));
     });
   }
 

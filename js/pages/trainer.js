@@ -11,8 +11,8 @@ Pages.trainer = (() => {
   const transport = new Transport();
   const earTransport = new Transport();
 
-  const MODES = { pulse: 'Точность', part: 'Играй партию', ear: 'Слух' };
-  const SUBS = { 1: 'четверти', 2: 'восьмые', 3: 'триоли', 4: 'шестнадцатые' };
+  const MODES = { pulse: L('Точность'), part: L('Играй партию'), ear: L('Слух') };
+  const SUBS = { 1: L('четверти'), 2: L('восьмые'), 3: L('триоли'), 4: L('шестнадцатые') };
   const INST_COLOR = {
     macho: '--voice-b', hembra: '--voice-a', clave: '--st-perc', bell: '--st-bell', shaker: '--muted', bass: '--st-H',
   };
@@ -48,26 +48,26 @@ Pages.trainer = (() => {
     <div class="tr">
       <header class="tr-head">
         <div>
-          <div class="eyebrow">тренажёр</div>
-          <h1 class="tr-title">Играйте — приложение слушает</h1>
+          <div class="eyebrow">${L('тренажёр')}</div>
+          <h1 class="tr-title">${L('Играйте — приложение слушает')}</h1>
         </div>
-        <div class="seg" id="tr-modes" role="tablist" aria-label="Режим">
+        <div class="seg" id="tr-modes" role="tablist" aria-label="${L('Режим')}">
           ${Object.entries(MODES).map(([k, v]) => `<button data-mode="${k}" role="tab">${v}</button>`).join('')}
         </div>
       </header>
 
       <div class="tr-transport" id="tr-transport">
-        <button class="tr-play" id="tr-play" aria-label="Старт"><svg width="17" height="19" viewBox="0 0 17 19" aria-hidden="true"><path d="M1 1.5 16 9.5 1 17.5Z" fill="currentColor"/></svg></button>
+        <button class="tr-play" id="tr-play" aria-label="${L('Старт')}"><svg width="17" height="19" viewBox="0 0 17 19" aria-hidden="true"><path d="M1 1.5 16 9.5 1 17.5Z" fill="currentColor"/></svg></button>
         <div class="tr-tempo">
           <div class="tr-bpm"><b id="tr-bpmv">${st.bpm}</b><span>bpm</span></div>
-          <input type="range" id="tr-bpm" min="30" max="240" value="${st.bpm}" aria-label="Темп">
+          <input type="range" id="tr-bpm" min="30" max="240" value="${st.bpm}" aria-label="${L('Темп')}">
         </div>
         <div class="tr-tgroup">
-          <button class="tbtn" id="tr-minus" aria-label="Медленнее на 5">−5</button>
-          <button class="tbtn" id="tr-plus" aria-label="Быстрее на 5">+5</button>
+          <button class="tbtn" id="tr-minus" aria-label="${L('Медленнее на 5')}">−5</button>
+          <button class="tbtn" id="tr-plus" aria-label="${L('Быстрее на 5')}">+5</button>
           <button class="tbtn" id="tr-tap">tap</button>
-          <button class="tbtn" id="tr-click" aria-pressed="${st.click}">клик</button>
-          <button class="tbtn" id="tr-count" aria-pressed="${st.countIn}">отсчёт</button>
+          <button class="tbtn" id="tr-click" aria-pressed="${st.click}">${L('клик')}</button>
+          <button class="tbtn" id="tr-count" aria-pressed="${st.countIn}">${L('отсчёт')}</button>
         </div>
         <div class="tr-dots" id="tr-dots" aria-hidden="true"></div>
       </div>
@@ -75,7 +75,7 @@ Pages.trainer = (() => {
       <section id="tr-play-sec">
         <div class="tr-stage card">
           <div class="tr-wheelbox">
-            <canvas id="tr-wheel" aria-label="Колесо ритма: цели и ваши удары"></canvas>
+            <canvas id="tr-wheel" aria-label="${L('Колесо ритма: цели и ваши удары')}"></canvas>
             <div class="tr-cycle" id="tr-cycle"></div>
           </div>
           <div class="tr-side">
@@ -83,9 +83,9 @@ Pages.trainer = (() => {
             <div class="tr-stats" id="tr-stats"></div>
             <p class="tr-advice" id="tr-advice"></p>
             <div class="tr-calib">
-              <button class="tbtn" id="tr-reset">сбросить</button>
-              <button class="tbtn" id="tr-cal">калибровка задержки</button>
-              <span class="eyebrow">поправка <b id="tr-offset">${st.offset}</b> мс</span>
+              <button class="tbtn" id="tr-reset">${L('сбросить')}</button>
+              <button class="tbtn" id="tr-cal">${L('калибровка задержки')}</button>
+              <span class="eyebrow">${L('поправка {ms} мс', { ms: `<b id="tr-offset">${st.offset}</b>` })}</span>
             </div>
           </div>
         </div>
@@ -95,33 +95,33 @@ Pages.trainer = (() => {
             ${['O', 'S', 'M', 'T'].map((k) => `<button class="tbtn" data-stroke="${k}" aria-pressed="${k === st.stroke}"><i class="sw st-${k}"></i>${STROKES[k].name}</button>`).join('')}
           </div>
           <div class="pads">
-            <button class="pad pad-macho" data-drum="macho"><b>Мачо</b><small><kbd>J</kbd> · шлепок <kbd>K</kbd></small></button>
-            <button class="pad pad-hembra" data-drum="hembra"><b>Эмбра</b><small><kbd>F</kbd> · шлепок <kbd>D</kbd></small></button>
+            <button class="pad pad-macho" data-drum="macho"><b>${L('Мачо')}</b><small><kbd>J</kbd> · ${L('шлепок')} <kbd>K</kbd></small></button>
+            <button class="pad pad-hembra" data-drum="hembra"><b>${L('Эмбра')}</b><small><kbd>F</kbd> · ${L('шлепок')} <kbd>D</kbd></small></button>
           </div>
-          <p class="eyebrow center">стучите по кругам или клавишам · пробел — старт/стоп</p>
+          <p class="eyebrow center">${L('стучите по кругам или клавишам · пробел — старт/стоп')}</p>
         </div>
       </section>
 
       <section id="tr-ear-sec" hidden>
         <div class="card tr-ear">
-          <div class="eyebrow">тренажёр слуха</div>
+          <div class="eyebrow">${L('тренажёр слуха')}</div>
           <div class="tr-tgroup" id="ear-modes">
-            <button class="tbtn" data-ear="name">что за ритм</button>
-            <button class="tbtn" data-ear="clave">3-2 или 2-3</button>
-            <button class="tbtn" data-ear="meter">на два или на три</button>
+            <button class="tbtn" data-ear="name">${L('что за ритм')}</button>
+            <button class="tbtn" data-ear="clave">${L('3-2 или 2-3')}</button>
+            <button class="tbtn" data-ear="meter">${L('на два или на три')}</button>
           </div>
           <p class="tr-note" id="ear-hint"></p>
           <div class="tr-tgroup">
-            <button class="btn primary" id="ear-play">▶ Слушать</button>
-            <button class="btn" id="ear-next">Следующий</button>
+            <button class="btn primary" id="ear-play">▶ ${L('Слушать')}</button>
+            <button class="btn" id="ear-next">${L('Следующий')}</button>
           </div>
           <div class="ear-opts" id="ear-opts"></div>
           <p class="tr-note" id="ear-reveal"></p>
           <div class="ear-score">
-            <span>верно <b id="ear-right">0</b></span>
-            <span>всего <b id="ear-total">0</b></span>
-            <span>подряд <b id="ear-streak">0</b></span>
-            <span>рекорд <b id="ear-best">0</b></span>
+            <span>${L('верно {n}', { n: '<b id="ear-right">0</b>' })}</span>
+            <span>${L('всего {n}', { n: '<b id="ear-total">0</b>' })}</span>
+            <span>${L('подряд {n}', { n: '<b id="ear-streak">0</b>' })}</span>
+            <span>${L('рекорд {n}', { n: '<b id="ear-best">0</b>' })}</span>
           </div>
         </div>
       </section>
@@ -187,7 +187,7 @@ Pages.trainer = (() => {
   function partOptions(r) {
     const opts = r.tracks.map((t, i) => ({ key: String(i), label: (INSTRUMENTS[t.i] || {}).full || t.i, idx: [i] }));
     const drums = r.tracks.map((t, i) => ((INSTRUMENTS[t.i] || {}).kind === 'drum' ? i : -1)).filter((i) => i >= 0);
-    if (drums.length > 1) opts.unshift({ key: 'bongo', label: 'Все партии бонго', idx: drums });
+    if (drums.length > 1) opts.unshift({ key: 'bongo', label: L('Все партии бонго'), idx: drums });
     return opts;
   }
 
@@ -206,7 +206,7 @@ Pages.trainer = (() => {
       const p = Array.from({ length: total }, (_, s) => (s % sub === 0 ? 'X' : 'x')).join('');
       return {
         total, spb: sub, beats: 4, bars: 1, starts: new Set([0, 1, 2, 3].map((b) => b * sub)),
-        rings: [{ label: 'доли', color: '--accent', p, you: true }],
+        rings: [{ label: L('доли'), color: '--accent', p, you: true }],
       };
     }
     const r = rhythm();
@@ -224,7 +224,7 @@ Pages.trainer = (() => {
     if (mine.length > 1) {
       // одно общее кольцо «вы» вместо нескольких
       const p = Array.from({ length: perBar * r.bars }, (_, s) => (mine.some((i) => r.tracks[i].p[s] !== '.') ? 'X' : '.')).join('');
-      rings.splice(0, mine.length, { label: 'вы', color: '--accent', p, you: true });
+      rings.splice(0, mine.length, { label: L('вы'), color: '--accent', p, you: true });
     }
     return { total: perBar * r.bars, spb: r.spb, beats: r.beats, bars: r.bars, starts, rings, mine };
   }
@@ -252,11 +252,11 @@ Pages.trainer = (() => {
     let hub = { big: '·' };
     const nowStep = playPos === null ? -1 : Math.floor(playPos) % m.total;
     if (st.mode === 'pulse' && lastDev !== null) {
-      hub = { big: `${lastDev > 0 ? '+' : ''}${Math.round(lastDev)}`, small: 'мс', color: Math.abs(lastDev) <= st.win ? '--good' : '--bad' };
+      hub = { big: `${lastDev > 0 ? '+' : ''}${Math.round(lastDev)}`, small: L('мс'), color: Math.abs(lastDev) <= st.win ? '--good' : '--bad' };
     } else if (st.mode === 'part' && score.hit + score.off + score.miss > 0) {
-      hub = { big: `${accuracy()}%`, small: 'точность' };
+      hub = { big: `${accuracy()}%`, small: L('точность') };
     } else if (nowStep >= 0) {
-      hub = { big: [...m.starts].filter((s) => s <= nowStep).length, small: 'доля' };
+      hub = { big: [...m.starts].filter((s) => s <= nowStep).length, small: L('доля') };
     }
 
     Wheel.draw(wheel, {
@@ -298,7 +298,7 @@ Pages.trainer = (() => {
     if (calibrating) {
       calTaps.push(dev);
       if (calTaps.length >= 12) finishCalibration();
-      else $('#tr-advice').textContent = `Калибровка: ${calTaps.length} из 12…`;
+      else $('#tr-advice').textContent = L('Калибровка: {n} из {total}…', { n: calTaps.length, total: 12 });
       return;
     }
     devs.push(dev);
@@ -365,40 +365,40 @@ Pages.trainer = (() => {
     if (st.mode === 'pulse') {
       const recent = devs.slice(-50);
       if (!recent.length) {
-        box.innerHTML = stat('—', 'в окне') + stat('—', 'среднее') + stat('—', 'разброс σ') + stat('0', 'ударов');
-        adv.textContent = 'Нажмите старт и стучите вместе со щелчком. Черточки на круге — ваши удары: зелёные в точку, жёлтые мимо окна.';
+        box.innerHTML = stat('—', L('в окне')) + stat('—', L('среднее')) + stat('—', L('разброс σ')) + stat('0', L.plural(0, 'удар|удара|ударов'));
+        adv.textContent = L('Нажмите старт и стучите вместе со щелчком. Черточки на круге — ваши удары: зелёные в точку, жёлтые мимо окна.');
         return;
       }
       const mean = recent.reduce((a, b) => a + b, 0) / recent.length;
       const sd = Math.sqrt(recent.reduce((a, b) => a + (b - mean) ** 2, 0) / recent.length);
       const inWin = recent.filter((d) => Math.abs(d) <= st.win).length / recent.length;
       box.innerHTML =
-        stat(`${Math.round(inWin * 100)}%`, 'в окне', inWin > 0.8 ? 'good' : '') +
-        stat(`${mean > 0 ? '+' : ''}${Math.round(mean)}`, mean > 0 ? 'мс, поздно' : 'мс, рано') +
-        stat(`${Math.round(sd)}`, 'мс, разброс σ') +
-        stat(devs.length, 'ударов');
+        stat(`${Math.round(inWin * 100)}%`, L('в окне'), inWin > 0.8 ? 'good' : '') +
+        stat(`${mean > 0 ? '+' : ''}${Math.round(mean)}`, mean > 0 ? L('мс, поздно') : L('мс, рано')) +
+        stat(`${Math.round(sd)}`, L('мс, разброс σ')) +
+        stat(devs.length, L.plural(devs.length, 'удар|удара|ударов'));
       if (recent.length >= 8) {
-        if (Math.abs(mean) > st.win) adv.textContent = mean > 0 ? 'Вы стабильно опаздываете: слушайте щелчок заранее или сделайте калибровку задержки.' : 'Вы спешите: расслабьтесь и «дождитесь» щелчка.';
-        else if (sd > st.win) adv.textContent = 'В среднем точно, но большой разброс. Сбавьте темп и считайте вслух.';
-        else adv.textContent = inWin > 0.9 ? 'Отлично! Прибавьте 5 bpm или выключите клик и проверьте себя.' : 'Хорошо, стабильность растёт.';
+        if (Math.abs(mean) > st.win) adv.textContent = mean > 0 ? L('Вы стабильно опаздываете: слушайте щелчок заранее или сделайте калибровку задержки.') : L('Вы спешите: расслабьтесь и «дождитесь» щелчка.');
+        else if (sd > st.win) adv.textContent = L('В среднем точно, но большой разброс. Сбавьте темп и считайте вслух.');
+        else adv.textContent = inWin > 0.9 ? L('Отлично! Прибавьте 5 bpm или выключите клик и проверьте себя.') : L('Хорошо, стабильность растёт.');
       }
       return;
     }
     const n = score.hit + score.off + score.miss;
     box.innerHTML =
-      stat(n ? `${accuracy()}%` : '—', 'точность', accuracy() > 80 ? 'good' : '') +
-      stat(score.hit, 'в точку', 'good') +
-      stat(score.off, 'неточно', 'warn') +
-      stat(score.miss, 'пропущено', 'bad') +
-      stat(score.extra, 'лишних', 'bad');
+      stat(n ? `${accuracy()}%` : '—', L('точность'), accuracy() > 80 ? 'good' : '') +
+      stat(score.hit, L('в точку'), 'good') +
+      stat(score.off, L('неточно'), 'warn') +
+      stat(score.miss, L('пропущено'), 'bad') +
+      stat(score.extra, L.plural(score.extra, 'лишний|лишних|лишних'), 'bad');
     if (!n) {
-      adv.textContent = 'Ваша партия заглушена — сыграйте её сами. Полые кружки на внешнем кольце — куда бить; после удара кружок окрасится.';
+      adv.textContent = L('Ваша партия заглушена — сыграйте её сами. Полые кружки на внешнем кольце — куда бить; после удара кружок окрасится.');
     } else if (n >= 8) {
       const bias = score.hit + score.off ? score.offSum / (score.hit + score.off) : 0;
-      if (score.miss > n * 0.25) adv.textContent = 'Много пропусков — сбавьте темп на 10 bpm, пусть руки успевают.';
-      else if (score.extra > n * 0.25) adv.textContent = 'Много лишних ударов: играйте только там, где кружки на внешнем кольце.';
-      else if (score.off > score.hit) adv.textContent = bias > 0 ? 'Попадаете, но чуть поздно — слушайте другие партии и «ведите» их.' : 'Попадаете, но спешите — дайте ритму «дышать».';
-      else adv.textContent = accuracy() > 90 ? 'Отлично! Поднимите темп или выключите клик.' : 'Хорошо! Жёлтые кружки — места, которые стоит повторить отдельно.';
+      if (score.miss > n * 0.25) adv.textContent = L('Много пропусков — сбавьте темп на 10 bpm, пусть руки успевают.');
+      else if (score.extra > n * 0.25) adv.textContent = L('Много лишних ударов: играйте только там, где кружки на внешнем кольце.');
+      else if (score.off > score.hit) adv.textContent = bias > 0 ? L('Попадаете, но чуть поздно — слушайте другие партии и «ведите» их.') : L('Попадаете, но спешите — дайте ритму «дышать».');
+      else adv.textContent = accuracy() > 90 ? L('Отлично! Поднимите темп или выключите клик.') : L('Хорошо! Жёлтые кружки — места, которые стоит повторить отдельно.');
     }
   }
 
@@ -419,7 +419,7 @@ Pages.trainer = (() => {
     if (st.mode === 'ear') return;
     calibrating = true;
     calTaps = [];
-    $('#tr-advice').textContent = 'Калибровка: стучите ровно вместе со щелчком 12 раз…';
+    $('#tr-advice').textContent = L('Калибровка: стучите ровно вместе со щелчком 12 раз…');
     start();
   }
 
@@ -430,7 +430,7 @@ Pages.trainer = (() => {
     Store.set('t.offset', st.offset);
     $('#tr-offset').textContent = st.offset;
     transport.stop();
-    UI.toast(`Готово! Поправка задержки: ${st.offset} мс`);
+    UI.toast(L('Готово! Поправка задержки: {ms} мс', { ms: st.offset }));
     renderStats();
   }
 
@@ -488,7 +488,7 @@ Pages.trainer = (() => {
   }
 
   function setPlayIcon(on) {
-    $('#tr-play').setAttribute('aria-label', on ? 'Стоп' : 'Старт');
+    $('#tr-play').setAttribute('aria-label', on ? L('Стоп') : L('Старт'));
     $('#tr-play svg').innerHTML = on
       ? '<rect x="2" y="2" width="5" height="15" fill="currentColor"/><rect x="10" y="2" width="5" height="15" fill="currentColor"/>'
       : '<path d="M1 1.5 16 9.5 1 17.5Z" fill="currentColor"/>';
@@ -510,11 +510,11 @@ Pages.trainer = (() => {
     const box = $('#tr-setup');
     if (st.mode === 'pulse') {
       box.innerHTML = `
-        <div class="eyebrow">режим · точность</div>
-        <h2 class="tr-h2">Стучите вместе со щелчком</h2>
-        <p class="tr-note">Каждый удар ложится черточкой на круг — видно, спешите вы или опаздываете, и насколько ровно.</p>
+        <div class="eyebrow">${L('режим · точность')}</div>
+        <h2 class="tr-h2">${L('Стучите вместе со щелчком')}</h2>
+        <p class="tr-note">${L('Каждый удар ложится черточкой на круг — видно, спешите вы или опаздываете, и насколько ровно.')}</p>
         <div class="tr-fields">
-          <label><span class="eyebrow">цель</span><select id="tr-sub">${Object.entries(SUBS).map(([k, v]) => `<option value="${k}" ${+k === st.sub ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+          <label><span class="eyebrow">${L('цель')}</span><select id="tr-sub">${Object.entries(SUBS).map(([k, v]) => `<option value="${k}" ${+k === st.sub ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
           ${winField()}
         </div>`;
       box.querySelector('#tr-sub').addEventListener('change', (e) => { st.sub = +e.target.value; restart(); });
@@ -528,20 +528,20 @@ Pages.trainer = (() => {
       const parts = partOptions(r);
       yourTracks(r);
       box.innerHTML = `
-        <div class="eyebrow">режим · играй партию · ${UI.esc(r.sig)}</div>
+        <div class="eyebrow">${L('режим · играй партию · {sig}', { sig: UI.esc(r.sig) })}</div>
         <h2 class="tr-h2">${UI.esc(r.name)}</h2>
-        <p class="tr-note">Выбранная партия молчит — её играете вы. Остальные звучат. Внешнее кольцо — ваши цели.</p>
+        <p class="tr-note">${L('Выбранная партия молчит — её играете вы. Остальные звучат. Внешнее кольцо — ваши цели.')}</p>
         <div class="tr-fields">
-          <label class="wide"><span class="eyebrow">ритм</span><select id="tr-rid">${groups}</select></label>
-          <label class="wide"><span class="eyebrow">ваша партия</span><select id="tr-part">${parts.map((p) => `<option value="${p.key}" ${p.key === String(st.part) ? 'selected' : ''}>${UI.esc(p.label)}</option>`).join('')}</select></label>
+          <label class="wide"><span class="eyebrow">${L('ритм')}</span><select id="tr-rid">${groups}</select></label>
+          <label class="wide"><span class="eyebrow">${L('ваша партия')}</span><select id="tr-part">${parts.map((p) => `<option value="${p.key}" ${p.key === String(st.part) ? 'selected' : ''}>${UI.esc(p.label)}</option>`).join('')}</select></label>
           ${winField()}
         </div>
         <div class="tr-legend">
-          <span class="eyebrow">кольца снаружи внутрь:</span>
-          ${model().rings.map((g) => `<span><i class="dot" style="background:var(${g.you ? '--accent' : g.color})"></i>${g.you ? 'вы' : UI.esc(g.label)}</span>`).join('')}
+          <span class="eyebrow">${L('кольца снаружи внутрь:')}</span>
+          ${model().rings.map((g) => `<span><i class="dot" style="background:var(${g.you ? '--accent' : g.color})"></i>${g.you ? L('вы') : UI.esc(g.label)}</span>`).join('')}
         </div>
         <div class="tr-legend">
-          <span><i class="dot hollow"></i>цель</span><span><i class="dot good"></i>в точку</span><span><i class="dot warn"></i>неточно</span><span><i class="dot bad"></i>пропуск / лишний</span>
+          <span><i class="dot hollow"></i>${L('цель')}</span><span><i class="dot good"></i>${L('в точку')}</span><span><i class="dot warn"></i>${L('неточно')}</span><span><i class="dot bad"></i>${L('пропуск / лишний')}</span>
         </div>`;
       box.querySelector('#tr-rid').addEventListener('change', (e) => {
         st.rid = e.target.value;
@@ -558,8 +558,8 @@ Pages.trainer = (() => {
   }
 
   function winField() {
-    return `<label><span class="eyebrow">окно попадания</span><select id="tr-win">
-      ${[[15, 'строго ±15 мс'], [30, 'обычно ±30 мс'], [50, 'мягко ±50 мс']].map(([v, t]) => `<option value="${v}" ${v === st.win ? 'selected' : ''}>${t}</option>`).join('')}
+    return `<label><span class="eyebrow">${L('окно попадания')}</span><select id="tr-win">
+      ${[[15, L('строго ±15 мс')], [30, L('обычно ±30 мс')], [50, L('мягко ±50 мс')]].map(([v, t]) => `<option value="${v}" ${v === st.win ? 'selected' : ''}>${t}</option>`).join('')}
     </select></label>`;
   }
 
@@ -588,17 +588,17 @@ Pages.trainer = (() => {
     const groupsPerBar = [...m.starts].filter((s) => s < m.total / m.bars).length;
     $('#tr-dots').innerHTML = Array.from({ length: Math.min(groupsPerBar, 12) }, (_, i) => `<i class="${i === 0 ? 'one' : ''}"></i>`).join('');
     $('#tr-cycle').textContent = st.mode === 'pulse'
-      ? `цикл: 4 доли · ${SUBS[st.sub]}`
-      : `цикл: ${m.total} клеток · ${m.bars > 1 ? m.bars + ' такта · ' : ''}${rhythm().sig}`;
+      ? L('цикл: 4 доли · {sub}', { sub: SUBS[st.sub] })
+      : `${L('цикл: {cells}', { cells: L.plural(m.total, '{n} клетка|{n} клетки|{n} клеток') })} · ${m.bars > 1 ? `${L.plural(m.bars, '{n} такт|{n} такта|{n} тактов')} · ` : ''}${rhythm().sig}`;
     draw();
   }
 
   // ───────── Слух ─────────
   const EAR = { mode: 'name', target: null, opts: [], answered: false, right: 0, total: 0, streak: 0, best: Store.get('t.earBest', 0), key: null };
   const EAR_HINTS = {
-    name: 'Звучит ритм из библиотеки. Какой? Слушайте сначала низкий голос — он размечает фразу. Щелчки отсчёта показывают, где «раз».',
-    clave: 'Играет клаве. С какой стороны она начата: три удара в первом такте или два? Сторона «три» начинается прямо с «раз».',
-    meter: 'Как делится доля: на два (ровный «шаг») или на три («качание»)?',
+    name: L('Звучит ритм из библиотеки. Какой? Слушайте сначала низкий голос — он размечает фразу. Щелчки отсчёта показывают, где «раз».'),
+    clave: L('Играет клаве. С какой стороны она начата: три удара в первом такте или два? Сторона «три» начинается прямо с «раз».'),
+    meter: L('Как делится доля: на два (ровный «шаг») или на три («качание»)?'),
   };
 
   function earPick() {
@@ -616,7 +616,7 @@ Pages.trainer = (() => {
       const isT = Math.random() < 0.5;
       EAR.target = pick(isT ? tern : bin).id;
       EAR.key = isT ? 'T' : 'B';
-      EAR.opts = [{ k: 'B', t: 'на два — «шаг»' }, { k: 'T', t: 'на три — «качание»' }];
+      EAR.opts = [{ k: 'B', t: L('на два — «шаг»') }, { k: 'T', t: L('на три — «качание»') }];
     } else {
       const pool = RHYTHMS.filter((r) => r.cat !== 'basics');
       const tgt = pick(pool);
@@ -663,9 +663,9 @@ Pages.trainer = (() => {
     earTransport.onLoop = () => { if (++loops >= cycles) earTransport.stop(); };
     earTransport.onDraw = null;
     earTransport.onFrame = null;
-    earTransport.onStop = () => { $('#ear-play').textContent = '▶ Слушать'; };
+    earTransport.onStop = () => { $('#ear-play').textContent = `▶ ${L('Слушать')}`; };
     earTransport.start({ bpm: r.bpm, spb: r.spb, total, countIn: perBar });
-    $('#ear-play').textContent = '■ Стоп';
+    $('#ear-play').textContent = `■ ${L('Стоп')}`;
   }
 
   el.querySelector('#ear-modes').addEventListener('click', (e) => {
@@ -695,7 +695,7 @@ Pages.trainer = (() => {
       else if (o === b) o.classList.add('wrong');
     });
     const r = UI.findRhythm(EAR.target);
-    $('#ear-reveal').innerHTML = `${ok ? '✓ Верно!' : '✗ Не угадали.'} Это был ритм «${UI.esc(r.name)}» (${UI.esc(r.sig)}). <a href="#/rhythms/${r.id}">Открыть в плеере →</a>`;
+    $('#ear-reveal').innerHTML = `${ok ? `✓ ${L('Верно!')}` : `✗ ${L('Не угадали.')}`} ${L('Это был ритм «{name}» ({sig}).', { name: UI.esc(r.name), sig: UI.esc(r.sig) })} <a href="#/rhythms/${r.id}">${L('Открыть в плеере →')}</a>`;
     renderEarScore();
   });
 
