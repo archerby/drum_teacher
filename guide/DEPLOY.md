@@ -27,6 +27,23 @@ curl -f http://127.0.0.1:8090/api/health  # {"ok":true,"ai":true|false}
 
 ## 2. Поддомен в Cloudflare Tunnel
 
+**Одной командой** (нужен токен: Zone → Zone:Read и DNS:Edit для upupa.dev, Account → Cloudflare Tunnel:Edit):
+
+```bash
+export CLOUDFLARE_API_TOKEN=…            # не сохранять в git
+node scripts/cf-setup.mjs                # план: что будет изменено
+node scripts/cf-setup.mjs --apply        # применить
+# без Node на хосте:
+docker run --rm -e CLOUDFLARE_API_TOKEN -v "$PWD/scripts:/s:ro" node:22-alpine node /s/cf-setup.mjs --apply
+```
+
+Скрипт находит туннель по CNAME `www.upupa.dev`, добавляет правило `guide.upupa.dev` → тот же хост,
+что у сайта, порт 8090 (перед финальной заглушкой, остальное не трогает) и создаёт проксируемый
+CNAME. Повторный запуск ничего не ломает; чужие записи меняет только с `--force`. Если туннель
+на локальном `config.yml` — печатает, что туда дописать.
+
+**Вручную:**
+
 **Туннель управляется из панели** (Zero Trust → Networks → Tunnels → ваш туннель →
 Public Hostname → Add a public hostname):
 
