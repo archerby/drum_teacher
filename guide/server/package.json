@@ -1,0 +1,16 @@
+{
+  "name": "warsaw-guide-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static server for the Warsaw walk generator + optional Claude mood parser",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0"
+  }
+}

@@ -1,0 +1,31 @@
+# guide.upupa.dev — генератор прогулок по Варшаве.
+# Запуск: docker compose up -d --build   (порт 8090 на хосте → 8080 в контейнере)
+services:
+  guide:
+    build: .
+    image: upupa-guide:latest
+    container_name: upupa-guide
+    ports:
+      - "8090:8080"
+    # ANTHROPIC_API_KEY (и по желанию GUIDE_MODEL) — в .env рядом с этим файлом.
+    # Без ключа приложение работает полностью, свободный текст настроения
+    # разбирается офлайн-словарём.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - NODE_ENV=production
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "com.upupa.dev.service=guide"
+      - "com.upupa.dev.environment=production"
