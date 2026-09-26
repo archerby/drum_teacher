@@ -5,7 +5,7 @@
 import { POIS, STARTS } from '../data/pois.js';
 import { MOODS, MOOD_BY_ID, parseMoodText, TAGS } from './moods.js';
 import { buildRoute, routeFromIds, suggestReplacement, POI_BY_ID, REST_MIN, haversine } from './route.js';
-import { LANGS, detectLang, setLang, t, moodName, areaName, routeName, poiText, lang } from './i18n.js';
+import { LANGS, detectLang, setLang, t, plural, moodName, areaName, routeName, poiText, lang } from './i18n.js';
 import { drawMap, markVisited, focusStop, resizeMap } from './map.js';
 
 const $app = document.getElementById('app');
@@ -454,7 +454,7 @@ function renderRoute() {
     <div class="summary">
       <span>⏱ <b>${fmtDur(route.totalMinutes)}</b> ${esc(t('total'))}</span>
       <span>🚶 <b>${fmtDist(route.meters)}</b></span>
-      <span>📍 <b>${route.stops.length}</b> ${esc(t('stops'))}</span>
+      <span>📍 <b>${route.stops.length}</b> ${esc(plural('stops', route.stops.length))}</span>
       ${restCount ? `<span>☕ <b>${restCount}</b></span>` : ''}
     </div>
     ${notices.map((n) => `<div class="notice">${esc(n)}</div>`).join('')}

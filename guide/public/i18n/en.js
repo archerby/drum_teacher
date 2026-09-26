@@ -51,7 +51,7 @@ export default {
     hours: 'h',
     km: 'km',
     m: 'm',
-    stops: 'stops',
+    stops: 'stop|stops',
     walk: 'on foot',
     total: 'total',
     legWalk: '{min} min walk · {dist}',

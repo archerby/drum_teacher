@@ -51,7 +51,7 @@ export default {
     hours: 'год',
     km: 'км',
     m: 'м',
-    stops: 'зупинок',
+    stops: 'зупинка|зупинки|зупинок',
     walk: 'пішки',
     total: 'усього',
     legWalk: '{min} хв пішки · {dist}',

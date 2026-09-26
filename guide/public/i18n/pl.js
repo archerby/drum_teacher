@@ -51,7 +51,7 @@ export default {
     hours: 'godz.',
     km: 'km',
     m: 'm',
-    stops: 'przystanków',
+    stops: 'przystanek|przystanki|przystanków',
     walk: 'pieszo',
     total: 'łącznie',
     legWalk: '{min} min pieszo · {dist}',

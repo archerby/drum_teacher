@@ -38,6 +38,14 @@ export function t(key, vars) {
   return s;
 }
 
+/** Слово во множественном числе: формы через «|» — one|few|many (en: one|other). */
+export function plural(key, n) {
+  const forms = t(key).split('|');
+  const cat = new Intl.PluralRules(lang).select(n);
+  const idx = { one: 0, few: 1, many: 2 }[cat] ?? forms.length - 1;
+  return forms[Math.min(idx, forms.length - 1)];
+}
+
 const pick = (section, id) => cur?.[section]?.[id] ?? base?.[section]?.[id] ?? id;
 export const moodName = (id) => pick('moods', id);
 export const areaName = (id) => pick('areas', id);
