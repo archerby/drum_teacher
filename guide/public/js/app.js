@@ -366,7 +366,7 @@ async function build(reroll) {
 }
 
 /* ── Экран 2: маршрут ──────────────────────────────────────────────────── */
-const titleOf = (meta) => (!meta.custom && meta.moods?.length === 1 ? routeName(meta.moods[0]) : routeName('mix'));
+const titleOf = (meta) => (!meta.custom && meta.moods?.length ? routeName(meta.moods[meta.moods.length - 1]) : routeName('mix'));
 
 function gmapsLink(points) {
   const [o, ...rest] = points;
