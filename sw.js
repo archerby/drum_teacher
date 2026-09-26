@@ -13,6 +13,7 @@ const FILES = [
   'js/store.js',
   'js/i18n.js',
   'js/i18n/en.js',
+  'js/i18n/pl.js',
   'js/ui.js',
   'js/wheel.js',
   'js/app.js',
