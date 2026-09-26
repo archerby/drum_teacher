@@ -145,7 +145,7 @@ Pages.mallet = (() => {
             <button data-layout="diatonic">${L('Один ряд')}</button>
             <button data-layout="chromatic">${L('С диезами')}</button>
           </div>
-          <div class="seg" id="ml-names">
+          <div class="seg" id="ml-names" ${Object.keys(M.RU).every((k) => M.RU[k] === k.toUpperCase()) ? 'hidden' : ''}>
             <button data-names="ru">${L('до')} ${L('ре')} ${L('ми')}</button>
             <button data-names="en">C D E</button>
           </div>
