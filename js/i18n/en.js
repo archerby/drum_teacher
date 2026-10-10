@@ -888,5 +888,8 @@ I18N.add('en', {
  "Разделы": "Sections",
  "Общая громкость": "Master volume",
  "Громкость": "Volume",
- "Язык": "Language"
+ "Язык": "Language",
+ "си минор": "B minor",
+ "фа-диез минор": "F♯ minor",
+ "Панк в си миноре: си минор — фа-диез минор — ми мажор": "Punk in B minor: B minor — F♯ minor — E major"
 });

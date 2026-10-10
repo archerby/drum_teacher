@@ -12,6 +12,8 @@ window.CHORDS = {
   G7: { name: 'соль-септаккорд', notes: [7, 11, 14, 17] },
   Am: { name: 'ля минор', notes: [9, 12, 16] },
   E: { name: 'ми мажор', notes: [4, 8, 11] },
+  Bm: { name: 'си минор', notes: [2, 6, 11] },
+  'F#m': { name: 'фа-диез минор', notes: [1, 6, 9] },
 };
 
 window.PROGRESSIONS = [
@@ -21,6 +23,7 @@ window.PROGRESSIONS = [
   { id: 'camp', name: 'У костра: до — ре — ми минор — ре (как в Outer Wilds)', chords: ['C', 'D', 'Em', 'D'], beats: 8, bpm: 92 },
   { id: 'canon', name: 'Канон Пахельбеля', chords: ['C', 'G', 'Am', 'Em', 'F', 'C', 'F', 'G'], beats: 4, bpm: 72 },
   { id: 'blues', name: 'Блюз в до (12 тактов)', chords: ['C', 'C', 'C', 'C', 'F', 'F', 'C', 'C', 'G7', 'F', 'C', 'G7'], beats: 4, bpm: 90 },
+  { id: 'punk', name: 'Панк в си миноре: си минор — фа-диез минор — ми мажор', chords: ['Bm', 'F#m', 'E'], beats: 4, bpm: 100 },
   { id: 'minor', name: 'Грустный минор: ля минор — ре минор — ми мажор — ля минор', chords: ['Am', 'Dm', 'E', 'Am'], beats: 4, bpm: 70 },
 ];
 
